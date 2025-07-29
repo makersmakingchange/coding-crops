@@ -1,22 +1,52 @@
 {
   "name": "nss-valley",
-  "private": true,
   "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
+  "private": true,
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.0"
+    "@blockly/keyboard-navigation": "^2.0.0",
+    "@blockly/plugin-cross-tab-copy-paste": "^8.0.1",
+    "blockly": "^12.2.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "^5.0.1"
+  },
+  "scripts": {
+    "audit": "npm audit fix",
+    "update": "npm update",
+    "postinstall": "copyfiles -u 1 node_modules/blockly/media/**/* public/media",
+    "predeploy": "npm run build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "homepage": "./",
+  "blocklyDemoConfig": {
+    "title": "Blockly in React",
+    "description": "Load Blockly in a React project.",
+    "files": [
+      "build/index.html",
+      "build/**/*"
+    ]
   },
   "devDependencies": {
-    "@types/react": "^18.2.55",
-    "@types/react-dom": "^18.2.19",
-    "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.1.0"
+    "acorn": "^8.12.1",
+    "copyfiles": "^2.4.1",
+    "typescript": "^4.9.5"
   }
 }
