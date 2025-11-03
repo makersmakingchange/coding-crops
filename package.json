@@ -13,6 +13,8 @@
   ],
   "author": "Jorene Ng",
   "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
     "source-map-loader": "^4.0.1",
@@ -27,7 +29,10 @@
     "@blockly/field-colour": "^6.0.4",
     "@blockly/keyboard-navigation": "^3.0.3",
     "@blockly/plugin-cross-tab-copy-paste": "^8.0.1",
-    "blockly": "^12.0.0"
+    "@blockly/theme-dark": "^8.0.1",
+    "blockly": "^12.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "private": true
 }

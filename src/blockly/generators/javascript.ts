@@ -32,3 +32,52 @@ forBlock['add_text'] = function (
   const code = `${addText}(${text});\n`;
   return code;
 };
+
+forBlock['plant'] = function (
+    block: Blockly.Block,
+    generator: Blockly.CodeGenerator,
+) {
+    const x = Number(generator.valueToCode(block, 'X', Order.SUBTRACTION)) - 1 || 0;
+    const y = Number(generator.valueToCode(block, 'Y', Order.SUBTRACTION)) - 1 || 0;
+
+    if (![0, 1, 2].includes(x) || ![0, 1, 2].includes(y)) {
+        throw new Error(`Invalid coordinates: (${x+1}, ${y+1}). Allowed values are 1, 2, or 3.`);
+    }
+
+    return `farmManager.enqueue(() => farmManager.plant(${x}, ${y}));\n`;
+};
+
+forBlock['water'] = function (
+    block: Blockly.Block,
+    generator: Blockly.CodeGenerator,
+) {
+    const x = Number(generator.valueToCode(block, 'X', Order.SUBTRACTION)) - 1 || 0;
+    const y = Number(generator.valueToCode(block, 'Y', Order.SUBTRACTION)) - 1 || 0;
+
+    if (![0, 1, 2].includes(x) || ![0, 1, 2].includes(y)) {
+        throw new Error(`Invalid coordinates: (${x+1}, ${y+1}). Allowed values are 1, 2, or 3.`);
+    }
+
+    return `farmManager.enqueue(() => farmManager.water(${x}, ${y}));\n`;
+};
+
+forBlock['harvest'] = function (
+    block: Blockly.Block,
+    generator: Blockly.CodeGenerator,
+) {
+    const x = Number(generator.valueToCode(block, 'X', Order.SUBTRACTION)) - 1 || 0;
+    const y = Number(generator.valueToCode(block, 'Y', Order.SUBTRACTION)) - 1 || 0;
+
+    if (![0, 1, 2].includes(x) || ![0, 1, 2].includes(y)) {
+        throw new Error(`Invalid coordinates: (${x+1}, ${y+1}). Allowed values are 1, 2, or 3.`);
+    }
+
+    return `farmManager.enqueue(() => farmManager.harvest(${x}, ${y}));\n`;
+};
+
+forBlock['next_day'] = function (
+    block: Blockly.Block,
+    generator: Blockly.CodeGenerator,
+) {
+    return `farmManager.enqueue(() => farmManager.nextDay());\n`;
+};

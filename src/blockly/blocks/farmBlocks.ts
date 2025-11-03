@@ -65,6 +65,7 @@ const harvest = {
     ],
     'previousStatement': null,
     'nextStatement': null,
+    'inline': true,
     'colour': 0,
     'tooltip': 'Remove plant at specified coordinates',
     'helpUrl': ''

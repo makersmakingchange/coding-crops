@@ -1,14 +1,20 @@
-export const enum GrowthStage {
+export enum GrowthStage {
     EMPTY,
     SEEDLING,
     GROWING,
     MATURE,
 }
 
-export const enum CropType {
+export enum CropType {
     Sunflower,
     Corn,
     Pumpkin
+}
+
+export interface TileState {
+    type: CropType | null;
+    growthStage: GrowthStage;
+    watered: boolean;
 }
 
 export class Tile {
@@ -20,6 +26,14 @@ export class Tile {
         this.type = null;
         this.watered = false;
         this.growthStage = GrowthStage.EMPTY;
+    }
+
+    getTileState(): TileState {
+        return {
+            type: this.type,
+            growthStage: this.growthStage,
+            watered: this.watered,
+        };
     }
 
     plant(type : CropType): boolean {
@@ -45,8 +59,17 @@ export class Tile {
             return false;
         }
         this.watered = true;
-        this.growthStage++;
         return true;
+    }
+
+    nextDay(): void {
+        if (!this.watered || this.growthStage === GrowthStage.EMPTY || this.growthStage === GrowthStage.MATURE) {
+            this.watered = false;
+            return;
+        }
+
+        this.growthStage++;
+        this.watered = false;
     }
 
 }

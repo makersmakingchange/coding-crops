@@ -69,7 +69,6 @@ export const ToolboxLevel3 = {
             kind: 'category',
             name: 'Farm',
             colour: '#5CA699',
-            categorystyle: 'text_category',
             contents: [
                 {
                     kind: 'block',
