@@ -3,7 +3,7 @@ import BlocklyWorkspace from './components/BlocklyWorkspace';
 import FarmGrid from './components/FarmGrid';
 import LevelSelector from './components/LevelSelector';
 import Instructions from './components/Instructions';
-import farmManager from './farm/farmManagerSingleton';
+import farmManager from './farm/FarmManagerSingleton';
 import FarmA11y from './accessibility/FarmA11y';
 import './styles/index.css';
 
