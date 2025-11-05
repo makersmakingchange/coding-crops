@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { updateToolboxMap, setupBlockly } from '../blockly/blocklySetup';
 import {javascriptGenerator} from 'blockly/javascript';
 
-import * as levelManager from '../farm/LevelManager';
+import * as levelManager from '../blockly/levelManager';
 import {WorkspaceSvg} from "blockly";
 
 interface BlocklyProps {

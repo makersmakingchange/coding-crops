@@ -1,4 +1,4 @@
-import * as Blockly from 'blockly/core';
+import * as Blockly from 'blockly';
 import { level1 } from './levels/level1';
 import { level2 } from './levels/level2';
 import { level3 } from './levels/level3';

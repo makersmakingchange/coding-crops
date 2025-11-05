@@ -27,7 +27,7 @@ import * as Blockly from 'blockly/core';
 
 const plant = {
     'type': 'plant',
-    'message0': 'plant 🌱 at row : %1 col: %2',
+    'message0': 'plant 🌱 at row %1 column %2',
     'args0': [
         {
             'type': 'input_value',
@@ -50,7 +50,7 @@ const plant = {
 
 const harvest = {
     'type': 'harvest',
-    'message0': 'harvest at row: %1 col: %2',
+    'message0': 'harvest row %1 column %2',
     'args0': [
         {
             'type': 'input_value',
@@ -73,7 +73,7 @@ const harvest = {
 
 const water = {
     'type': 'water',
-    'message0': 'water tile at row: %1 col: %2',
+    'message0': 'water row %1 column %2',
     'args0': [
         {
             'type': 'input_value',

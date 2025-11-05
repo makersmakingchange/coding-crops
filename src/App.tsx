@@ -69,13 +69,14 @@ function App() {
                         <LevelSelector onChange={changeLevel}/>
                         <button onClick={resetGame}>Reset Game</button>
                     </div>
-                    <Instructions text={instructions} />
+                    <Instructions level={level} />
                     <div className="game-container" id="gameContainer">
                         <div
-                            className="day-counter"
-                            aria-label={`Day ${farmManager.getDay()}`}
+                            className="farm-info"
+                            aria-label={`Day ${farmManager.getDay()}, Harvested ${farmManager.getCropsHarvested()}`}
                         >
-                            Day: <span id="dayCount">{farmManager.getDay()}</span>
+                            Day: <span id="dayCount">{farmManager.getDay()}</span> |
+                            Harvested: <span id="harvestCount">{farmManager.getCropsHarvested()}</span>
                         </div>
                         <button onClick={readSummaries} className="update-button">Updates</button>
                         <FarmGrid

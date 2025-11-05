@@ -2,6 +2,7 @@ import { CropType, GrowthStage, Tile, TileState } from "./Tile";
 
 export class FarmManager {
     private day: number;
+    private harvestCount: number = 0;
     private gridSize: number;
     private grid: Tile[][];
     private listeners: (() => void)[] = [];
@@ -11,6 +12,7 @@ export class FarmManager {
 
     constructor() {
         this.day = 1;
+        this.harvestCount = 0;
         this.gridSize = 3;
         this.grid = this.initializeGrid();
     }
@@ -48,6 +50,10 @@ export class FarmManager {
         return this.day;
     }
 
+    getCropsHarvested(): number {
+        return this.harvestCount;
+    }
+
     plant(row: number, col: number): boolean {
         if (this.isValidCoordinate(row, col)) {
             if (this.grid[row][col].plant(CropType.Sunflower)) {
@@ -65,6 +71,7 @@ export class FarmManager {
     harvest(row: number, col: number) {
         if (this.isValidCoordinate(row, col)) {
             if (this.grid[row][col].harvest()) {
+                this.harvestCount++;
                 this.notify();
                 return true;
             } else {
@@ -106,6 +113,7 @@ export class FarmManager {
 
     reset(): void {
         this.day = 1;
+        this.harvestCount = 0;
         this.grid = this.initializeGrid();
         this.notify();
     }

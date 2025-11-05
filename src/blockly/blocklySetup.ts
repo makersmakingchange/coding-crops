@@ -8,7 +8,7 @@ import {CrossTabCopyPaste} from "@blockly/plugin-cross-tab-copy-paste";
 import {javascriptGenerator} from 'blockly/javascript';
 
 import {farmBlocks} from './blocks/farmBlocks';
-import {forBlock} from './generators/javascript';
+import {forBlock} from './generators/farmGenerators';
 
 import {save, load} from './serialization';
 import {toolboxMap} from './toolboxes';

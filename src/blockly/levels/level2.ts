@@ -1,4 +1,4 @@
-import { chainBlocks, BlockDef } from "../LevelManager";
+import { chainBlocks, BlockDef } from "../levelManager";
 
 const numShadow = (num: number) => ({
     type: 'math_number',

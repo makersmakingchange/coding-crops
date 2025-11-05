@@ -1,4 +1,4 @@
-import {chainBlocks, BlockDef} from "../LevelManager";
+import {chainBlocks, BlockDef} from "../levelManager";
 
 // Define your level blocks in order
 const level1Blocks: BlockDef[] = [
