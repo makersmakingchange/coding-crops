@@ -10,12 +10,18 @@ export class FarmManager {
     private actionQueue: (() => void)[] = [];
     private processingQueue = false;
 
+    private generatedCode: string | null = null;
+    private isPausedAtNextDay: boolean = false;
+
     constructor() {
         this.day = 1;
+        this.isPausedAtNextDay = false;
         this.harvestCount = 0;
         this.gridSize = 3;
         this.grid = this.initializeGrid();
     }
+
+    hasActions = () => this.actionQueue.length > 0;
 
     subscribe(listener: () => void) {
         this.listeners.push(listener);
@@ -104,6 +110,7 @@ export class FarmManager {
                 tile.nextDay();
             }
         }
+
         this.notify();
     }
 
@@ -115,25 +122,99 @@ export class FarmManager {
         this.day = 1;
         this.harvestCount = 0;
         this.grid = this.initializeGrid();
+        this.generatedCode = null;
         this.notify();
     }
 
-    enqueue(action: () => void) {
+    enqueue(action: (() => void) & { isNextDay?: boolean }) {
         this.actionQueue.push(action);
-        this.processQueue();
+    }
+
+    // Enqueue a function that will run the next day
+    enqueueNextDay() {
+        const nextDayFn = (() => this.nextDay()) as (() => void) & { isNextDay?: boolean };
+        nextDayFn.isNextDay = true;
+        this.enqueue(nextDayFn);
     }
 
     private async processQueue() {
-        if (this.processingQueue) return; // already running
+        if (this.processingQueue) return;  // Prevent concurrent queue processing
         this.processingQueue = true;
 
         while (this.actionQueue.length > 0) {
             const action = this.actionQueue.shift()!;
+
             action();
-            // Wait one frame before next action so React can re-render
+
+            // Wait for one frame to allow React to re-render before continuing
             await new Promise(r => setTimeout(r, 300));
         }
 
         this.processingQueue = false;
+    }
+
+    // Store generated code
+    storeGeneratedCode(code: string) {
+        this.generatedCode = code;
+    }
+
+    // Execute the generated code actions
+    executeGeneratedCode() {
+        if (!this.generatedCode) return;
+
+        const farmManager = this;
+        new Function("farmManager", this.generatedCode)(farmManager);
+    }
+
+    // Run all blocks in the workspace
+    runAllDays() {
+        if (!this.generatedCode) return;
+
+        try {
+            console.log("Running all blocks:\n", this.generatedCode);
+
+            this.executeGeneratedCode();
+
+            // Execute all actions in the queue
+            this.processQueue();
+
+        } catch (err) {
+            console.error("Error running all days:", err);
+        }
+    }
+
+    // Run up to the block/action before Next Day until the next click
+    async runDay() {
+        if (this.actionQueue.length === 0) {
+            console.log("No actions left.");
+            this.isPausedAtNextDay = false;
+            return;
+        }
+
+        while (this.actionQueue.length > 0) {
+            const action = this.actionQueue[0]!;
+            console.log("Running action:", action);
+
+            if ((action as any).isNextDay) {
+                if (!this.isPausedAtNextDay) {
+                    console.log("Next Day block reached. Pausing until next click.");
+                    this.isPausedAtNextDay = true;
+                    return;
+                } else {
+                    console.log("Executing nextDay now.");
+                    this.actionQueue.shift()!();
+                    await new Promise(r => setTimeout(r, 300));
+                    this.isPausedAtNextDay = false;
+                }
+            }
+
+            this.actionQueue.shift()!();
+            await new Promise(r => setTimeout(r, 300));
+        }
+    }
+
+    async runAction() {
+        this.actionQueue.shift()!();
+        await new Promise(r => setTimeout(r, 300));
     }
 }

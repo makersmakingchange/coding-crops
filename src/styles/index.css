@@ -159,21 +159,19 @@ body {
 }
 
 .update-button {
-    margin-left: auto;
-    margin-right: 0 !important;
-    background-color: #2196F3;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-    align-self: flex-start;
-    /*margin-top: -5%;*/
+    margin-left: 5%;
 }
 
 .update-button:hover {
     background-color: #2b68c5;
+}
+
+.game-panel .run-mode-button-all {
+    background-color: #333333 !important;
+}
+
+.game-panel .run-mode-button-day {
+    background-color: #222222 !important;
 }
 
 .grid-container {
@@ -260,6 +258,7 @@ body {
 }
 
 .run-code-button {
+    tab-index: 0 !important;
     margin-left: auto;
     background-color: #2196F3;
     color: white;
@@ -267,7 +266,7 @@ body {
     border-radius: 4px;
     position: absolute;
     bottom: 10%;
-    right: 40%;
+    right: 30%;
     transition: background-color 0.3s;
     cursor: pointer;
 }

@@ -9,9 +9,9 @@ import './styles/index.css';
 
 function App() {
     const [level, setLevel] = useState(1);
-    const [instructions, setInstructions] = useState("Welcome! Drag blocks to start planting.");
     const [tileData, setTileData] = useState(farmManager.getTileState());
-    const [summaries, setSummaries] = useState(FarmA11y.getSummaries());
+    const [summaries, setSummaries] = useState(FarmA11y.getQuickSummaries());
+    const [runMode, setRunMode] = useState<'all' | 'day'>('all');
     const liveRegionRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -19,21 +19,24 @@ function App() {
             const tiles = farmManager.getTileState();
             setTileData(tiles);
 
-            const summary = FarmA11y.generateDaySummary(farmManager.getDay(), tiles);
-            setSummaries(FarmA11y.getSummaries());
+            const summary = FarmA11y.generateEndOfDaySummary(farmManager.getDay(), farmManager.getCropsHarvested(), tiles);
+            setSummaries(FarmA11y.getQuickSummaries());
 
             if (liveRegionRef.current) {
-                liveRegionRef.current.textContent = `Farm updated`;
+                if (runMode === 'day') {
+                    liveRegionRef.current.textContent = summary[summary.length - 1];
+                } else {
+                    liveRegionRef.current.textContent = `Farm updated.`;
+                }
             }
         });
     }, []);
 
     const resetGame = () => {
         farmManager.reset();
+        FarmA11y.reset();
         setTileData(farmManager.getTileState());
-        const tiles = farmManager.getTileState();
-        setTileData(tiles);
-        setSummaries([...FarmA11y.getSummaries()]);
+        setSummaries([...FarmA11y.getQuickSummaries()]);
         if (liveRegionRef.current) {
             liveRegionRef.current.textContent = `Game reset. Day ${farmManager.getDay()}.`;
         }
@@ -45,7 +48,7 @@ function App() {
 
         const tiles = farmManager.getTileState();
         setTileData(tiles);
-        setSummaries([...FarmA11y.getSummaries()]);
+        setSummaries([...FarmA11y.getQuickSummaries()]);
         if (liveRegionRef.current) {
             liveRegionRef.current.textContent = `Level changed to ${levelNum}. Day ${farmManager.getDay()}.`;
         }
@@ -53,9 +56,20 @@ function App() {
 
     const readSummaries = () => {
         if (liveRegionRef.current) {
-            // Join all summaries into one string and announce it
-            liveRegionRef.current.textContent = summaries.join('. ');
+            // Get the latest summaries from FarmA11y directly (not from state)
+            const latestSummaries = FarmA11y.getQuickSummaries();
+
+            liveRegionRef.current.textContent = '';
+            setTimeout(() => {
+                liveRegionRef.current!.textContent = latestSummaries.join('. ');
+            }, 50);
+
         }
+    };
+
+    const toggleRunMode = () => {
+        resetGame();
+        setRunMode(prevMode => (prevMode === 'all' ? 'day' : 'all'));
     };
 
     return (
@@ -63,11 +77,23 @@ function App() {
             <div className="App-body">
                 <BlocklyWorkspace
                     level={level}
+                    runMode={runMode}
                 />
                 <div className="game-panel">
                     <div className="game-controls">
+                        <button onClick={readSummaries}
+                                className="update-button"
+                                aria-label="Read farm updates">Updates</button>
                         <LevelSelector onChange={changeLevel}/>
                         <button onClick={resetGame}>Reset Game</button>
+                        <button
+                            onClick={toggleRunMode}
+                            className={`run-mode-button${runMode === 'all' ? '-all' : '-day'}`}
+                            aria-pressed={runMode === 'all'}
+                            aria-label={runMode === 'all' ? 'Switch to Run 1 Day Mode' : 'Switch to Run All Blocks Mode'}
+                        >
+                            <span>{runMode === 'all' ? 'Run All Blocks' : 'Run 1 Day'}</span>
+                        </button>
                     </div>
                     <Instructions level={level} />
                     <div className="game-container" id="gameContainer">
@@ -78,7 +104,6 @@ function App() {
                             Day: <span id="dayCount">{farmManager.getDay()}</span> |
                             Harvested: <span id="harvestCount">{farmManager.getCropsHarvested()}</span>
                         </div>
-                        <button onClick={readSummaries} className="update-button">Updates</button>
                         <FarmGrid
                             tiles={tileData}
                             ariaLiveRef={liveRegionRef}
@@ -90,7 +115,7 @@ function App() {
                             ))}
                         </div>
                         <div
-                            aria-live="assertive"
+                            aria-live="polite"
                             role="status"
                             aria-atomic="true"
                             className="sr-only"
