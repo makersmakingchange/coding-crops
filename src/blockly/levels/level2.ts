@@ -8,26 +8,39 @@ const numShadow = (num: number) => ({
 const level2Actions: BlockDef[] = [
     {
         type: 'plant',
+        deletable: false,
         inline: true,
-        inputs: { X: { shadow: numShadow(1) }, Y: { shadow: numShadow(1) } }
+        fields: {
+            ROW: 1,
+            COLUMN: 1,
+        },
     },
     {
         type: 'water',
         inline: true,
-        inputs: { X: { shadow: numShadow(1) }, Y: { shadow: numShadow(1) } }
+        fields: {
+            ROW: 1,
+            COLUMN: 1,
+        },
     },
     { type: 'next_day' },
     {
         type: 'water',
         inline: true,
-        inputs: { X: { shadow: numShadow(1) }, Y: { shadow: numShadow(1) } }
+        fields: {
+            ROW: 1,
+            COLUMN: 1,
+        },
     },
     { type: 'next_day' },
     {
         type: 'harvest',
         inline: true,
-        inputs: { X: { shadow: numShadow(1) }, Y: { shadow: numShadow(1) } }
-    }
+        fields: {
+            ROW: 1,
+            COLUMN: 1,
+        },
+    },
 ];
 
 const repeatBlock: BlockDef = {

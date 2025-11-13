@@ -7,7 +7,7 @@ export const ToolboxLevel2 = {
     contents: [
         {
             kind: 'category',
-            name: 'Logic Center (TBD)',
+            name: 'Logic Center',
             categorystyle: 'loop_category',
             contents: [
                 {
