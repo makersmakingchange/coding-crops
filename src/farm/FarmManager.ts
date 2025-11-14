@@ -179,7 +179,9 @@ export class FarmManager {
             this.processQueue();
 
         } catch (err) {
-            console.error("Error running all days:", err);
+            window.dispatchEvent(
+                new CustomEvent("farm:error", { detail: String(err) })
+            );
         }
     }
 
@@ -191,25 +193,31 @@ export class FarmManager {
             return;
         }
 
-        while (this.actionQueue.length > 0) {
-            const action = this.actionQueue[0]!;
-            console.log("Running action:", action);
+        try {
+            while (this.actionQueue.length > 0) {
+                const action = this.actionQueue[0]!;
+                console.log("Running action:", action);
 
-            if ((action as any).isNextDay) {
-                if (!this.isPausedAtNextDay) {
-                    console.log("Next Day block reached. Pausing until next click.");
-                    this.isPausedAtNextDay = true;
-                    return;
-                } else {
-                    console.log("Executing nextDay now.");
-                    this.actionQueue.shift()!();
-                    await new Promise(r => setTimeout(r, 300));
-                    this.isPausedAtNextDay = false;
+                if ((action as any).isNextDay) {
+                    if (!this.isPausedAtNextDay) {
+                        console.log("Next Day block reached. Pausing until next click.");
+                        this.isPausedAtNextDay = true;
+                        return;
+                    } else {
+                        console.log("Executing nextDay now.");
+                        this.actionQueue.shift()!();
+                        await new Promise(r => setTimeout(r, 300));
+                        this.isPausedAtNextDay = false;
+                    }
                 }
-            }
 
-            this.actionQueue.shift()!();
-            await new Promise(r => setTimeout(r, 300));
+                this.actionQueue.shift()!();
+                await new Promise(r => setTimeout(r, 300));
+            }
+        } catch (err) {
+            window.dispatchEvent(
+                new CustomEvent("farm:error", { detail: String(err) })
+            );
         }
     }
 

@@ -3,6 +3,8 @@ import BlocklyWorkspace from './components/BlocklyWorkspace';
 import FarmGrid from './components/FarmGrid';
 import LevelSelector from './components/LevelSelector';
 import Instructions from './components/Instructions';
+import UpdatesDialog from "./components/UpdatesDialog";
+import ErrorDialog from "./components/ErrorDialog";
 import farmManager from './farm/FarmManagerSingleton';
 import FarmA11y from './accessibility/FarmA11y';
 import './styles/index.css';
@@ -12,6 +14,9 @@ function App() {
     const [tileData, setTileData] = useState(farmManager.getTileState());
     const [summaries, setSummaries] = useState(FarmA11y.getQuickSummaries());
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
+    const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
+    const [warnings, setWarnings] = useState<string[]>([]);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const liveRegionRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -31,6 +36,36 @@ function App() {
             }
         });
     }, []);
+
+    useEffect(() => {
+        const handleShortcuts = (e: KeyboardEvent) => {
+            // Don't override Blockly keyboard control
+            if (document.activeElement?.closest('.blocklyDiv')) return;
+
+            if (e.altKey && e.key === '1')
+                (document.querySelector('#blocklyDiv') as HTMLElement | null)?.focus();
+
+            if (e.altKey && e.key === '2')
+                (document.querySelector('.game-panel') as HTMLElement | null)?.focus();
+
+            if (e.altKey && e.key === '3')
+                (document.querySelector('.farm-grid') as HTMLElement | null)?.focus();
+
+            if (e.altKey && e.key === '4' && isUpdatesOpen)
+                (document.querySelector('.updates-dialog') as HTMLElement | null)?.focus();
+
+        };
+
+        window.addEventListener('keydown', handleShortcuts);
+        return () => window.removeEventListener('keydown', handleShortcuts);
+    }, [isUpdatesOpen]);
+
+    useEffect(() => {
+        const handler = (e: any) => setErrorMessage(e.detail);
+        window.addEventListener('farm:error', handler);
+        return () => window.removeEventListener('farm:error', handler);
+    }, []);
+
 
     const resetGame = () => {
         farmManager.reset();
@@ -74,6 +109,16 @@ function App() {
 
     return (
         <div id="app" className="App">
+            <UpdatesDialog
+                isOpen={isUpdatesOpen}
+                onClose={() => setIsUpdatesOpen(false)}
+                summaries={summaries}
+                warnings={warnings}
+            />
+            <ErrorDialog
+                message={errorMessage}
+                onClose={() => setErrorMessage(null)}
+            />
             <div className="App-body">
                 <BlocklyWorkspace
                     level={level}
@@ -81,6 +126,9 @@ function App() {
                 />
                 <div className="game-panel">
                     <div className="game-controls">
+                        <button onClick={() => setIsUpdatesOpen(true)}>
+                            Open Updates
+                        </button>
                         <button onClick={readSummaries}
                                 className="update-button"
                                 aria-label="Read farm updates">Updates</button>
