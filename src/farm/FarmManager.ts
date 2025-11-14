@@ -123,6 +123,10 @@ export class FarmManager {
         this.harvestCount = 0;
         this.grid = this.initializeGrid();
         this.generatedCode = null;
+        this.actionQueue = [];
+        this.processingQueue = false;
+        this.generatedCode = null;
+        this.isPausedAtNextDay = false;
         this.notify();
     }
 

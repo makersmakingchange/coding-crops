@@ -31,13 +31,11 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode}) => {
             levelManager.load(workspaceRef.current, level);
         }
 
-        if (runMode === "all") {
-            setStartedDayMode(false);
-        }
+        setStartedDayMode(false);
+        setHasActions(true);
 
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
         farmManager.storeGeneratedCode(code);
-
 
         // Cleanup on unmount
         return () => {
@@ -71,7 +69,6 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode}) => {
             // "Run All Days" mode
             farmManager.storeGeneratedCode(code);
             farmManager.runAllDays();
-            setHasActions(false);
         }
     };
 
