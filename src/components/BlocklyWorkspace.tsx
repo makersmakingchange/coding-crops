@@ -11,11 +11,10 @@ interface BlocklyProps {
     runMode: "all" | "day"
 }
 
-const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode}) => {
+const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode, }) => {
     const blocklyDiv = useRef<HTMLDivElement>(null);
     const workspaceRef = useRef<WorkspaceSvg | null>(null);
 
-    const [startedDayMode, setStartedDayMode] = useState(false);
     const [hasActions, setHasActions] = useState(true);
 
     useEffect(() => {
@@ -31,7 +30,6 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode}) => {
             levelManager.load(workspaceRef.current, level);
         }
 
-        setStartedDayMode(false);
         setHasActions(true);
 
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
@@ -52,18 +50,15 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode}) => {
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
 
         if (runMode === "day") {
-            if (!startedDayMode) {
-                // First click: start simulation
-                console.log("Starting 1-Day run: loading code and running first day");
+            if (!farmManager.hasActions?.()) {
+                console.log("Starting 1-Day run: loading code");
                 farmManager.reset();
                 farmManager.storeGeneratedCode(code);
                 farmManager.executeGeneratedCode();
-                farmManager.runDay();
-                setStartedDayMode(true);
             } else {
                 console.log("Advancing to next day…");
-                farmManager.runDay();
             }
+            farmManager.runDay();
             setHasActions(farmManager.hasActions?.() ?? true);
         } else {
             // "Run All Days" mode
@@ -86,9 +81,9 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode}) => {
                 >
                     {runMode === "all"
                         ? "Run All Days"
-                        : startedDayMode
-                            ? "Next Day"
-                            : "Run Day By Day"}
+                        : farmManager.getDay() === 1
+                            ? "Run Day By Day"
+                            : "Next Day"}
                 </button>
             </div>
             <div id="shortcuts"></div>

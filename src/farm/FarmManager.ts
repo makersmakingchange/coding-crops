@@ -212,13 +212,15 @@ export class FarmManager {
                 }
             }
 
-            this.actionQueue.shift()!();
-            await new Promise(r => setTimeout(r, 300));
+            if (this.actionQueue.length > 0) {
+                this.actionQueue.shift()!();
+                await new Promise(r => setTimeout(r, 300));
+            }
         }
     }
 
-    async runAction() {
-        this.actionQueue.shift()!();
-        await new Promise(r => setTimeout(r, 300));
-    }
+    // async runAction() {
+    //     this.actionQueue.shift()!();
+    //     await new Promise(r => setTimeout(r, 300));
+    // }
 }

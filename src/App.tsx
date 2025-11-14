@@ -44,11 +44,7 @@ function App() {
 
     const changeLevel = (levelNum: number) => {
         setLevel(levelNum);
-        farmManager.reset();
-
-        const tiles = farmManager.getTileState();
-        setTileData(tiles);
-        setSummaries([...FarmA11y.getQuickSummaries()]);
+        resetGame();
         if (liveRegionRef.current) {
             liveRegionRef.current.textContent = `Level changed to ${levelNum}. Day ${farmManager.getDay()}.`;
         }

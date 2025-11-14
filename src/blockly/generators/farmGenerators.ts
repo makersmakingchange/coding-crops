@@ -29,9 +29,10 @@ forBlock['add_text'] = function (
 
 forBlock['plant'] = function (
     block: Blockly.Block,
+    generator: Blockly.CodeGenerator,
 ) {
-    const row = (block.getFieldValue('ROW') - 1) || 0;
-    const col = (block.getFieldValue('COLUMN') - 1) || 0;
+    const row = (Number(generator.valueToCode(block, 'ROW', Order.NONE)) - 1) || 0;
+    const col = (Number(generator.valueToCode(block, 'COLUMN', Order.NONE)) - 1) || 0;
 
     if (![0, 1, 2].includes(row) || ![0, 1, 2].includes(col)) {
         throw new Error(`Invalid coordinates: (${row+1}, ${col+1}). Allowed values are 1, 2, or 3.`);
@@ -42,9 +43,10 @@ forBlock['plant'] = function (
 
 forBlock['water'] = function (
     block: Blockly.Block,
+    generator: Blockly.CodeGenerator,
 ) {
-    const row = (block.getFieldValue('ROW') - 1) || 0;
-    const col = (block.getFieldValue('COLUMN') - 1) || 0;
+    const row = (Number(generator.valueToCode(block, 'ROW', Order.NONE)) - 1) || 0;
+    const col = (Number(generator.valueToCode(block, 'COLUMN', Order.NONE)) - 1) || 0;
 
     if (![0, 1, 2].includes(row) || ![0, 1, 2].includes(col)) {
         throw new Error(`Invalid coordinates: (${row+1}, ${col+1}). Allowed values are 1, 2, or 3.`);
@@ -55,9 +57,10 @@ forBlock['water'] = function (
 
 forBlock['harvest'] = function (
     block: Blockly.Block,
+    generator: Blockly.CodeGenerator,
 ) {
-    const row = (block.getFieldValue('ROW') - 1) || 0;
-    const col = (block.getFieldValue('COLUMN') - 1) || 0;
+    const row = (Number(generator.valueToCode(block, 'ROW', Order.NONE)) - 1) || 0;
+    const col = (Number(generator.valueToCode(block, 'COLUMN', Order.NONE)) - 1) || 0;
 
     if (![0, 1, 2].includes(row) || ![0, 1, 2].includes(col)) {
         throw new Error(`Invalid coordinates: (${row+1}, ${col+1}). Allowed values are 1, 2, or 3.`);
