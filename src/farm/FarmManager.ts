@@ -61,46 +61,64 @@ export class FarmManager {
     }
 
     plant(row: number, col: number): boolean {
-        if (this.isValidCoordinate(row, col)) {
-            if (this.grid[row][col].plant(CropType.Sunflower)) {
-                this.notify()
-                return true;
-            } else {
-                console.log(`Cannot plant: Tile at ${row},${col} already has a plant`);
-            }
-        } else {
-            console.log(`Invalid coordinates: ${row},${col}`);
+        const r = row - 1;
+        const c = col - 1;
+
+        if (!this.isValidCoordinate(r, c)) {
+            console.log(`Invalid coordinates: ${row},${col}`); // original values
+            return false;
         }
-        return false;
+
+        const tile = this.grid[r][c];
+        if (!tile.plant(CropType.Sunflower)) {
+            console.log(`Cannot plant: Tile at ${row},${col} already has a plant`);
+            return false;
+        }
+
+        this.notify();
+        return true;
     }
 
-    harvest(row: number, col: number) {
-        if (this.isValidCoordinate(row, col)) {
-            if (this.grid[row][col].harvest()) {
-                this.harvestCount++;
-                this.notify();
-                return true;
-            } else {
-                console.log(`Nothing to harvest at ${row},${col}`);
-            }
-        } else {
+    harvest(row: number, col: number): boolean {
+        const r = row - 1;
+        const c = col - 1;
+
+        if (!this.isValidCoordinate(r, c)) {
             console.log(`Invalid coordinates: ${row},${col}`);
+            return false;
         }
-        return false;
+
+        const tile = this.grid[r][c];
+        if (!tile.harvest()) {
+            console.log(`Nothing to harvest at ${row},${col}`);
+            return false;
+        }
+
+        this.harvestCount++;
+        this.notify();
+        return true;
     }
 
-    water(row: number, col: number) {
-        if (this.isValidCoordinate(row, col)) {
-            if (this.grid[row][col].water()) {
-                this.notify();
-                return true;
-            }
+
+    water(row: number, col: number): boolean {
+        const r = row - 1;
+        const c = col - 1;
+
+        if (!this.isValidCoordinate(r, c)) {
+            console.log(`Invalid coordinates: ${row},${col}`);
+            return false;
+        }
+
+        const tile = this.grid[r][c];
+        if (!tile.water()) {
             console.log(`Tile at ${row},${col} is empty`);
-        } else {
-            console.log(`Invalid coordinates: ${row},${col}`);
+            return false;
         }
-        return false;
+
+        this.notify();
+        return true;
     }
+
 
     nextDay() {
         this.day++;

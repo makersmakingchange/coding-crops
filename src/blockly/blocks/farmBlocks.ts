@@ -10,13 +10,11 @@ const plant = {
             'type': 'input_value',
             'name': 'ROW',
             'check': 'Number',
-            'value': 1,
         },
         {
             'type': 'input_value',
             'name': 'COLUMN',
             'check': 'Number',
-            'value': 1,
         }
     ],
     'previousStatement': null,
@@ -35,13 +33,11 @@ const harvest = {
             'type': 'input_value',
             'name': 'ROW',
             'check': 'Number',
-            'value': 1,
         },
         {
             'type': 'input_value',
             'name': 'COLUMN',
             'check': 'Number',
-            'value': 1,
         }
     ],
     'previousStatement': null,

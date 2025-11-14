@@ -31,42 +31,30 @@ forBlock['plant'] = function (
     block: Blockly.Block,
     generator: Blockly.CodeGenerator,
 ) {
-    const row = (Number(generator.valueToCode(block, 'ROW', Order.NONE)) - 1) || 0;
-    const col = (Number(generator.valueToCode(block, 'COLUMN', Order.NONE)) - 1) || 0;
+    const row = generator.valueToCode(block, 'ROW', Order.NONE) || 1;
+    const col = generator.valueToCode(block, 'COLUMN', Order.NONE) || 1;
 
-    if (![0, 1, 2].includes(row) || ![0, 1, 2].includes(col)) {
-        throw new Error(`Invalid coordinates: (${row+1}, ${col+1}). Allowed values are 1, 2, or 3.`);
-    }
-
-    return `farmManager.enqueue(() => farmManager.plant(${row}, ${col}));\n`;
+    return `farmManager.enqueue(() => farmManager.plant(Number(${row}), Number(${col})));\n`;
 };
 
 forBlock['water'] = function (
     block: Blockly.Block,
     generator: Blockly.CodeGenerator,
 ) {
-    const row = (Number(generator.valueToCode(block, 'ROW', Order.NONE)) - 1) || 0;
-    const col = (Number(generator.valueToCode(block, 'COLUMN', Order.NONE)) - 1) || 0;
+    const row = generator.valueToCode(block, 'ROW', Order.NONE) || 1;
+    const col = generator.valueToCode(block, 'COLUMN', Order.NONE) || 1;
 
-    if (![0, 1, 2].includes(row) || ![0, 1, 2].includes(col)) {
-        throw new Error(`Invalid coordinates: (${row+1}, ${col+1}). Allowed values are 1, 2, or 3.`);
-    }
-
-    return `farmManager.enqueue(() => farmManager.water(${row}, ${col}));\n`;
+    return `farmManager.enqueue(() => farmManager.water(Number(${row}), Number(${col})));\n`;
 };
 
 forBlock['harvest'] = function (
     block: Blockly.Block,
     generator: Blockly.CodeGenerator,
 ) {
-    const row = (Number(generator.valueToCode(block, 'ROW', Order.NONE)) - 1) || 0;
-    const col = (Number(generator.valueToCode(block, 'COLUMN', Order.NONE)) - 1) || 0;
+    const row = generator.valueToCode(block, 'ROW', Order.NONE) || 1;
+    const col = generator.valueToCode(block, 'COLUMN', Order.NONE) || 1;
 
-    if (![0, 1, 2].includes(row) || ![0, 1, 2].includes(col)) {
-        throw new Error(`Invalid coordinates: (${row+1}, ${col+1}). Allowed values are 1, 2, or 3.`);
-    }
-
-    return `farmManager.enqueue(() => farmManager.harvest(${row}, ${col}));\n`;
+    return `farmManager.enqueue(() => farmManager.harvest(Number(${row}), Number(${col})));\n`;
 };
 
 forBlock['next_day'] = function () {
