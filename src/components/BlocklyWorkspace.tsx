@@ -11,12 +11,11 @@ interface BlocklyProps {
     runMode: "all" | "day"
 }
 
-const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode, }) => {
+const BlocklyWorkspace: React.FC<BlocklyProps> = ({ level, runMode }) => {
     const blocklyDiv = useRef<HTMLDivElement>(null);
     const workspaceRef = useRef<WorkspaceSvg | null>(null);
 
     const [hasActions, setHasActions] = useState(true);
-
     useEffect(() => {
         if (!blocklyDiv.current) return;
 
@@ -42,7 +41,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode, }) => {
             //     workspaceRef.current = null;
             // }
         };
-    }, [level, runMode]);
+    }, [level]);
 
     const handleRunCode = () => {
         if (!workspaceRef.current) return;
@@ -81,9 +80,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode, }) => {
                 >
                     {runMode === "all"
                         ? "Run All Days"
-                        : farmManager.getDay() === 1
-                            ? "Run Day By Day"
-                            : "Next Day"}
+                        : "Run One Day"}
                 </button>
             </div>
             <div id="shortcuts"></div>

@@ -12,6 +12,7 @@ function App() {
     const [tileData, setTileData] = useState(farmManager.getTileState());
     const [summaries, setSummaries] = useState(FarmA11y.getQuickSummaries());
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
+    const runModeRef = useRef(runMode);
     const liveRegionRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -23,14 +24,15 @@ function App() {
             setSummaries(FarmA11y.getQuickSummaries());
 
             if (liveRegionRef.current) {
-                if (runMode === 'day') {
-                    liveRegionRef.current.textContent = summary[summary.length - 1];
-                } else {
-                    liveRegionRef.current.textContent = `Farm updated.`;
-                }
+                liveRegionRef.current.textContent =
+                    runModeRef.current === 'day'
+                        ? summary[summary.length - 1]
+                        : `Farm updated.`;
             }
+
+            runModeRef.current = runMode;
         });
-    }, []);
+    }, [runMode]);
 
     const resetGame = () => {
         farmManager.reset();
@@ -64,8 +66,8 @@ function App() {
     };
 
     const toggleRunMode = () => {
-        resetGame();
         setRunMode(prevMode => (prevMode === 'all' ? 'day' : 'all'));
+        resetGame();
     };
 
     return (
