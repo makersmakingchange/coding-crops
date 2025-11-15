@@ -11,13 +11,11 @@ interface BlocklyProps {
     runMode: "all" | "day"
 }
 
-const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode}) => {
+const BlocklyWorkspace: React.FC<BlocklyProps> = ({ level, runMode }) => {
     const blocklyDiv = useRef<HTMLDivElement>(null);
     const workspaceRef = useRef<WorkspaceSvg | null>(null);
 
-    const [startedDayMode, setStartedDayMode] = useState(false);
     const [hasActions, setHasActions] = useState(true);
-
     useEffect(() => {
         if (!blocklyDiv.current) return;
 
@@ -31,13 +29,10 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode}) => {
             levelManager.load(workspaceRef.current, level);
         }
 
-        if (runMode === "all") {
-            setStartedDayMode(false);
-        }
+        setHasActions(true);
 
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
         farmManager.storeGeneratedCode(code);
-
 
         // Cleanup on unmount
         return () => {
@@ -46,7 +41,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode}) => {
             //     workspaceRef.current = null;
             // }
         };
-    }, [level, runMode]);
+    }, [level]);
 
     const handleRunCode = () => {
         if (!workspaceRef.current) return;
@@ -54,24 +49,20 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode}) => {
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
 
         if (runMode === "day") {
-            if (!startedDayMode) {
-                // First click: start simulation
-                console.log("Starting 1-Day run: loading code and running first day");
+            if (!farmManager.hasActions?.()) {
+                console.log("Starting 1-Day run: loading code");
                 farmManager.reset();
                 farmManager.storeGeneratedCode(code);
                 farmManager.executeGeneratedCode();
-                farmManager.runDay();
-                setStartedDayMode(true);
             } else {
                 console.log("Advancing to next day…");
-                farmManager.runDay();
             }
+            farmManager.runDay();
             setHasActions(farmManager.hasActions?.() ?? true);
         } else {
             // "Run All Days" mode
             farmManager.storeGeneratedCode(code);
             farmManager.runAllDays();
-            setHasActions(false);
         }
     };
 
@@ -89,9 +80,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({level, runMode}) => {
                 >
                     {runMode === "all"
                         ? "Run All Days"
-                        : startedDayMode
-                            ? "Next Day"
-                            : "Run Day By Day"}
+                        : "Run One Day"}
                 </button>
             </div>
             <div id="shortcuts"></div>

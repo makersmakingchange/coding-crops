@@ -14,6 +14,7 @@ function App() {
     const [tileData, setTileData] = useState(farmManager.getTileState());
     const [summaries, setSummaries] = useState(FarmA11y.getQuickSummaries());
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
+    const runModeRef = useRef(runMode);
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
     const [warnings, setWarnings] = useState<string[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -28,14 +29,15 @@ function App() {
             setSummaries(FarmA11y.getQuickSummaries());
 
             if (liveRegionRef.current) {
-                if (runMode === 'day') {
-                    liveRegionRef.current.textContent = summary[summary.length - 1];
-                } else {
-                    liveRegionRef.current.textContent = `Farm updated.`;
-                }
+                liveRegionRef.current.textContent =
+                    runModeRef.current === 'day'
+                        ? summary[summary.length - 1]
+                        : `Farm updated.`;
             }
+
+            runModeRef.current = runMode;
         });
-    }, []);
+    }, [runMode]);
 
     useEffect(() => {
         const handleShortcuts = (e: KeyboardEvent) => {
@@ -79,11 +81,7 @@ function App() {
 
     const changeLevel = (levelNum: number) => {
         setLevel(levelNum);
-        farmManager.reset();
-
-        const tiles = farmManager.getTileState();
-        setTileData(tiles);
-        setSummaries([...FarmA11y.getQuickSummaries()]);
+        resetGame();
         if (liveRegionRef.current) {
             liveRegionRef.current.textContent = `Level changed to ${levelNum}. Day ${farmManager.getDay()}.`;
         }
@@ -103,8 +101,8 @@ function App() {
     };
 
     const toggleRunMode = () => {
-        resetGame();
         setRunMode(prevMode => (prevMode === 'all' ? 'day' : 'all'));
+        resetGame();
     };
 
     return (

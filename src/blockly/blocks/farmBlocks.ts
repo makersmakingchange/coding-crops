@@ -7,16 +7,14 @@ const plant = {
     'message0': 'plant 🌱 at row %1 column %2',
     'args0': [
         {
-            'type': 'field_number',
+            'type': 'input_value',
             'name': 'ROW',
             'check': 'Number',
-            'value': 1,
         },
         {
-            'type': 'field_number',
+            'type': 'input_value',
             'name': 'COLUMN',
             'check': 'Number',
-            'value': 1,
         }
     ],
     'previousStatement': null,
@@ -32,16 +30,14 @@ const harvest = {
     'message0': 'harvest row %1 column %2',
     'args0': [
         {
-            'type': 'field_number',
+            'type': 'input_value',
             'name': 'ROW',
             'check': 'Number',
-            'value': 1,
         },
         {
-            'type': 'field_number',
+            'type': 'input_value',
             'name': 'COLUMN',
             'check': 'Number',
-            'value': 1,
         }
     ],
     'previousStatement': null,
@@ -57,13 +53,13 @@ const water = {
     'message0': 'water row %1 column %2',
     'args0': [
         {
-            'type': 'field_number',
+            'type': 'input_value',
             'name': 'ROW',
             'check': 'Number',
             'value': 1,
         },
         {
-            'type': 'field_number',
+            'type': 'input_value',
             'name': 'COLUMN',
             'check': 'Number',
             'value': 1,

@@ -61,46 +61,64 @@ export class FarmManager {
     }
 
     plant(row: number, col: number): boolean {
-        if (this.isValidCoordinate(row, col)) {
-            if (this.grid[row][col].plant(CropType.Sunflower)) {
-                this.notify()
-                return true;
-            } else {
-                console.log(`Cannot plant: Tile at ${row},${col} already has a plant`);
-            }
-        } else {
-            console.log(`Invalid coordinates: ${row},${col}`);
+        const r = row - 1;
+        const c = col - 1;
+
+        if (!this.isValidCoordinate(r, c)) {
+            console.log(`Invalid coordinates: ${row},${col}`); // original values
+            return false;
         }
-        return false;
+
+        const tile = this.grid[r][c];
+        if (!tile.plant(CropType.Sunflower)) {
+            console.log(`Cannot plant: Tile at ${row},${col} already has a plant`);
+            return false;
+        }
+
+        this.notify();
+        return true;
     }
 
-    harvest(row: number, col: number) {
-        if (this.isValidCoordinate(row, col)) {
-            if (this.grid[row][col].harvest()) {
-                this.harvestCount++;
-                this.notify();
-                return true;
-            } else {
-                console.log(`Nothing to harvest at ${row},${col}`);
-            }
-        } else {
+    harvest(row: number, col: number): boolean {
+        const r = row - 1;
+        const c = col - 1;
+
+        if (!this.isValidCoordinate(r, c)) {
             console.log(`Invalid coordinates: ${row},${col}`);
+            return false;
         }
-        return false;
+
+        const tile = this.grid[r][c];
+        if (!tile.harvest()) {
+            console.log(`Nothing to harvest at ${row},${col}`);
+            return false;
+        }
+
+        this.harvestCount++;
+        this.notify();
+        return true;
     }
 
-    water(row: number, col: number) {
-        if (this.isValidCoordinate(row, col)) {
-            if (this.grid[row][col].water()) {
-                this.notify();
-                return true;
-            }
+
+    water(row: number, col: number): boolean {
+        const r = row - 1;
+        const c = col - 1;
+
+        if (!this.isValidCoordinate(r, c)) {
+            console.log(`Invalid coordinates: ${row},${col}`);
+            return false;
+        }
+
+        const tile = this.grid[r][c];
+        if (!tile.water()) {
             console.log(`Tile at ${row},${col} is empty`);
-        } else {
-            console.log(`Invalid coordinates: ${row},${col}`);
+            return false;
         }
-        return false;
+
+        this.notify();
+        return true;
     }
+
 
     nextDay() {
         this.day++;
@@ -123,6 +141,9 @@ export class FarmManager {
         this.harvestCount = 0;
         this.grid = this.initializeGrid();
         this.generatedCode = null;
+        this.processingQueue = false;
+        this.isPausedAtNextDay = false;
+        this.actionQueue = [];
         this.notify();
     }
 
@@ -179,6 +200,7 @@ export class FarmManager {
             this.processQueue();
 
         } catch (err) {
+            console.error("Error running all days:", err);
             window.dispatchEvent(
                 new CustomEvent("farm:error", { detail: String(err) })
             );
@@ -211,8 +233,10 @@ export class FarmManager {
                     }
                 }
 
+            if (this.actionQueue.length > 0) {
                 this.actionQueue.shift()!();
                 await new Promise(r => setTimeout(r, 300));
+            }
             }
         } catch (err) {
             window.dispatchEvent(
@@ -221,8 +245,8 @@ export class FarmManager {
         }
     }
 
-    async runAction() {
-        this.actionQueue.shift()!();
-        await new Promise(r => setTimeout(r, 300));
-    }
+    // async runAction() {
+    //     this.actionQueue.shift()!();
+    //     await new Promise(r => setTimeout(r, 300));
+    // }
 }
