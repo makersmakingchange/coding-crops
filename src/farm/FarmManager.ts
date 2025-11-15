@@ -1,4 +1,4 @@
-import { CropType, GrowthStage, Tile, TileState } from "./Tile";
+import { CropType, Tile, TileState } from "./Tile";
 
 export class FarmManager {
     private day: number;
