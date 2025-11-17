@@ -9,13 +9,18 @@ import farmManager from "../farm/FarmManagerSingleton";
 interface BlocklyProps {
     level: number,
     runMode: "all" | "day"
+    hasActions: boolean;
+    setHasActions: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const BlocklyWorkspace: React.FC<BlocklyProps> = ({ level, runMode }) => {
+const BlocklyWorkspace: React.FC<BlocklyProps> = ({
+                                                      level,
+                                                      runMode,
+                                                      hasActions,
+                                                      setHasActions }) => {
     const blocklyDiv = useRef<HTMLDivElement>(null);
     const workspaceRef = useRef<WorkspaceSvg | null>(null);
 
-    const [hasActions, setHasActions] = useState(true);
     useEffect(() => {
         if (!blocklyDiv.current) return;
 
@@ -29,11 +34,10 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({ level, runMode }) => {
             levelManager.load(workspaceRef.current, level);
         }
 
-        setHasActions(true);
-
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
         farmManager.storeGeneratedCode(code);
 
+        setHasActions(true);
         // Cleanup on unmount
         return () => {
             // if (workspaceRef.current) {

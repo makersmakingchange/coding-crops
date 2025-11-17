@@ -14,6 +14,7 @@ function App() {
     const [tileData, setTileData] = useState(farmManager.getTileState());
     const [summaries, setSummaries] = useState(FarmA11y.getQuickSummaries());
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
+    const [hasActions, setHasActions] = useState(true);
     const runModeRef = useRef(runMode);
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
     const [warnings, setWarnings] = useState<string[]>([]);
@@ -72,11 +73,13 @@ function App() {
     const resetGame = () => {
         farmManager.reset();
         FarmA11y.reset();
+        setHasActions(true);
         setTileData(farmManager.getTileState());
         setSummaries([...FarmA11y.getQuickSummaries()]);
         if (liveRegionRef.current) {
             liveRegionRef.current.textContent = `Game reset. Day ${farmManager.getDay()}.`;
         }
+        setHasActions?.(true);
     };
 
     const changeLevel = (levelNum: number) => {
@@ -121,6 +124,8 @@ function App() {
                 <BlocklyWorkspace
                     level={level}
                     runMode={runMode}
+                    hasActions={hasActions}
+                    setHasActions={setHasActions}
                 />
                 <div className="game-panel">
                     <div className="game-controls">
