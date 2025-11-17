@@ -1,5 +1,5 @@
 {
-  "goal": "Plant and water 3 crops before time runs out.",
-  "hint": "Use the 'Plant' block to grow crops and the 'Water' block to speed up growth.",
+  "goal": "Plant and water 3 crops using variables.",
+  "hint": "You can create variables and replace the values in the code.",
   "levelNumber": 3
 }

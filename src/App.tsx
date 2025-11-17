@@ -179,8 +179,7 @@ function App() {
                             aria-label={`Day ${farmManager.getDay()}, ${farmManager.getCropsHarvested()} crops harvested`}
                             tabIndex={0}
                         >
-                            Day: <span id="dayCount">{farmManager.getDay()}</span>
-                            &nbsp; &nbsp; &nbsp;
+                            Day: <span id="dayCount">{farmManager.getDay()}</span> |
                             Harvested: <span id="harvestCount">{farmManager.getCropsHarvested()}</span>
                         </div>
                         <FarmGrid
