@@ -23,9 +23,8 @@ export const ToolboxLevel2 = {
                      }
                 },
                 {
-                    type: 'controls_if',
                     kind: 'block',
-                    id: 'if_block',
+                    type: 'controls_ifelse'
                 },
                 {
                     type: 'logic_compare',

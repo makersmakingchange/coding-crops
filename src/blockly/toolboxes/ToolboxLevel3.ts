@@ -11,8 +11,9 @@ export const ToolboxLevel3 = {
             categorystyle: 'loop_category',
             contents: [
                 {
+                    type: 'controls_if',
                     kind: 'block',
-                    type: 'controls_ifelse'
+                    id: 'if_block',
                 },
                 {
                     kind: 'block',
