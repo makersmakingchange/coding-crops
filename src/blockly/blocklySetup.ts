@@ -36,7 +36,8 @@ let workspaceId = 'workspace';
 let keyboardNavInstance: KeyboardNavigation | null = null;
 
 export function setupBlockly(blocklyContainer: HTMLElement,
-                             level: number) {
+                             level: number,
+                             onWorkspaceChange?: () => void,) {
     if (!keyboardStylesRegistered) {
         KeyboardNavigation.registerKeyboardNavigationStyles();
         registerNavigationDeferringToolbox();
@@ -67,6 +68,19 @@ export function setupBlockly(blocklyContainer: HTMLElement,
         workspaceInitialized = true;
         workspaceId = ws.id;
 
+        if (onWorkspaceChange) {
+            ws.addChangeListener((event) => {
+                if (
+                    event.type === Blockly.Events.BLOCK_CREATE ||
+                    event.type === Blockly.Events.BLOCK_DELETE ||
+                    event.type === Blockly.Events.BLOCK_MOVE ||
+                    event.type === Blockly.Events.BLOCK_CHANGE
+                ) {
+                    onWorkspaceChange();
+                }
+            });
+        }
+
         // ws.addChangeListener(Blockly.Events.disableOrphans);
 
         if (!keyboardNavInstance) {
@@ -77,6 +91,17 @@ export function setupBlockly(blocklyContainer: HTMLElement,
     }
 
     const ws = Blockly.common.getWorkspaceById(workspaceId) as WorkspaceSvg
+
+    ws.addChangeListener((event) => {
+        if (
+            event.type === Blockly.Events.BLOCK_CREATE ||
+            event.type === Blockly.Events.BLOCK_DELETE ||
+            event.type === Blockly.Events.BLOCK_MOVE ||
+            event.type === Blockly.Events.BLOCK_CHANGE
+        ) {
+            onWorkspaceChange?.();
+        }
+    });
 
     return ws;
 

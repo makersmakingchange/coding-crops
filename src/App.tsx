@@ -169,7 +169,7 @@ function App() {
                             aria-pressed={runMode === 'all'}
                             aria-label={runMode === 'all' ? 'Switch to Run 1 Day Mode' : 'Switch to Run All Blocks Mode'}
                     >
-                            <span>{runMode === 'all' ? 'Change To Run All Blocks' : 'Change To Run 1 Day'}</span>
+                            <span>{runMode === 'all' ? 'Change To Run 1 Day' : 'Change To Run All Blocks'}</span>
                         </button>
                     </div>
                     <Instructions level={level} />

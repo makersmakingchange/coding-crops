@@ -25,7 +25,11 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         if (!blocklyDiv.current) return;
 
         if (!workspaceRef.current) {
-            workspaceRef.current = setupBlockly(blocklyDiv.current, level);
+            workspaceRef.current = setupBlockly(blocklyDiv.current, level, () => {
+                farmManager.reset();
+                setHasActions(true);
+            });
+
         } else {
             updateToolboxMap(workspaceRef.current, level);
         }
