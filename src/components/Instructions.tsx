@@ -16,6 +16,7 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
 
     return (
         <div
+            className="instructions-panel"
             style={{
                 backgroundColor: '#1e1e1e',
                 padding: '12px 20px',

@@ -42,31 +42,27 @@ function App() {
 
     useEffect(() => {
         const handleShortcuts = (e: KeyboardEvent) => {
-            // Don't override Blockly keyboard control
             if (document.activeElement?.closest('.blocklyDiv')) return;
 
             if (e.altKey && e.key === '1')
-                (document.querySelector('#blocklyDiv') as HTMLElement | null)?.focus();
+                (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
 
             if (e.altKey && e.key === '2')
-                (document.querySelector('.game-panel') as HTMLElement | null)?.focus();
+                (document.querySelector('.update-button') as HTMLElement | null)?.focus();
 
             if (e.altKey && e.key === '3')
-                (document.querySelector('.farm-grid') as HTMLElement | null)?.focus();
+                (document.querySelector('.instructions-panel') as HTMLElement | null)?.focus();
 
-            if (e.altKey && e.key === '4' && isUpdatesOpen)
-                (document.querySelector('.updates-dialog') as HTMLElement | null)?.focus();
+            if (e.altKey && e.key === '4')
+                (document.querySelector('.farm-info') as HTMLElement | null)?.focus();
+
+            if (e.altKey && e.key === '5')
+                (document.querySelector('.farm-grid') as HTMLElement | null)?.focus();
 
         };
 
         window.addEventListener('keydown', handleShortcuts);
         return () => window.removeEventListener('keydown', handleShortcuts);
-    }, [isUpdatesOpen]);
-
-    useEffect(() => {
-        const handler = (e: any) => setErrorMessage(e.detail);
-        window.addEventListener('farm:error', handler);
-        return () => window.removeEventListener('farm:error', handler);
     }, []);
 
 
@@ -129,7 +125,7 @@ function App() {
                 />
                 <div className="game-panel">
                     <div className="game-controls">
-                        <button onClick={() => setIsUpdatesOpen(true)}
+                        <button className="update-button" onClick={() => setIsUpdatesOpen(true)}
                                 aria-label="Read history of current farm changes, escape to leave">
                             Updates
                         </button>
