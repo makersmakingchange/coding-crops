@@ -26,7 +26,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
 
         if (!workspaceRef.current) {
             workspaceRef.current = setupBlockly(blocklyDiv.current, level, () => {
-                farmManager.reset();
+                window.dispatchEvent(new CustomEvent("farm:reset-summaries"));
                 setHasActions(true);
             });
 
@@ -41,6 +41,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
         farmManager.storeGeneratedCode(code);
 
+        window.dispatchEvent(new CustomEvent("farm:reset-summaries"));
         setHasActions(true);
         // Cleanup on unmount
         return () => {
@@ -52,6 +53,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
     }, [level]);
 
     useEffect(() => {
+        window.dispatchEvent(new CustomEvent("farm:reset-summaries"));
         setHasActions(true);
     }, [runMode]);
 
