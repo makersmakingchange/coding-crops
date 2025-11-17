@@ -61,6 +61,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({ level, runMode }) => {
             setHasActions(farmManager.hasActions?.() ?? true);
         } else {
             // "Run All Days" mode
+            farmManager.reset();
             farmManager.storeGeneratedCode(code);
             farmManager.runAllDays();
         }
