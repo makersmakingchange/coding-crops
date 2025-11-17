@@ -55,12 +55,15 @@ export const ToolboxLevel2 = {
                 {
                     type: 'logic_null',
                     kind: 'block',
-                    enabled: false,
+                    enabled: true,
                 },
                 {
-                    type: 'logic_ternary',
+                    type: 'math_number',
                     kind: 'block',
-                },
+                    fields: {
+                        NUM: 123,
+                    },
+                }
             ]
         },
         {

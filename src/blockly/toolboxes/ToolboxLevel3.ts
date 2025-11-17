@@ -52,10 +52,6 @@ export const ToolboxLevel3 = {
                     }
                 },
                 {
-                    kind: 'block',
-                    type: 'math_number',
-                },
-                {
                     type: 'controls_whileUntil',
                     kind: 'block',
                     fields: {
