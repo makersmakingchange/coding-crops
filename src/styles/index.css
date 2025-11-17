@@ -169,10 +169,12 @@ body {
 
 .game-panel .run-mode-button-all {
     background-color: #333333 !important;
+    font-size: 12px;
 }
 
 .game-panel .run-mode-button-day {
     background-color: #222222 !important;
+    font-size: 12px;
 }
 
 .grid-container {

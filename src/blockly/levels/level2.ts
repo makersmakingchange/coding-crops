@@ -112,6 +112,6 @@ const repeatBlock: BlockDef = {
 export const level2 = {
     blocks: {
         languageVersion: 0,
-        blocks: [repeatBlock]
+        blocks: [chainBlocks(level2Actions)]
     }
 };

@@ -1,5 +1,5 @@
 {
   "goal": "Plant, water and harvest 1 crop.",
-  "hint": "Use the 'Plant' block to grow crops and the 'Water' block to speed up growth.",
+  "hint": "Use the 'Plant' block to grow crops, the 'Water' block to speed up growth and the 'Harvest' block to harvest the crops.",
   "levelNumber": 1
 }

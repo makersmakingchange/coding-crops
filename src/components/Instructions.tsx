@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { descriptions } from '../descriptions';
 
 interface InstructionsProps {
@@ -9,6 +9,10 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
     const [showHint, setShowHint] = useState(false);
 
     const hint = descriptions[level]?.hint || 'No hint available for this level.';
+
+    useEffect(() => {
+        setShowHint(false);
+    }, [level]);
 
     const toggleHint = () => {
         setShowHint((prev) => !prev);
