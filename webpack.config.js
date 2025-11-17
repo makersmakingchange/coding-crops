@@ -1,5 +1,12 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { execSync } = require("child_process");
+const webpack = require("webpack");
+const pkg = require("./package.json");
+
+// Compute commit hash and build date
+const commitHash = execSync("git rev-parse --short HEAD").toString().trim();
+const buildDate = new Date().toISOString();
 
 // Base config that applies to either development or production mode.
 const config = {
@@ -38,6 +45,14 @@ const config = {
     new HtmlWebpackPlugin({
       template: 'src/index.html',
     }),
+
+      new webpack.DefinePlugin({
+          __APP_VERSION__: JSON.stringify(pkg.version),
+          __BLOCKLY_VERSION__: JSON.stringify(pkg.dependencies["blockly"]),
+          __PLUGIN_VERSION__: JSON.stringify(pkg.dependencies["@blockly/keyboard-navigation"]),
+          __GIT_HASH__: JSON.stringify(commitHash),
+          __BUILD_DATE__: JSON.stringify(buildDate),
+      }),
   ],
 };
 

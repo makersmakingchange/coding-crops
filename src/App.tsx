@@ -195,6 +195,12 @@ function App() {
                             ref={liveRegionRef}
                         />
                     </div>
+                    <div id="version-footer">
+                        {`App v${__APP_VERSION__} 
+                        • Blockly: add-screen-reader-support-experimental 
+                        • Commit ${__GIT_HASH__} 
+                        • Build ${new Date(__BUILD_DATE__).toLocaleString()}`}
+                    </div>
                 </div>
             </div>
         </div>
