@@ -52,13 +52,8 @@ export class FarmManager {
         );
     }
 
-    getDay(): number {
-        return this.day;
-    }
-
-    getCropsHarvested(): number {
-        return this.harvestCount;
-    }
+    getDay(): number { return this.day; }
+    getCropsHarvested(): number { return this.harvestCount; }
 
     plant(row: number, col: number): boolean {
         const r = row - 1;

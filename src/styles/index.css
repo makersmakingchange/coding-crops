@@ -276,6 +276,11 @@ body {
     background-color: #2b68c5;
 }
 
+.run-code-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
 .level-buttons button {
     margin-left: auto;
     background-color: #184e77;

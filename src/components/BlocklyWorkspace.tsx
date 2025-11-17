@@ -43,6 +43,10 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({ level, runMode }) => {
         };
     }, [level]);
 
+    useEffect(() => {
+        setHasActions(true);
+    }, [runMode]);
+
     const handleRunCode = () => {
         if (!workspaceRef.current) return;
 
