@@ -162,7 +162,7 @@ function App() {
                         {/*        className="update-button"*/}
                         {/*        aria-label="Quick status updates">Updates</button>*/}
                         <LevelSelector onChange={changeLevel}/>
-                        <button onClick={resetGame}>Reset Game</button>
+                        <button onClick={resetGame}>Reset Farm</button>
                         <button
                             onClick={toggleRunMode}
                             className={`run-mode-button${runMode === 'all' ? '-all' : '-day'}`}
