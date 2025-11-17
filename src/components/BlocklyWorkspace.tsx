@@ -51,10 +51,11 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         setHasActions(true);
     }, [runMode]);
 
-    const handleRunCode = () => {
+    const handleRunCode = async () => {
         if (!workspaceRef.current) return;
 
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
+        console.log("Generated code:", code);
 
         if (runMode === "day") {
             if (!farmManager.hasActions?.()) {
@@ -65,13 +66,15 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
             } else {
                 console.log("Advancing to next day…");
             }
-            farmManager.runDay();
+            await farmManager.runDay();
             setHasActions(farmManager.hasActions?.() ?? true);
         } else {
             // "Run All Days" mode
             farmManager.reset();
+            window.dispatchEvent(new CustomEvent("farm:reset-summaries"));
             farmManager.storeGeneratedCode(code);
-            farmManager.runAllDays();
+            await farmManager.runAllDays();
+            setHasActions(farmManager.hasActions?.() ?? true);
         }
     };
 

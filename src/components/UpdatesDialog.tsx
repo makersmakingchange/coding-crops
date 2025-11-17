@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import '../styles/UpdatesDialog.css';
+import { Warning } from '../types';
 
 interface UpdatesDialogProps {
     isOpen: boolean;
     onClose: () => void;
     summaries: string[];
-    warnings?: string[];
+    warnings?: Warning[];
 }
 
 const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
@@ -15,7 +16,6 @@ const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
                                                          warnings = [],
                                                      }) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
-    const listRef = useRef<HTMLLIElement>(null);
 
     useEffect(() => {
         const dialog = dialogRef.current;
@@ -28,7 +28,6 @@ const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
         }
     }, [isOpen]);
 
-    // Close dialog on cancel (ESC or backdrop click)
     const handleCancel = (e: React.SyntheticEvent) => {
         e.preventDefault();
         onClose();
@@ -49,9 +48,13 @@ const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
                 <section role="alert" className="warning-section">
                     <h3>Warnings</h3>
                     <ul>
-                        {warnings.map((w, i) => (
-                            <li key={i} tabIndex={0}>{w}</li>
-                        ))}
+                        {warnings
+                            .sort((a, b) => a.day - b.day)
+                            .map((w, i) => (
+                                <li key={i} tabIndex={0}>
+                                    Day {w.day}: {w.message}
+                                </li>
+                            ))}
                     </ul>
                 </section>
             )}
@@ -62,9 +65,7 @@ const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
                         <li className="no-updates" tabIndex={0}>No updates yet.</li>
                     ) : (
                         summaries.map((s, i) => (
-                            <li ref={listRef}
-                                key={i}
-                                tabIndex={0}>{s}</li>
+                            <li key={i} tabIndex={0}>{s}</li>
                         ))
                     )}
                 </ul>

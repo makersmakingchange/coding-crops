@@ -1,4 +1,6 @@
 import {CropType, Tile, TileState} from "./Tile";
+import FarmA11y from '../accessibility/FarmA11y';
+
 
 export class FarmManager {
     private day: number;
@@ -19,6 +21,14 @@ export class FarmManager {
         this.harvestCount = 0;
         this.gridSize = 3;
         this.grid = this.initializeGrid();
+    }
+
+    private log(message: string, type: "info" | "warning" = "info") {
+        window.dispatchEvent(
+            new CustomEvent("farm:update", {
+                detail: { message, type }
+            })
+        );
     }
 
     hasActions = () => this.actionQueue.length > 0;
@@ -60,16 +70,17 @@ export class FarmManager {
         const c = col - 1;
 
         if (!this.isValidCoordinate(r, c)) {
-            console.log(`Invalid coordinates: ${row},${col}`); // original values
+            this.log(`Invalid coordinates. ${row},${col}`, "warning"); // original values
             return false;
         }
 
         const tile = this.grid[r][c];
         if (!tile.plant(CropType.Sunflower)) {
-            console.log(`Cannot plant: Tile at ${row},${col} already has a plant`);
+            this.log(`Cannot plant. Tile ${row},${col} already has a plant`, "warning");
             return false;
         }
 
+        this.log(`Planted sunflower at (${row},${col})`);
         this.notify();
         return true;
     }
@@ -79,17 +90,18 @@ export class FarmManager {
         const c = col - 1;
 
         if (!this.isValidCoordinate(r, c)) {
-            console.log(`Invalid coordinates: ${row},${col}`);
+            this.log(`Invalid coordinates. ${row},${col}`, "warning");
             return false;
         }
 
         const tile = this.grid[r][c];
         if (!tile.harvest()) {
-            console.log(`Nothing to harvest at ${row},${col}`);
+            this.log(`Cannot harvest. Tile at ${row},${col} is empty or not mature.`, "warning");
             return false;
         }
 
         this.harvestCount++;
+        this.log(`Harvested crop at (${row},${col})`);
         this.notify();
         return true;
     }
@@ -100,16 +112,17 @@ export class FarmManager {
         const c = col - 1;
 
         if (!this.isValidCoordinate(r, c)) {
-            console.log(`Invalid coordinates: ${row},${col}`);
+            this.log(`Invalid coordinates. ${row},${col}`, "warning");
             return false;
         }
 
         const tile = this.grid[r][c];
         if (!tile.water()) {
-            console.log(`Tile at ${row},${col} is empty`);
+            this.log(`Cannot water. Tile at ${row},${col} is empty.`, "warning");
             return false;
         }
 
+        this.log(`Watered tile (${row},${col})`);
         this.notify();
         return true;
     }
@@ -117,12 +130,19 @@ export class FarmManager {
 
     nextDay() {
         this.day++;
+        this.log(`Day ${this.day} begins`);
 
         for (const row of this.grid) {
             for (const tile of row) {
                 tile.nextDay();
             }
         }
+
+        FarmA11y.generateEndOfDaySummary(
+            this.day - 1,
+            this.harvestCount,
+            this.getTileState()
+        );
 
         this.notify();
     }
@@ -226,9 +246,7 @@ export class FarmManager {
                         await new Promise(r => setTimeout(r, 300));
                         this.isPausedAtNextDay = false;
                     }
-                }
-
-                if (this.actionQueue.length > 0) {
+                } else {
                     this.actionQueue.shift()!();
                     await new Promise(r => setTimeout(r, 300));
                 }

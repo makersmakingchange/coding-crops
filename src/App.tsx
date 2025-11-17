@@ -7,6 +7,7 @@ import UpdatesDialog from "./components/UpdatesDialog";
 import ErrorDialog from "./components/ErrorDialog";
 import farmManager from './farm/FarmManagerSingleton';
 import FarmA11y from './accessibility/FarmA11y';
+import { Warning } from './types';
 import './styles/index.css';
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
     const [hasActions, setHasActions] = useState(true);
     const runModeRef = useRef(runMode);
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
-    const [warnings, setWarnings] = useState<string[]>([]);
+    const [warnings, setWarnings] = useState<Warning[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const liveRegionRef = useRef<HTMLDivElement | null>(null);
 
@@ -32,13 +33,41 @@ function App() {
             if (liveRegionRef.current) {
                 liveRegionRef.current.textContent =
                     runModeRef.current === 'day'
-                        ? summary[summary.length - 1]
+                        ? summary
                         : `Farm updated.`;
             }
 
             runModeRef.current = runMode;
         });
     }, [runMode]);
+
+    useEffect(() => {
+        const handler = () => {
+            FarmA11y.reset();
+            setWarnings([]);
+        };
+        window.addEventListener("farm:reset-summaries", handler);
+        return () => window.removeEventListener("farm:reset-summaries", handler);
+    }, []);
+
+    useEffect(() => {
+        const handler = (e: any) => {
+            const { message, type } = e.detail;
+            if (type === "warning") {
+                const day = farmManager.getDay();
+                setWarnings(prev => [...prev, { day, message }]);
+            }
+        };
+
+        window.addEventListener("farm:update", handler);
+        return () => window.removeEventListener("farm:update", handler);
+    }, []);
+
+    useEffect(() => {
+        const handler = (e: any) => setErrorMessage(e.detail);
+        window.addEventListener('farm:error', handler);
+        return () => window.removeEventListener('farm:error', handler);
+    }, []);
 
     useEffect(() => {
         const handleShortcuts = (e: KeyboardEvent) => {
@@ -65,10 +94,10 @@ function App() {
         return () => window.removeEventListener('keydown', handleShortcuts);
     }, []);
 
-
     const resetGame = () => {
         farmManager.reset();
         FarmA11y.reset();
+        setWarnings([]);
         setHasActions(true);
         setTileData(farmManager.getTileState());
         setSummaries([...FarmA11y.getQuickSummaries()]);

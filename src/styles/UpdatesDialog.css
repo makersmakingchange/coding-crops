@@ -42,13 +42,6 @@
     outline-offset: -2px;
 }
 
-.warning-section {
-    background: #fff4e5;
-    border: 1px solid #d97706;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-}
-
 .close-button {
     align-self: flex-end;
     margin-top: 1em;
@@ -78,8 +71,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    /* your existing styling */
     background: #333;
     color: white;
     padding: 1.5rem;
@@ -93,4 +84,26 @@
 
 .updates-dialog::backdrop {
     background: rgba(0, 0, 0, 0.5);
+}
+
+.updates-dialog li.warning {
+    color: #ffcc00;
+    font-weight: bold;
+}
+/* Container for warning messages */
+.warning-section {
+    border: 1px solid #ffcc00;      /* yellow border to match warning color */
+    color: #ff9900;                 /* dark yellow/orange text */
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+/* Section title */
+.warning-section h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ff9900;                 /* match the warning text color */
 }
