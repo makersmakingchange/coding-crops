@@ -124,12 +124,13 @@ function App() {
                 />
                 <div className="game-panel">
                     <div className="game-controls">
-                        <button onClick={() => setIsUpdatesOpen(true)}>
-                            Open Updates
+                        <button onClick={() => setIsUpdatesOpen(true)}
+                                aria-label="Read history of current farm changes, escape to leave">
+                            Updates
                         </button>
-                        <button onClick={readSummaries}
-                                className="update-button"
-                                aria-label="Read farm updates">Updates</button>
+                        {/*<button onClick={readSummaries}*/}
+                        {/*        className="update-button"*/}
+                        {/*        aria-label="Quick status updates">Updates</button>*/}
                         <LevelSelector onChange={changeLevel}/>
                         <button onClick={resetGame}>Reset Game</button>
                         <button
@@ -137,7 +138,7 @@ function App() {
                             className={`run-mode-button${runMode === 'all' ? '-all' : '-day'}`}
                             aria-pressed={runMode === 'all'}
                             aria-label={runMode === 'all' ? 'Switch to Run 1 Day Mode' : 'Switch to Run All Blocks Mode'}
-                        >
+                    >
                             <span>{runMode === 'all' ? 'Run All Blocks' : 'Run 1 Day'}</span>
                         </button>
                     </div>
@@ -145,9 +146,11 @@ function App() {
                     <div className="game-container" id="gameContainer">
                         <div
                             className="farm-info"
-                            aria-label={`Day ${farmManager.getDay()}, Harvested ${farmManager.getCropsHarvested()}`}
+                            aria-label={`Day ${farmManager.getDay()}, ${farmManager.getCropsHarvested()} crops harvested`}
+                            tabIndex={0}
                         >
-                            Day: <span id="dayCount">{farmManager.getDay()}</span> |
+                            Day: <span id="dayCount">{farmManager.getDay()}</span>
+                            &nbsp; &nbsp; &nbsp;
                             Harvested: <span id="harvestCount">{farmManager.getCropsHarvested()}</span>
                         </div>
                         <FarmGrid
@@ -155,11 +158,6 @@ function App() {
                             ariaLiveRef={liveRegionRef}
                             dayCount={farmManager.getDay()}
                         />
-                        <div className="farm-summary">
-                            {summaries.map((s, i) => (
-                                <div key={i}>{s}</div>
-                            ))}
-                        </div>
                         <div
                             aria-live="polite"
                             role="status"

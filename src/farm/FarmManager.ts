@@ -1,4 +1,4 @@
-import { CropType, Tile, TileState } from "./Tile";
+import {CropType, Tile, TileState} from "./Tile";
 
 export class FarmManager {
     private day: number;
@@ -48,7 +48,7 @@ export class FarmManager {
 
     getTileState(): TileState[][] {
         return this.grid.map(row =>
-            row.map(tile => ({ ...tile.getTileState() })) // clone the object
+            row.map(tile => ({...tile.getTileState()})) // clone the object
         );
     }
 
@@ -202,7 +202,7 @@ export class FarmManager {
         } catch (err) {
             console.error("Error running all days:", err);
             window.dispatchEvent(
-                new CustomEvent("farm:error", { detail: String(err) })
+                new CustomEvent("farm:error", {detail: String(err)})
             );
         }
     }
@@ -233,20 +233,15 @@ export class FarmManager {
                     }
                 }
 
-            if (this.actionQueue.length > 0) {
-                this.actionQueue.shift()!();
-                await new Promise(r => setTimeout(r, 300));
-            }
+                if (this.actionQueue.length > 0) {
+                    this.actionQueue.shift()!();
+                    await new Promise(r => setTimeout(r, 300));
+                }
             }
         } catch (err) {
             window.dispatchEvent(
-                new CustomEvent("farm:error", { detail: String(err) })
+                new CustomEvent("farm:error", {detail: String(err)})
             );
         }
     }
-
-    // async runAction() {
-    //     this.actionQueue.shift()!();
-    //     await new Promise(r => setTimeout(r, 300));
-    // }
 }

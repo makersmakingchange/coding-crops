@@ -9,75 +9,76 @@ interface UpdatesDialogProps {
 }
 
 const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
-                                                                isOpen,
-                                                                onClose,
-                                                                summaries,
-                                                                warnings = [],
-                                                            }) => {
-    const dialogRef = useRef<HTMLDivElement>(null);
-    const listRef = useRef<HTMLUListElement>(null);
+                                                         isOpen,
+                                                         onClose,
+                                                         summaries,
+                                                         warnings = [],
+                                                     }) => {
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    const listRef = useRef<HTMLLIElement>(null);
 
-    // Focus trap
     useEffect(() => {
-        if (isOpen && dialogRef.current) {
-            const previouslyFocused = document.activeElement as HTMLElement;
-            dialogRef.current.focus();
+        const dialog = dialogRef.current;
+        if (!dialog) return;
 
-            return () => previouslyFocused?.focus();
+        if (isOpen) {
+            if (!dialog.open) dialog.showModal();
+        } else {
+            if (dialog.open) dialog.close();
         }
     }, [isOpen]);
 
-    // Keyboard navigation
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Escape') onClose();
-
-        if (['ArrowUp', 'ArrowDown'].includes(e.key) && listRef.current) {
-            const items = Array.from(listRef.current.querySelectorAll('li'));
-            const active = document.activeElement;
-            const index = items.findIndex(item => item === active);
-
-            if (e.key === 'ArrowUp' && index > 0) items[index - 1].focus();
-            if (e.key === 'ArrowDown' && index < items.length - 1) items[index + 1].focus();
-
-            e.preventDefault();
-        }
+    // Close dialog on cancel (ESC or backdrop click)
+    const handleCancel = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        onClose();
     };
 
     if (!isOpen) return null;
 
     return (
-        <div
-            className="updates-dialog-overlay"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="updates-title"
-            onKeyDown={handleKeyDown}
+        <dialog
             ref={dialogRef}
-            tabIndex={-1}
+            className="updates-dialog"
+            aria-labelledby="updates-title"
+            onCancel={handleCancel}
         >
-            <div className="updates-dialog">
-                <h2 id="updates-title">Farm Updates</h2>
+            <h2 id="updates-title">Farm Updates</h2>
 
-                {warnings.length > 0 && (
-                    <div role="alert" className="warning-section">
-                        <h3>Warnings</h3>
-                        <ul>
-                            {warnings.map((w, i) => (
-                                <li key={i} tabIndex={0}>{w}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
+            {warnings.length > 0 && (
+                <section role="alert" className="warning-section">
+                    <h3>Warnings</h3>
+                    <ul>
+                        {warnings.map((w, i) => (
+                            <li key={i} tabIndex={0}>{w}</li>
+                        ))}
+                    </ul>
+                </section>
+            )}
 
-                <ul ref={listRef}>
-                    {summaries.map((s, i) => (
-                        <li key={i} tabIndex={0}>{s}</li>
-                    ))}
+            <div className="updates-dialog-content">
+                <ul>
+                    {summaries.length === 0 ? (
+                        <li className="no-updates" tabIndex={0}>No updates yet.</li>
+                    ) : (
+                        summaries.map((s, i) => (
+                            <li ref={listRef}
+                                key={i}
+                                tabIndex={0}>{s}</li>
+                        ))
+                    )}
                 </ul>
-
-                <button onClick={onClose} className="close-button">Close</button>
             </div>
-        </div>
+
+            <form method="dialog" className="dialog-footer">
+                <button
+                    type="button"
+                    className="close-button"
+                    onClick={onClose}
+                >Close</button>
+            </form>
+
+        </dialog>
     );
 };
 
