@@ -199,7 +199,14 @@ function App() {
                         {`App v${__APP_VERSION__} 
                         • Blockly: add-screen-reader-support-experimental 
                         • Commit ${__GIT_HASH__} 
-                        • Build ${new Date(__BUILD_DATE__).toLocaleString()}`}
+                        • Build ${new Date(__BUILD_DATE__).toLocaleString('en-US', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: true,
+                        })}`}
                     </div>
                 </div>
             </div>
