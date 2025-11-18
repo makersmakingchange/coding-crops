@@ -34,7 +34,13 @@ forBlock['plant'] = function (
     const row = generator.valueToCode(block, 'ROW', Order.NONE) || 1;
     const col = generator.valueToCode(block, 'COLUMN', Order.NONE) || 1;
 
-    return `farmManager.enqueue(() => farmManager.plant(Number(${row}), Number(${col})));\n`;
+    return `
+        (function(row, col) {
+            farmManager.enqueue(() => {
+                farmManager.plant(row, col);
+            });
+        })(${row}, ${col});
+    `;
 };
 
 forBlock['water'] = function (
@@ -44,7 +50,13 @@ forBlock['water'] = function (
     const row = generator.valueToCode(block, 'ROW', Order.NONE) || 1;
     const col = generator.valueToCode(block, 'COLUMN', Order.NONE) || 1;
 
-    return `farmManager.enqueue(() => farmManager.water(Number(${row}), Number(${col})));\n`;
+    return `
+        (function(row, col) {
+            farmManager.enqueue(() => {
+                farmManager.water(row, col);
+            });
+        })(${row}, ${col});
+    `;
 };
 
 forBlock['harvest'] = function (
@@ -54,7 +66,13 @@ forBlock['harvest'] = function (
     const row = generator.valueToCode(block, 'ROW', Order.NONE) || 1;
     const col = generator.valueToCode(block, 'COLUMN', Order.NONE) || 1;
 
-    return `farmManager.enqueue(() => farmManager.harvest(Number(${row}), Number(${col})));\n`;
+    return `
+        (function(row, col) {
+            farmManager.enqueue(() => {
+                farmManager.harvest(row, col);
+            });
+        })(${row}, ${col});
+    `;
 };
 
 forBlock['next_day'] = function () {
