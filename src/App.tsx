@@ -88,6 +88,8 @@ function App() {
             if (e.altKey && e.key === '5')
                 (document.querySelector('.farm-grid') as HTMLElement | null)?.focus();
 
+            if ((e.altKey && e.key === 'r') || (e.altKey && e.key === 'R') )
+                (document.querySelector('#runCodeButton') as HTMLElement | null)?.focus();
         };
 
         window.addEventListener('keydown', handleShortcuts);

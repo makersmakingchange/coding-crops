@@ -18,6 +18,7 @@ const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
+        const previouslyFocused = document.activeElement as HTMLElement;
         const dialog = dialogRef.current;
         if (!dialog) return;
 
@@ -26,6 +27,7 @@ const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
         } else {
             if (dialog.open) dialog.close();
         }
+        return () => previouslyFocused?.focus();
     }, [isOpen]);
 
     const handleCancel = (e: React.SyntheticEvent) => {
