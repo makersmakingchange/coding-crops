@@ -6,6 +6,7 @@ import Instructions from './components/Instructions';
 import UpdatesDialog from "./components/UpdatesDialog";
 import ErrorDialog from "./components/ErrorDialog";
 import farmManager from './farm/FarmManagerSingleton';
+import { KeyOSD } from "@microbit/keyosd";
 import FarmA11y from './accessibility/FarmA11y';
 import { Warning } from './types';
 import './styles/index.css';
@@ -40,6 +41,16 @@ function Testing() {
             runModeRef.current = runMode;
         });
     }, [runMode]);
+
+    useEffect(() => {
+        const keyosd = new KeyOSD({
+            container: document.body, // Container element (default: document.body)
+            enabled: true, // Start capturing immediately (default: true)
+            anchor: "bottom-left", // Corner to anchor to (default: "bottom-right")
+        });
+
+        return () => keyosd.destroy();
+    }, []);
 
     useEffect(() => {
         const handler = () => {
