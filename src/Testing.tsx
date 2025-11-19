@@ -6,18 +6,11 @@ import Instructions from './components/Instructions';
 import UpdatesDialog from "./components/UpdatesDialog";
 import ErrorDialog from "./components/ErrorDialog";
 import farmManager from './farm/FarmManagerSingleton';
-import { KeyOSD } from "@microbit/keyosd";
 import FarmA11y from './accessibility/FarmA11y';
 import { Warning } from './types';
 import './styles/index.css';
 
-const keyosd = new KeyOSD({
-    container: document.body, // Container element (default: document.body)
-    enabled: true, // Start capturing immediately (default: true)
-    anchor: "bottom-left", // Corner to anchor to (default: "bottom-right")
-});
-
-function App() {
+function Testing() {
     const [level, setLevel] = useState(1);
     const [tileData, setTileData] = useState(farmManager.getTileState());
     const [summaries, setSummaries] = useState(FarmA11y.getQuickSummaries());
@@ -177,7 +170,7 @@ function App() {
                             className={`run-mode-button${runMode === 'all' ? '-all' : '-day'}`}
                             aria-pressed={runMode === 'all'}
                             aria-label={runMode === 'all' ? 'Switch to Run 1 Day Mode' : 'Switch to Run All Blocks Mode'}
-                    >
+                        >
                             <span>{runMode === 'all' ? 'Change To Run 1 Day' : 'Change To Run All Blocks'}</span>
                         </button>
                     </div>
@@ -224,4 +217,4 @@ function App() {
     );
 }
 
-export default App;
+export default Testing;

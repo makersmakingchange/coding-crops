@@ -20,6 +20,8 @@ const config = {
   // Enable webpack-dev-server to get hot refresh of the app.
   devServer: {
     static: './build',
+      historyApiFallback: true,
+
   },
   module: {
     rules: [

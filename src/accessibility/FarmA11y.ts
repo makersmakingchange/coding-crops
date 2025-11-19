@@ -76,6 +76,7 @@ export default class FarmA11y {
     static getTileLabel(row: number, col: number, tile: TileState): string {
         const crop = tile.type !== null ? CropType[tile.type] : "No crop";
         const stage = GrowthStage[tile.growthStage];
-        return `${stage}, ${crop}`;
+        const watered = tile.watered ? "Watered" : "Not watered";
+        return `${stage}, ${crop}, ${watered}`;
     }
 }
