@@ -155,6 +155,7 @@ body {
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 0.77rem;
     transition: background-color 0.3s;
 }
 
@@ -168,12 +169,10 @@ body {
 
 .game-panel .run-mode-button-all {
     background-color: #333333 !important;
-    font-size: 12px;
 }
 
 .game-panel .run-mode-button-day {
     background-color: #222222 !important;
-    font-size: 12px;
 }
 
 .grid-container {
@@ -214,6 +213,12 @@ body {
     position: relative;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.tile:focus {
+    outline: 3px solid #66aaff;
+    outline-offset: 4px;
+    z-index: 9999;
 }
 
 .tile-1, .tile-2, .tile-3 {
