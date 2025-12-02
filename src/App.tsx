@@ -157,7 +157,8 @@ function App() {
                 <div className="game-panel">
                     <div className="game-controls">
                         <button className="update-button" onClick={() => setIsUpdatesOpen(true)}
-                                aria-label="Read history of current farm changes, escape to leave">
+                                aria-label="Updates"
+                                aria-description="Read history of current farm changes, escape to leave">
                             Updates
                         </button>
                         {/*<button onClick={readSummaries}*/}
