@@ -20,7 +20,7 @@ const plant = {
     'previousStatement': null,
     'nextStatement': null,
     'colour': 120,
-    'tooltip': 'Plant an emoji at specified coordinates',
+    'tooltip': 'Plant a seedling at specified coordinates',
     'helpUrl': ''
 };
 
@@ -68,7 +68,7 @@ const water = {
     'previousStatement': null,
     'nextStatement': null,
     'colour': 210,
-    'tooltip': 'Change tile color at specified coordinates',
+    'tooltip': 'Water plant at specified coordinates',
     'helpUrl': ''
 };
 
