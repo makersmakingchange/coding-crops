@@ -7,7 +7,21 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
     "start": "webpack serve --open --mode development",
-    "prod": "npm run build && npx serve dist"
+    "prod": "npm run build && npx serve dist",
+
+    "pull": "npm run pull:blockly && npm run pull:plugin && npm run pull:app",
+
+    "pull:blockly": "cd ../blockly && git fetch && git checkout add-screen-reader-support-experimental && git pull",
+    "pull:plugin": "cd ../blockly-keyboard-experimentation && git fetch && git checkout add-screen-reader-support-experimental && git pull",
+    "pull:app": "git fetch && git checkout master && git pull",
+
+    "build:blockly": "cd ../blockly && npm install && npm run package",
+    "link:blockly": "cd ../blockly/dist && npm link",
+
+    "build:plugin": "cd ../blockly-keyboard-experimentation && npm install && npm link blockly && npm run build",
+    "link:plugin": "cd ../blockly-keyboard-experimentation/dist && npm link",
+
+    "relink": "npm run pull && npm run build:blockly && npm run link:blockly && npm run build:plugin && npm run link:plugin && npm install && npm link blockly @blockly/keyboard-navigation"
   },
   "keywords": [
     "blockly"
