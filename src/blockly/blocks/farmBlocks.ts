@@ -77,14 +77,29 @@ const next_day = {
     'message0': 'next day',
     'previousStatement': null,
     'nextStatement': null,
-    'colour': 60,
+    'colour': '#D1A600',
     'tooltip': 'Go to the next day',
     'helpUrl': ''
+};
+
+const begin_farm = {
+    'type': 'begin_farm',
+    'message0': 'begin %1',
+    'args0': [
+        {
+            'type': 'input_statement',
+            'name': 'STATEMENTS',
+        },
+    ],
+    'colour': '#793e02',
+    'tooltip': 'Setup the farm.',
+    'helpUrl': '',
 };
 
 export const farmBlocks = Blockly.common.createBlockDefinitionsFromJsonArray([
     plant,
     harvest,
     water,
-    next_day
+    next_day,
+    begin_farm
 ]);

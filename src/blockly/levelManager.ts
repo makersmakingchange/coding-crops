@@ -36,6 +36,18 @@ export function chainBlocks(blocks: BlockDef[]): any {
     };
 }
 
+export function processBlocks(blocks: BlockDef[]): any {
+        return {
+            type: 'begin_farm',
+            deletable: false,
+            inputs: {
+                STATEMENTS: {
+                    block: chainBlocks(blocks)
+                    }
+                },
+        }
+}
+
 export const load = (workspace: Blockly.Workspace, level: number) => {
     const data = levels[level];
     if (!data) {

@@ -8,6 +8,7 @@ import ErrorDialog from "./components/ErrorDialog";
 import farmManager from './farm/FarmManagerSingleton';
 import FarmA11y from './accessibility/FarmA11y';
 import { Warning } from './types';
+import icon from './assets/favicon.png';
 import './styles/index.css';
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
             const summary = FarmA11y.generateEndOfDaySummary(farmManager.getDay(), farmManager.getCropsHarvested(), tiles);
             setSummaries(FarmA11y.getQuickSummaries());
 
+            runModeRef.current = runMode;
+
             if (liveRegionRef.current) {
                 liveRegionRef.current.textContent =
                     runModeRef.current === 'day'
@@ -37,7 +40,6 @@ function App() {
                         : `Farm updated.`;
             }
 
-            runModeRef.current = runMode;
         });
     }, [runMode]);
 
@@ -148,14 +150,10 @@ function App() {
                 onClose={() => setErrorMessage(null)}
             />
             <div className="App-body">
-                <BlocklyWorkspace
-                    level={level}
-                    runMode={runMode}
-                    hasActions={hasActions}
-                    setHasActions={setHasActions}
-                />
-                <div className="game-panel">
-                    <div className="game-controls">
+                <a href="#main-content" className="skip-to-main-content-link">Skip to main content</a>
+                <header className="App-header">
+                    <div className="App-title"><img src={icon} alt="Coding crops logo" className="App-icon"/>CodingCrops</div>
+                    <div className="controls-bar">
                         <button className="update-button" onClick={() => setIsUpdatesOpen(true)}
                                 aria-label="Updates"
                                 aria-description="Read history of current farm changes, escape to leave">
@@ -170,46 +168,60 @@ function App() {
                             onClick={toggleRunMode}
                             className={`run-mode-button${runMode === 'all' ? '-all' : '-day'}`}
                             aria-pressed={runMode === 'all'}
-                            aria-label={runMode === 'all' ? 'Switch to Run 1 Day Mode' : 'Switch to Run All Blocks Mode'}
-                    >
+                            aria-label={runMode === 'all' ? 'Change to Run 1 Day Mode' : 'Change to Run All Blocks Mode'}
+                        >
                             <span>{runMode === 'all' ? 'Change To Run 1 Day' : 'Change To Run All Blocks'}</span>
                         </button>
                     </div>
-                    <Instructions level={level} />
-                    <div className="game-container" id="gameContainer">
-                        <div
-                            className="farm-info"
-                            aria-label={`Day ${farmManager.getDay()}, ${farmManager.getCropsHarvested()} crops harvested`}
-                            tabIndex={0}
-                        >
-                            Day: <span id="dayCount">{farmManager.getDay()}</span> |
-                            Harvested: <span id="harvestCount">{farmManager.getCropsHarvested()}</span>
+                </header>
+
+                <div className="App-bottom-panel">
+                    <main id="main-content">
+                        <BlocklyWorkspace
+                            level={level}
+                            runMode={runMode}
+                            hasActions={hasActions}
+                            setHasActions={setHasActions}
+                        />
+                    </main>
+
+                    <div className="game-panel">
+                        <Instructions level={level} />
+                        <div className="game-container" id="gameContainer">
+                            <div
+                                className="farm-info"
+                                aria-label={`Day ${farmManager.getDay()}, ${farmManager.getCropsHarvested()} crops harvested`}
+                                tabIndex={0}
+                            >
+                                Day: <span id="dayCount">{farmManager.getDay()}</span> |
+                                Harvested: <span id="harvestCount">{farmManager.getCropsHarvested()}</span>
+                            </div>
+                            <FarmGrid
+                                tiles={tileData}
+                                ariaLiveRef={liveRegionRef}
+                                dayCount={farmManager.getDay()}
+                            />
+                            <div
+                                aria-live="polite"
+                                role="status"
+                                aria-atomic="true"
+                                className="sr-only"
+                                ref={liveRegionRef}
+                            />
                         </div>
-                        <FarmGrid
-                            tiles={tileData}
-                            ariaLiveRef={liveRegionRef}
-                            dayCount={farmManager.getDay()}
-                        />
-                        <div
-                            aria-live="polite"
-                            role="status"
-                            aria-atomic="true"
-                            className="sr-only"
-                            ref={liveRegionRef}
-                        />
-                    </div>
-                    <div id="version-footer">
-                        {`App v${__APP_VERSION__} 
+                        <div id="version-footer">
+                            {`App v${__APP_VERSION__} 
                         • Blockly: add-screen-reader-support-experimental 
                         • Commit ${__GIT_HASH__} 
                         • Build ${new Date(__BUILD_DATE__).toLocaleString('en-US', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true,
-                        })}`}
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true,
+                            })}`}
+                        </div>
                     </div>
                 </div>
             </div>

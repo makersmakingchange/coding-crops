@@ -1,4 +1,4 @@
-import { chainBlocks, BlockDef } from "../levelManager";
+import {chainBlocks, BlockDef, processBlocks} from "../levelManager";
 
 const numShadow = (num: number) => ({
     type: 'math_number',
@@ -105,13 +105,13 @@ const repeatBlock: BlockDef = {
         TIMES: { shadow: numShadow(10) }
     },
     inputs: {
-        DO: { block: chainBlocks(level2Actions) }
+        DO: { block: processBlocks(level2Actions) }
     }
 };
 
 export const level2 = {
     blocks: {
         languageVersion: 0,
-        blocks: [chainBlocks(level2Actions)]
+        blocks: [processBlocks(level2Actions)]
     }
 };

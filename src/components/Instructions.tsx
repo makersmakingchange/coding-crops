@@ -44,7 +44,7 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
                 <button
                     onClick={toggleHint}
                     style={{
-                        backgroundColor: '#ff9900',
+                        backgroundColor: '#184e77',
                         color: '#ffffff',
                         border: 'none',
                         padding: '8px 12px',

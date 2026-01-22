@@ -1,4 +1,4 @@
-import {chainBlocks, BlockDef} from "../levelManager";
+import {chainBlocks, BlockDef, processBlocks} from "../levelManager";
 
 // Define your level blocks in order
 const level3Blocks: BlockDef[] = [
@@ -30,6 +30,6 @@ const level3Blocks: BlockDef[] = [
 export const level3 = {
     blocks: {
         languageVersion: 0,
-        blocks: [chainBlocks(level3Blocks)],
+        blocks: [processBlocks(level3Blocks)],
     },
 };

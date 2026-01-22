@@ -78,3 +78,11 @@ forBlock['harvest'] = function (
 forBlock['next_day'] = function () {
     return `farmManager.enqueueNextDay();\n`;
 };
+
+forBlock['begin_farm'] = function (
+    block: Blockly.Block,
+    generator: Blockly.CodeGenerator,
+) {
+    const statements = generator.statementToCode(block, 'STATEMENTS');
+    return `${statements}`;
+};
