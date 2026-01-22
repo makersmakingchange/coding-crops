@@ -63,6 +63,11 @@ export function setupBlockly(blocklyContainer: HTMLElement,
             toolbox: toolboxMap[level],
             renderer: 'zelos',
             theme: DarkTheme,
+            grid:
+                {spacing: 15,
+                    length: 3,
+                    colour: '#333',
+                    snap: true},
             trashcan: true,
         });
         workspaceInitialized = true;
