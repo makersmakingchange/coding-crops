@@ -35,6 +35,7 @@ const FarmGrid: React.FC<FarmGridProps> = ({ tiles, ariaLiveRef, dayCount }) => 
 
     return (
     <div className="grid-container">
+        <h3 className="sr-only">Farm</h3>
         <div
             className="farm-grid"
             role="grid"

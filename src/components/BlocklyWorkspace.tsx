@@ -86,6 +86,8 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
 
     return (
         <div className="blockly-panel">
+            <h2 id="code-workspace-heading"
+                className="sr-only">Code Workspace</h2>
             <div id="blocklyDiv" ref={blocklyDiv}></div>
             <div className="run-controls">
                 <button

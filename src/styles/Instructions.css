@@ -1,0 +1,61 @@
+.instructions-panel {
+    height: 15%;
+    background-color: #333;
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    font-size: var(--instruction-font-size);
+    color: #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6),
+                0 1px 0 rgba(255, 255, 255, 0.05);
+    margin: 8px;
+}
+
+.instructions-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.instructions-goal-section {
+    width: 40%;
+}
+
+.instructions-heading {
+    font-size: var(--instruction-font-size);
+    color: #e0e0e0;
+}
+
+.instructions-hint {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.hint-button {
+    background: linear-gradient(145deg, #1e6091, #184e77);
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    min-width: 110px;
+    height: 36px;
+    font-weight: 600;
+    /*border-radius: 999px;*/
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.hint-button:active {
+    transform: scale(0.98);
+}
+
+.hint-text {
+    margin-right: 20px;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: #d0d0d0;
+    width: 60%;
+    white-space: pre-wrap;
+    text-align: right;
+}

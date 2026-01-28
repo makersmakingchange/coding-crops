@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { descriptions } from '../descriptions';
+import '../styles/Instructions.css';
 
 interface InstructionsProps {
     level: number;
@@ -7,8 +8,13 @@ interface InstructionsProps {
 
 const Instructions: React.FC<InstructionsProps> = ({ level }) => {
     const [showHint, setShowHint] = useState(false);
+    const instructionsRef = useRef<HTMLDivElement>(null);
 
     const hint = descriptions[level]?.hint || 'No hint available for this level.';
+
+    useEffect(() => {
+        instructionsRef.current?.focus();
+    }, [level]);
 
     useEffect(() => {
         setShowHint(false);
@@ -19,63 +25,46 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
     };
 
     return (
-        <div
+        <section
             className="instructions-panel"
-            style={{
-                backgroundColor: '#1e1e1e',
-                padding: '12px 20px',
-                fontFamily: 'Arial, sans-serif',
-                fontSize: '14px',
-                color: '#e0e0e0',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.5)',
-                display: 'flex',
-                justifyContent: 'space-between',  // Position the content to the left and right
-                alignItems: 'flex-start',  // Align items to the top of the container
-            }}
+            ref={instructionsRef}
             role="region"
             aria-live="polite"
-            aria-label={`Instructions for level ${level}`}
-            tabIndex={0}
+            tabIndex={-1}
         >
+            <div className="instructions-header">
+                <div className="instructions-goal-section">
+                    <h2 id="instructions-heading" className="instructions-heading">
+                        Level {level} Task
+                    </h2>
 
-            <div style={{ flex: 1 }}>
-                <p>{descriptions[level]?.goal || 'No instructions available for this level.'}</p>
+                    <p>{descriptions[level]?.goal || 'No instructions available for this level.'}</p>
 
-                <button
-                    onClick={toggleHint}
-                    style={{
-                        backgroundColor: '#184e77',
-                        color: '#ffffff',
-                        border: 'none',
-                        padding: '8px 12px',
-                        cursor: 'pointer',
-                        fontSize: '14px',
-                        marginTop: '10px',
-                        borderRadius: '5px',
-                    }}
-                    aria-expanded={showHint ? 'true' : 'false'}
-                    aria-controls="hint-text"
-                >
-                    {showHint ? 'Hide Hint' : 'Show Hint'}
-                </button>
+                </div>
+                <div className="instructions-hint">
+
+                    <button
+                        onClick={toggleHint}
+                        className="hint-button"
+                        aria-expanded={showHint ? 'true' : 'false'}
+                        aria-controls="hint-text"
+                    >
+                        {showHint ? 'Hide Hint' : 'Show Hint'}
+                    </button>
+
+                    {/* Hint Section */}
+                    {showHint && (
+                        <div
+                            id="hint-text"
+                            className="hint-text"
+                        >
+                            {hint}
+                        </div>
+                    )}
+                </div>
             </div>
 
-            {/* Hint Section */}
-            {showHint && (
-                <div
-                    id="hint-text"
-                    style={{
-                        marginLeft: '20px',  // Space between the instructions and the hint
-                        fontStyle: 'italic',
-                        color: '#d0d0d0',
-                        width: '200px', // Restrict the width of the hint
-                        whiteSpace: 'pre-wrap',  // Allow hint text to wrap properly
-                    }}
-                >
-                    {hint}
-                </div>
-            )}
-        </div>
+        </section>
     );
 };
 

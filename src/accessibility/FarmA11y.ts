@@ -44,13 +44,29 @@ export default class FarmA11y {
         }
 
         const flat = tiles.flat();
-
         const planted = flat.filter(t => t.type !== null);
+
         const growing = planted.filter(t => t.growthStage === GrowthStage.GROWING).length;
         const mature = planted.filter(t => t.growthStage === GrowthStage.MATURE).length;
         const seedling = planted.filter(t => t.growthStage === GrowthStage.SEEDLING).length;
 
-        const summary = `Day ${day}, ${planted.length} plants total. ${seedling} seedlings, ${growing} growing, ${mature} mature. ${harvestCount} crops harvested.`;
+        const counts = {
+            seedlings: planted.filter(t => t.growthStage === GrowthStage.SEEDLING).length,
+            growing: planted.filter(t => t.growthStage === GrowthStage.GROWING).length,
+            mature: planted.filter(t => t.growthStage === GrowthStage.MATURE).length,
+            harvested: harvestCount
+        };
+
+        const details = [
+            counts.seedlings > 0 && `${counts.seedlings} seedlings`,
+            counts.growing > 0 && `${counts.growing} growing`,
+            counts.mature > 0 && `${counts.mature} mature`,
+            counts.harvested > 0 && `${counts.harvested} crops harvested`
+        ].filter(Boolean);
+
+        const summary =
+            `Day ${day}, ${planted.length} plants total.` +
+            (details.length ? ` ${details.join(", ")}.` : "");
 
         this.quickSummaries.push(summary);
         return summary;
