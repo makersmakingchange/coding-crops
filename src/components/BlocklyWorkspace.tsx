@@ -20,6 +20,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
                                                       setHasActions }) => {
     const blocklyDiv = useRef<HTMLDivElement>(null);
     const workspaceRef = useRef<WorkspaceSvg | null>(null);
+    const runModeRef = useRef(runMode);
 
     useEffect(() => {
         if (!blocklyDiv.current) return;
@@ -27,7 +28,11 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         if (!workspaceRef.current) {
             workspaceRef.current = setupBlockly(blocklyDiv.current, level, () => {
                 window.dispatchEvent(new CustomEvent("farm:reset-summaries"));
-                setHasActions(true);
+                if (runModeRef.current === "day") {
+                    setHasActions(false);
+                } else {
+                    setHasActions(true);
+                }
             });
 
         } else {
@@ -42,7 +47,6 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         farmManager.storeGeneratedCode(code);
 
         window.dispatchEvent(new CustomEvent("farm:reset-summaries"));
-        setHasActions(true);
         // Cleanup on unmount
         return () => {
             // if (workspaceRef.current) {
@@ -53,6 +57,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
     }, [level]);
 
     useEffect(() => {
+        runModeRef.current = runMode;
         window.dispatchEvent(new CustomEvent("farm:reset-summaries"));
         setHasActions(true);
     }, [runMode]);
