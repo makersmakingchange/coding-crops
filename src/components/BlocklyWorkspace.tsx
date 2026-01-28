@@ -11,13 +11,15 @@ interface BlocklyProps {
     runMode: "all" | "day"
     hasActions: boolean;
     setHasActions: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const BlocklyWorkspace: React.FC<BlocklyProps> = ({
                                                       level,
                                                       runMode,
                                                       hasActions,
-                                                      setHasActions }) => {
+                                                      setHasActions,
+                                                      setIsRunning }) => {
     const blocklyDiv = useRef<HTMLDivElement>(null);
     const workspaceRef = useRef<WorkspaceSvg | null>(null);
     const runModeRef = useRef(runMode);
@@ -67,6 +69,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
 
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
         console.log("Generated code:", code);
+        setIsRunning(true);
 
         if (runMode === "day") {
             if (!farmManager.hasActions?.()) {
@@ -87,6 +90,8 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
             await farmManager.runAllDays();
             setHasActions(farmManager.hasActions?.() ?? true);
         }
+
+        setIsRunning(false);
     };
 
     return (

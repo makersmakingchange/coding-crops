@@ -16,33 +16,40 @@ function Testing() {
     const [level, setLevel] = useState(1);
     const [tileData, setTileData] = useState(farmManager.getTileState());
     const [summaries, setSummaries] = useState(FarmA11y.getQuickSummaries());
+
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
     const [hasActions, setHasActions] = useState(true);
+    const [isRunning, setIsRunning] = useState(false);
+    const prevIsRunningRef = useRef(isRunning);
     const runModeRef = useRef(runMode);
+
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
     const [warnings, setWarnings] = useState<Warning[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const liveRegionRef = useRef<HTMLDivElement | null>(null);
 
+
+
     useEffect(() => {
-        farmManager.subscribe(() => {
+        if (
+            prevIsRunningRef.current && !isRunning &&
+            liveRegionRef.current
+        ) {
             const tiles = farmManager.getTileState();
             setTileData(tiles);
 
             const summary = FarmA11y.generateEndOfDaySummary(farmManager.getDay(), farmManager.getCropsHarvested(), tiles);
             setSummaries(FarmA11y.getQuickSummaries());
 
-            runModeRef.current = runMode;
+            liveRegionRef.current.textContent =
+                runMode === 'day'
+                    ? summary
+                    : 'Farm updated.';
+        }
 
-            if (liveRegionRef.current) {
-                liveRegionRef.current.textContent =
-                    runModeRef.current === 'day'
-                        ? summary
-                        : `Farm updated.`;
-            }
-
-        });
-    }, [runMode]);
+        runModeRef.current = runMode;
+        prevIsRunningRef.current = isRunning;
+    }, [isRunning, runMode]);
 
     useEffect(() => {
         const keyosd = new KeyOSD({
@@ -84,8 +91,6 @@ function Testing() {
 
     useEffect(() => {
         const handleShortcuts = (e: KeyboardEvent) => {
-            if (document.activeElement?.closest('.blocklyDiv')) return;
-
             if (e.altKey && e.key === '1')
                 (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
 
@@ -163,17 +168,9 @@ function Testing() {
             <div className="App-body">
                 <a href="#main-content" className="skip-to-main-content-link">Skip to main content</a>
                 <header className="App-header">
-                    <div className="App-title"><img src={icon} alt="Coding crops logo" className="App-icon"/>CodingCrops</div>
-                    <div className="controls-bar">
-                        <button className="update-button" onClick={() => setIsUpdatesOpen(true)}
-                                aria-label="Updates"
-                                aria-description="Read history of current farm changes, escape to leave">
-                            Updates
-                        </button>
-                        {/*<button onClick={readSummaries}*/}
-                        {/*        className="update-button"*/}
-                        {/*        aria-label="Quick status updates">Updates</button>*/}
-                        <LevelSelector onChange={changeLevel}/>
+                    <h1 className="App-title"><img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops</h1>
+                    <section className="controls-bar" tabIndex={0}>
+                        <h2 className="sr-only">Farm Controls</h2>
                         <button onClick={resetGame}>Reset Farm</button>
                         <button
                             onClick={toggleRunMode}
@@ -183,21 +180,24 @@ function Testing() {
                         >
                             <span>{runMode === 'all' ? 'Change To Run 1 Day' : 'Change To Run All Blocks'}</span>
                         </button>
-                    </div>
+                        <LevelSelector onChange={changeLevel}/>
+                    </section>
                 </header>
 
                 <div className="App-bottom-panel">
                     <main id="main-content">
+                        <Instructions level={level} />
                         <BlocklyWorkspace
                             level={level}
                             runMode={runMode}
                             hasActions={hasActions}
                             setHasActions={setHasActions}
+                            setIsRunning={setIsRunning}
                         />
                     </main>
 
                     <div className="game-panel">
-                        <Instructions level={level} />
+                        <h2 className="sr-only">Farm Stats</h2>
                         <div className="game-container" id="gameContainer">
                             <div
                                 className="farm-info"
@@ -212,6 +212,11 @@ function Testing() {
                                 ariaLiveRef={liveRegionRef}
                                 dayCount={farmManager.getDay()}
                             />
+                            <button className="update-button" onClick={() => setIsUpdatesOpen(true)}
+                                    aria-label="Updates"
+                                    aria-description="Read history of current farm changes, escape to leave">
+                                Updates
+                            </button>
                             <div
                                 aria-live="polite"
                                 role="status"

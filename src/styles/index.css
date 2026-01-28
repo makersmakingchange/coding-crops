@@ -213,10 +213,6 @@ body {
     justify-content: flex-start;
 }
 
-.update-button {
-    margin-left: 5%;
-}
-
 .update-button:hover {
     background-color: #2b68c5;
 }

@@ -18,6 +18,8 @@ function App() {
 
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
     const [hasActions, setHasActions] = useState(true);
+    const [isRunning, setIsRunning] = useState(false);
+    const prevIsRunningRef = useRef(isRunning);
     const runModeRef = useRef(runMode);
 
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
@@ -26,24 +28,25 @@ function App() {
     const liveRegionRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        farmManager.subscribe(() => {
+        if (
+            prevIsRunningRef.current && !isRunning &&
+            liveRegionRef.current
+        ) {
             const tiles = farmManager.getTileState();
             setTileData(tiles);
 
             const summary = FarmA11y.generateEndOfDaySummary(farmManager.getDay(), farmManager.getCropsHarvested(), tiles);
             setSummaries(FarmA11y.getQuickSummaries());
 
-            runModeRef.current = runMode;
+            liveRegionRef.current.textContent =
+                runMode === 'day'
+                    ? summary
+                    : 'Farm updated.';
+        }
 
-            if (liveRegionRef.current) {
-                liveRegionRef.current.textContent =
-                    runModeRef.current === 'day'
-                        ? summary
-                        : `Farm updated.`;
-            }
-
-        });
-    }, [runMode]);
+        runModeRef.current = runMode;
+        prevIsRunningRef.current = isRunning;
+    }, [isRunning, runMode]);
 
     useEffect(() => {
         const handler = () => {
@@ -176,6 +179,7 @@ function App() {
                             runMode={runMode}
                             hasActions={hasActions}
                             setHasActions={setHasActions}
+                            setIsRunning={setIsRunning}
                         />
                     </main>
 
