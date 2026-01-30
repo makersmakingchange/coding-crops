@@ -4,7 +4,6 @@ import {chainBlocks, BlockDef, processBlocks} from "../levelManager";
 const level1Blocks: BlockDef[] = [
     {
         type: 'plant',
-        deletable: false,
         inline: true,
         inputs: {
             ROW: {

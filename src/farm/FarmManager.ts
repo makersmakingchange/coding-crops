@@ -138,12 +138,6 @@ export class FarmManager {
             }
         }
 
-        FarmA11y.generateEndOfDaySummary(
-            this.day - 1,
-            this.harvestCount,
-            this.getTileState()
-        );
-
         this.notify();
     }
 
@@ -180,11 +174,13 @@ export class FarmManager {
         while (this.actionQueue.length > 0) {
             const action = this.actionQueue.shift()!;
 
+            if ((action as any).isNextDay) window.dispatchEvent(new CustomEvent("farm:end-day"));
             action();
 
             // Wait for one frame to allow React to re-render before continuing
             await new Promise(r => setTimeout(r, 300));
         }
+        window.dispatchEvent(new CustomEvent("farm:end-day"));
 
         this.processingQueue = false;
     }
@@ -238,6 +234,7 @@ export class FarmManager {
                 if ((action as any).isNextDay) {
                     if (!this.isPausedAtNextDay) {
                         console.log("Next Day block reached. Pausing until next click.");
+                        window.dispatchEvent(new CustomEvent("farm:end-day"));
                         this.isPausedAtNextDay = true;
                         return;
                     } else {
@@ -251,6 +248,7 @@ export class FarmManager {
                     await new Promise(r => setTimeout(r, 300));
                 }
             }
+            window.dispatchEvent(new CustomEvent("farm:end-day"));
         } catch (err) {
             window.dispatchEvent(
                 new CustomEvent("farm:error", {detail: String(err)})

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import BlocklyWorkspace from './components/BlocklyWorkspace';
 import FarmGrid from './components/FarmGrid';
 import LevelSelector from './components/LevelSelector';
@@ -19,7 +19,6 @@ function App() {
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
     const [hasActions, setHasActions] = useState(true);
     const [isRunning, setIsRunning] = useState(false);
-    const prevIsRunningRef = useRef(isRunning);
     const runModeRef = useRef(runMode);
 
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
@@ -28,25 +27,42 @@ function App() {
     const liveRegionRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        if (
-            prevIsRunningRef.current && !isRunning &&
-            liveRegionRef.current
-        ) {
-            const tiles = farmManager.getTileState();
-            setTileData(tiles);
+        const unsubscribe = farmManager.subscribe(() => {
+            setTileData(farmManager.getTileState());
 
-            const summary = FarmA11y.generateEndOfDaySummary(farmManager.getDay(), farmManager.getCropsHarvested(), tiles);
-            setSummaries(FarmA11y.getQuickSummaries());
-
-            liveRegionRef.current.textContent =
-                runMode === 'day'
-                    ? summary
-                    : 'Farm updated.';
-        }
+            // todo: add summary after every action for verbose debugging
+        });
 
         runModeRef.current = runMode;
-        prevIsRunningRef.current = isRunning;
-    }, [isRunning, runMode]);
+
+        return unsubscribe;
+        }, [runMode]);
+
+    useEffect(() => {
+        const handler = () => {
+            const tiles = farmManager.getTileState();
+            FarmA11y.generateEndOfDaySummary(farmManager.getDay(), farmManager.getCropsHarvested(), tiles);
+            const sums = FarmA11y.getQuickSummaries();
+            setSummaries([...sums]);
+
+            if (liveRegionRef.current) {
+
+                liveRegionRef.current.textContent = '';
+
+                setTimeout(() => {
+                    // @ts-ignore
+                    liveRegionRef.current.textContent = runModeRef.current === 'day'
+                        ? sums[sums.length - 1]
+                        : 'Farm updated.';
+                }, 50);
+
+            }
+
+
+        };
+        window.addEventListener("farm:end-day", handler);
+        return () => window.removeEventListener("farm:end-day", handler);
+    }, []);
 
     useEffect(() => {
         const handler = () => {
@@ -103,10 +119,9 @@ function App() {
 
     const resetGame = () => {
         farmManager.reset();
-        FarmA11y.reset();
-        setWarnings([]);
         setHasActions(true);
         setTileData(farmManager.getTileState());
+        window.dispatchEvent(new CustomEvent('farm:reset-summaries'));
         setSummaries([...FarmA11y.getQuickSummaries()]);
         if (liveRegionRef.current) {
             liveRegionRef.current.textContent = `Game reset. Day ${farmManager.getDay()}.`;

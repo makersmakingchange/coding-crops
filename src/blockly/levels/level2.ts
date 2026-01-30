@@ -8,7 +8,6 @@ const numShadow = (num: number) => ({
 const level2Actions: BlockDef[] = [
     {
         type: 'plant',
-        deletable: false,
         inline: true,
         inputs: {
             ROW: {

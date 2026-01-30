@@ -32,23 +32,8 @@ export default class FarmA11y {
     }
 
     static generateEndOfDaySummary(day: number, harvestCount: number, tiles: TileState[][]): string {
-        const lastSummary = this.quickSummaries[this.quickSummaries.length - 1];
-
-        // Regex to match end-of-day summary format
-        const endOfDayPattern = /^Day \d+, \d+ plants total\./;
-
-        // Only remove last summary if it's the same day AND matches end-of-day format
-        if (lastSummary && extractDay(lastSummary) === day && endOfDayPattern.test(lastSummary)) {
-            console.log("quickSummary (removed):", lastSummary);
-            this.quickSummaries.pop();
-        }
-
         const flat = tiles.flat();
         const planted = flat.filter(t => t.type !== null);
-
-        const growing = planted.filter(t => t.growthStage === GrowthStage.GROWING).length;
-        const mature = planted.filter(t => t.growthStage === GrowthStage.MATURE).length;
-        const seedling = planted.filter(t => t.growthStage === GrowthStage.SEEDLING).length;
 
         const counts = {
             seedlings: planted.filter(t => t.growthStage === GrowthStage.SEEDLING).length,
