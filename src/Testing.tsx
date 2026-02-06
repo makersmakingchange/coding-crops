@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import BlocklyWorkspace from './components/BlocklyWorkspace';
 import FarmGrid from './components/FarmGrid';
 import LevelSelector from './components/LevelSelector';
@@ -11,6 +11,7 @@ import FarmA11y from './accessibility/FarmA11y';
 import { Warning } from './types';
 import icon from './assets/favicon.png';
 import './styles/index.css';
+import TestScenarioSelector from "./components/TestScenarioSelector";
 
 function Testing() {
     const [level, setLevel] = useState(1);
@@ -20,7 +21,6 @@ function Testing() {
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
     const [hasActions, setHasActions] = useState(true);
     const [isRunning, setIsRunning] = useState(false);
-    const prevIsRunningRef = useRef(isRunning);
     const runModeRef = useRef(runMode);
 
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
@@ -28,28 +28,17 @@ function Testing() {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const liveRegionRef = useRef<HTMLDivElement | null>(null);
 
-
-
     useEffect(() => {
-        if (
-            prevIsRunningRef.current && !isRunning &&
-            liveRegionRef.current
-        ) {
-            const tiles = farmManager.getTileState();
-            setTileData(tiles);
+        const unsubscribe = farmManager.subscribe(() => {
+            setTileData(farmManager.getTileState());
 
-            const summary = FarmA11y.generateEndOfDaySummary(farmManager.getDay(), farmManager.getCropsHarvested(), tiles);
-            setSummaries(FarmA11y.getQuickSummaries());
-
-            liveRegionRef.current.textContent =
-                runMode === 'day'
-                    ? summary
-                    : 'Farm updated.';
-        }
+            // todo: add summary after every action for verbose debugging
+        });
 
         runModeRef.current = runMode;
-        prevIsRunningRef.current = isRunning;
-    }, [isRunning, runMode]);
+
+        return unsubscribe;
+    }, [runMode]);
 
     useEffect(() => {
         const keyosd = new KeyOSD({
@@ -95,16 +84,17 @@ function Testing() {
                 (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
 
             if (e.altKey && e.key === '2')
-                (document.querySelector('.update-button') as HTMLElement | null)?.focus();
+                (document.querySelector('#controls-heading') as HTMLElement | null)?.focus();
 
             if (e.altKey && e.key === '3')
                 (document.querySelector('.instructions-panel') as HTMLElement | null)?.focus();
 
             if (e.altKey && e.key === '4')
-                (document.querySelector('.farm-info') as HTMLElement | null)?.focus();
+                (document.querySelector('.tile') as HTMLElement | null)?.focus();
 
             if (e.altKey && e.key === '5')
-                (document.querySelector('.farm-grid') as HTMLElement | null)?.focus();
+                (document.querySelector('.update-button') as HTMLElement | null)?.focus();
+
 
             if ((e.altKey && e.key === 'r') || (e.altKey && e.key === 'R') )
                 (document.querySelector('#runCodeButton') as HTMLElement | null)?.focus();
@@ -116,10 +106,9 @@ function Testing() {
 
     const resetGame = () => {
         farmManager.reset();
-        FarmA11y.reset();
-        setWarnings([]);
         setHasActions(true);
         setTileData(farmManager.getTileState());
+        window.dispatchEvent(new CustomEvent('farm:reset-summaries'));
         setSummaries([...FarmA11y.getQuickSummaries()]);
         if (liveRegionRef.current) {
             liveRegionRef.current.textContent = `Game reset. Day ${farmManager.getDay()}.`;
@@ -169,8 +158,8 @@ function Testing() {
                 <a href="#main-content" className="skip-to-main-content-link">Skip to main content</a>
                 <header className="App-header">
                     <h1 className="App-title"><img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops</h1>
-                    <section className="controls-bar" tabIndex={0}>
-                        <h2 className="sr-only">Farm Controls</h2>
+                    <section className="controls-bar">
+                        <h2 id="controls-heading" className="sr-only" tabIndex={0}>Farm Controls</h2>
                         <button onClick={resetGame}>Reset Farm</button>
                         <button
                             onClick={toggleRunMode}
@@ -180,13 +169,14 @@ function Testing() {
                         >
                             <span>{runMode === 'all' ? 'Change To Run 1 Day' : 'Change To Run All Blocks'}</span>
                         </button>
-                        <LevelSelector onChange={changeLevel}/>
+                        <TestScenarioSelector onChange={changeLevel}/>
+
                     </section>
                 </header>
 
                 <div className="App-bottom-panel">
                     <main id="main-content">
-                        <Instructions level={level} />
+                        <Instructions level={1} />
                         <BlocklyWorkspace
                             level={level}
                             runMode={runMode}

@@ -30,7 +30,7 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
             ref={instructionsRef}
             role="region"
             aria-live="polite"
-            tabIndex={-1}
+            tabIndex={0}
         >
             <div className="instructions-header">
                 <div className="instructions-goal-section">

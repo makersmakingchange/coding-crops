@@ -7,6 +7,7 @@ interface TileProps {
     row: number;
     col: number;
     moveFocus: (rowDelta: number, colDelta: number) => void;
+    isFocused?: boolean;
 }
 
 const getPlantEmoji = (growthStage: GrowthStage, cropType: CropType | null): string => {
@@ -25,7 +26,7 @@ const getPlantEmoji = (growthStage: GrowthStage, cropType: CropType | null): str
     }
 };
 
-const Tile = forwardRef<HTMLDivElement, TileProps>(({ tile, row, col, moveFocus }, ref) => {
+const Tile = forwardRef<HTMLDivElement, TileProps>(({ tile, row, col, moveFocus, isFocused }, ref) => {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         switch (e.key) {
             case 'ArrowUp':
@@ -53,7 +54,7 @@ const Tile = forwardRef<HTMLDivElement, TileProps>(({ tile, row, col, moveFocus 
             role="gridcell"
             aria-label={FarmA11y.getTileLabel(row, col, tile)}
             className={`tile ${tile.watered ? 'tile-watered' : `tile-${tile.growthStage}`}`}
-            tabIndex={-1}
+            tabIndex={isFocused ? 0 : -1}
             onKeyDown={handleKeyDown}
         >
       <span id={`tile-${row}-${col}`}>

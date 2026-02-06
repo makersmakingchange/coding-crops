@@ -228,6 +228,12 @@ export const ToolboxLevel3 = {
             categorystyle: 'variable_category'
         },
         {
+            kind: 'category',
+            name: 'Functions',
+            custom: 'PROCEDURE',
+            categorystyle: 'procedure_category',
+        },
+        {
             kind: 'sep',
             gap: 8
         },

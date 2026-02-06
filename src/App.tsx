@@ -98,16 +98,17 @@ function App() {
                 (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
 
             if (e.altKey && e.key === '2')
-                (document.querySelector('.update-button') as HTMLElement | null)?.focus();
+                (document.querySelector('#controls-heading') as HTMLElement | null)?.focus();
 
             if (e.altKey && e.key === '3')
                 (document.querySelector('.instructions-panel') as HTMLElement | null)?.focus();
 
             if (e.altKey && e.key === '4')
-                (document.querySelector('.farm-info') as HTMLElement | null)?.focus();
+                (document.querySelector('.tile') as HTMLElement | null)?.focus();
 
             if (e.altKey && e.key === '5')
-                (document.querySelector('.farm-grid') as HTMLElement | null)?.focus();
+                (document.querySelector('.update-button') as HTMLElement | null)?.focus();
+
 
             if ((e.altKey && e.key === 'r') || (e.altKey && e.key === 'R') )
                 (document.querySelector('#runCodeButton') as HTMLElement | null)?.focus();
@@ -171,8 +172,8 @@ function App() {
                 <a href="#main-content" className="skip-to-main-content-link">Skip to main content</a>
                 <header className="App-header">
                     <h1 className="App-title"><img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops</h1>
-                    <section className="controls-bar" tabIndex={0}>
-                        <h2 className="sr-only">Farm Controls</h2>
+                    <section className="controls-bar">
+                        <h2 id="controls-heading" className="sr-only" tabIndex={0}>Farm Controls</h2>
                         <button onClick={resetGame}>Reset Farm</button>
                         <button
                             onClick={toggleRunMode}

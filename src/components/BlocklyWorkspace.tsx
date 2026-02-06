@@ -38,7 +38,11 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
             });
 
         } else {
-            updateToolboxMap(workspaceRef.current, level);
+            if (level > 50) {
+                updateToolboxMap(workspaceRef.current, 3);
+            } else {
+                updateToolboxMap(workspaceRef.current, level);
+            }
         }
 
         if (workspaceRef.current) {
@@ -98,7 +102,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         <div className="blockly-panel">
             <h2 id="code-workspace-heading"
                 className="sr-only">Code Workspace</h2>
-            <div id="blocklyDiv" ref={blocklyDiv}></div>
+            <div id="blocklyDiv" ref={blocklyDiv} role="application"></div>
             <div className="run-controls">
                 <button
                     id="runCodeButton"

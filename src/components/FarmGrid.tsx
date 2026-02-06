@@ -21,16 +21,14 @@ const FarmGrid: React.FC<FarmGridProps> = ({ tiles, ariaLiveRef, dayCount }) => 
     const [focusedRow, setFocusedRow] = useState(0);
     const [focusedCol, setFocusedCol] = useState(0);
 
-    const moveFocus = (rowDelta: number, colDelta: number) => {
-        let newRow = Math.max(0, Math.min(3, focusedRow + rowDelta));
-        let newCol = Math.max(0, Math.min(3, focusedCol + colDelta));
+    useEffect(() => {
+        const tile = tileRefs.current[focusedRow]?.[focusedCol];
+        tile?.focus();
+    }, [focusedRow, focusedCol]);
 
-        const tile = tileRefs.current[newRow]?.[newCol];
-        if (tile) {
-            setFocusedRow(newRow);
-            setFocusedCol(newCol);
-            tile.focus();
-        }
+    const moveFocus = (rowDelta: number, colDelta: number) => {
+        setFocusedRow(r => Math.max(0, Math.min(rows - 1, r + rowDelta)));
+        setFocusedCol(c => Math.max(0, Math.min(cols - 1, c + colDelta)));
     };
 
     return (
@@ -40,7 +38,6 @@ const FarmGrid: React.FC<FarmGridProps> = ({ tiles, ariaLiveRef, dayCount }) => 
             className="farm-grid"
             role="grid"
             aria-label={`Farm grid, Day ${dayCount}. 3 rows and 3 columns.`}
-            tabIndex={0}
             ref={gridRef}
             style={{
                 gridTemplateColumns: `15px repeat(${tiles[0].length}, 105px)`,
@@ -79,6 +76,7 @@ const FarmGrid: React.FC<FarmGridProps> = ({ tiles, ariaLiveRef, dayCount }) => 
                             row={rowIndex}
                             col={colIndex}
                             moveFocus={moveFocus}
+                            isFocused={rowIndex === focusedRow && colIndex === focusedCol}
                             ref={el => {
                                 tileRefs.current[rowIndex][colIndex] = el;
                             }}
