@@ -5,112 +5,81 @@ const numShadow = (num: number) => ({
     fields: { NUM: num }
 });
 
-const level98Actions: BlockDef[] = [
-    {
-        type: 'plant',
-        inline: true,
-        inputs: {
-            ROW: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            },
-            COLUMN: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            }
-        }
-    },
-    {
-        type: 'water',
-        inline: true,
-        inputs: {
-            ROW: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            },
-            COLUMN: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            }
-        }
-    },
-    { type: 'next_day' },
-    {
-        type: 'water',
-        inline: true,
-        inputs: {
-            ROW: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            },
-            COLUMN: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            }
-        }
-    },
-    { type: 'next_day' },
-    {
-        type: 'harvest',
-        inline: true,
-        inputs: {
-            ROW: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            },
-            COLUMN: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            }
-        }
-    },
-];
-
-const repeatBlock: BlockDef = {
-    type: 'controls_repeat',
+const setVar = (name: string, value: number): BlockDef => ({
+    type: 'variables_set',
     fields: {
-        TIMES: { shadow: numShadow(10) }
+        VAR: { name },
     },
     inputs: {
-        DO: { block: processBlocks(level98Actions) }
-    }
+        VALUE: { shadow: numShadow(value) },
+    },
+});
+
+const tileAction = (type: string): BlockDef => ({
+    type,
+    inline: true,
+    inputs: {
+        ROW: {
+            block: {
+                type: 'variables_get',
+                fields: { VAR: { name: 'row' } },
+            },
+        },
+        COLUMN: {
+            block: {
+                type: 'variables_get',
+                fields: { VAR: { name: 'col' } },
+            },
+        },
+    },
+});
+
+const innerLoop: BlockDef = {
+    type: 'controls_repeat',
+    fields: {
+        TIMES: 3,
+    },
+    inputs: {
+        DO: {
+            block: chainBlocks([
+                tileAction('plant'),
+                {
+                    type: 'math_change',
+                    fields: { VAR: { name: 'col' } },
+                    inputs: { DELTA: { shadow: numShadow(1) } },
+                },
+            ]),
+        },
+    },
 };
+
+const outerLoop: BlockDef[] = [
+    setVar('row', 1),
+    {
+        type: 'controls_repeat',
+        fields: {
+            TIMES: 3,
+        },
+        inputs: {
+            DO: {
+                block: chainBlocks([
+                    setVar('col', 1),
+                    innerLoop,
+                    {
+                        type: 'math_change',
+                        fields: { VAR: { name: 'row' } },
+                        inputs: { DELTA: { shadow: numShadow(1) } },
+                    },
+                ]),
+            },
+        },
+    }
+];
+
 
 export const level98 = {
     blocks: {
         languageVersion: 0,
-        blocks: [processBlocks(level98Actions)]
+        blocks: [processBlocks(outerLoop)]
     }
 };

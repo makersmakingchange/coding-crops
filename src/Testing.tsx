@@ -15,6 +15,7 @@ import TestScenarioSelector from "./components/TestScenarioSelector";
 
 function Testing() {
     const [level, setLevel] = useState(1);
+    const [scenario, setScenario] = useState("basic game");
     const [tileData, setTileData] = useState(farmManager.getTileState());
     const [summaries, setSummaries] = useState(FarmA11y.getQuickSummaries());
 
@@ -77,27 +78,72 @@ function Testing() {
         window.addEventListener('farm:error', handler);
         return () => window.removeEventListener('farm:error', handler);
     }, []);
-
     useEffect(() => {
-        const handleShortcuts = (e: KeyboardEvent) => {
-            if (e.altKey && e.key === '1')
+        type ShortcutAction = () => void;
+
+        const shortcuts: Record<string, ShortcutAction> = {
+            gt: () => {
+                console.log("Go to Blockly toolbox");
                 (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
-
-            if (e.altKey && e.key === '2')
-                (document.querySelector('#controls-heading') as HTMLElement | null)?.focus();
-
-            if (e.altKey && e.key === '3')
-                (document.querySelector('.instructions-panel') as HTMLElement | null)?.focus();
-
-            if (e.altKey && e.key === '4')
-                (document.querySelector('.tile') as HTMLElement | null)?.focus();
-
-            if (e.altKey && e.key === '5')
+            },
+            gu: () => {
+                console.log("Go to Updates button");
                 (document.querySelector('.update-button') as HTMLElement | null)?.focus();
-
-
-            if ((e.altKey && e.key === 'r') || (e.altKey && e.key === 'R') )
+            },
+            gr: () => {
+                console.log("Go to run button");
                 (document.querySelector('#runCodeButton') as HTMLElement | null)?.focus();
+            },
+            gc: () => {
+                console.log("Go to controls bar");
+                (document.querySelector('#controls-heading') as HTMLElement | null)?.focus();
+            },
+            gf: () => {
+                console.log("Go to farm grid");
+                (document.querySelector('.tile') as HTMLElement | null)?.focus()
+            },
+            gi: () => {
+                console.log("Go to instructions panel");
+                (document.querySelector('.instructions-panel') as HTMLElement | null)?.focus()
+            },
+            "/": () => console.log("Open command palette"),
+        };
+
+        let buffer = "";
+        let timer: number | undefined;
+        const TIMEOUT = 500; // ms
+
+        const isTypingTarget = (el: EventTarget | null): boolean => {
+            if (!(el instanceof HTMLElement)) return false;
+            return (
+                el.tagName === "INPUT" ||
+                el.tagName === "TEXTAREA" ||
+                el.isContentEditable
+            );
+        };
+
+        const handleShortcuts = (e: KeyboardEvent) => {
+            if (e.repeat) return;
+            if (isTypingTarget(e.target)) return;
+
+            if (!e.altKey) return;
+
+            const key = e.key.toLowerCase();
+            buffer += key;
+
+            // Clear buffer after timeout
+            if (timer) window.clearTimeout(timer);
+            timer = window.setTimeout(() => (buffer = ""), TIMEOUT);
+
+            // Check all shortcuts
+            for (const seq in shortcuts) {
+                if (buffer.endsWith(seq)) {
+                    e.preventDefault();
+                    buffer = "";
+                    shortcuts[seq]();
+                    break;
+                }
+            }
         };
 
         window.addEventListener('keydown', handleShortcuts);
@@ -121,6 +167,14 @@ function Testing() {
         resetGame();
         if (liveRegionRef.current) {
             liveRegionRef.current.textContent = `Level changed to ${levelNum}. Day ${farmManager.getDay()}.`;
+        }
+    };
+
+    const changeScenario = (scenario: string) => {
+        setScenario(scenario);
+        resetGame();
+        if (liveRegionRef.current) {
+            liveRegionRef.current.textContent = `Level changed to ${scenario}. Day ${farmManager.getDay()}.`;
         }
     };
 

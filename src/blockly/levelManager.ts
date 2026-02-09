@@ -2,11 +2,17 @@ import * as Blockly from 'blockly';
 import { level1 } from './levels/level1';
 import { level2 } from './levels/level2';
 import { level3 } from './levels/level3';
+import {level97} from "./levels/level97";
+import {level98} from "./levels/level98";
+import {level99} from "./levels/level99";
 
 const levels: Record<number, any> = {
     1: level1,
     2: level2,
     3: level3,
+    97: level97,
+    98: level98,
+    99: level99,
 };
 
 export type BlockDef = {

@@ -78,6 +78,6 @@ export default class FarmA11y {
         const crop = tile.type !== null ? CropType[tile.type] : "No crop";
         const stage = GrowthStage[tile.growthStage];
         const watered = tile.watered ? "Watered" : "Not watered";
-        return `${stage}, ${crop}, ${watered}`;
+        return `Row ${row + 1}, Column ${col + 1}, ${stage}, ${crop}, ${watered}`;
     }
 }
