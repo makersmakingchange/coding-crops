@@ -6,7 +6,7 @@ import {level97} from "./levels/level97";
 import {level98} from "./levels/level98";
 import {level99} from "./levels/level99";
 
-const levels: Record<number, any> = {
+const levels: Record<number | string, any> = {
     1: level1,
     2: level2,
     3: level3,
@@ -54,7 +54,7 @@ export function processBlocks(blocks: BlockDef[]): any {
         }
 }
 
-export const load = (workspace: Blockly.Workspace, level: number) => {
+export const load = (workspace: Blockly.Workspace, level: number | string) => {
     const data = levels[level];
     if (!data) {
         console.warn(`No Blockly data found for level ${level}`);
@@ -70,3 +70,4 @@ export const load = (workspace: Blockly.Workspace, level: number) => {
         Blockly.Events.enable();
     }
 };
+

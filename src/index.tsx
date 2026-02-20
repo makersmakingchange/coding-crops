@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './styles/index.css';
 import App from './App';
 import Testing from './Testing';
-
+import Scenario from './Scenario';
 
 let root = ReactDOM.createRoot(document.getElementById('app') as HTMLElement);
 
@@ -12,7 +12,8 @@ root.render(
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/testing" element={<Testing />} />
+            <Route path="/user-testing" element={<Testing />} />
+            <Route path="/internal" element={<Scenario />} />
         </Routes>
     </BrowserRouter>
 

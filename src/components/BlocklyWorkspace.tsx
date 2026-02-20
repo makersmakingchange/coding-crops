@@ -5,9 +5,10 @@ import {javascriptGenerator} from 'blockly/javascript';
 import * as levelManager from '../blockly/levelManager';
 import {WorkspaceSvg} from "blockly";
 import farmManager from "../farm/FarmManagerSingleton";
+import {FarmEvents} from "../farm/FarmEvents";
 
 interface BlocklyProps {
-    level: number,
+    level: number | string,
     runMode: "all" | "day"
     hasActions: boolean;
     setHasActions: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,8 +29,10 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         if (!blocklyDiv.current) return;
 
         if (!workspaceRef.current) {
-            workspaceRef.current = setupBlockly(blocklyDiv.current, level, () => {
-                window.dispatchEvent(new CustomEvent("farm:reset-summaries"));
+            let toolboxLevel = typeof level === "string" ? 3 : level;
+
+            workspaceRef.current = setupBlockly(blocklyDiv.current, toolboxLevel, () => {
+                FarmEvents.dispatch.resetSummaries();
                 if (runModeRef.current === "day") {
                     setHasActions(false);
                 } else {
@@ -38,11 +41,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
             });
 
         } else {
-            if (level > 50) {
-                updateToolboxMap(workspaceRef.current, 3);
-            } else {
-                updateToolboxMap(workspaceRef.current, level);
-            }
+            updateToolboxMap(workspaceRef.current, typeof level === "string" ? 3 : level);
         }
 
         if (workspaceRef.current) {
@@ -52,7 +51,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
         farmManager.storeGeneratedCode(code);
 
-        window.dispatchEvent(new CustomEvent("farm:reset-summaries"));
+        FarmEvents.dispatch.resetSummaries();
         // Cleanup on unmount
         return () => {
             // if (workspaceRef.current) {
@@ -64,9 +63,21 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
 
     useEffect(() => {
         runModeRef.current = runMode;
-        window.dispatchEvent(new CustomEvent("farm:reset-summaries"));
+        FarmEvents.dispatch.resetSummaries();
         setHasActions(true);
     }, [runMode]);
+
+    useEffect(() => {
+        const handleShortcuts = (e: KeyboardEvent) => {
+            const cmdOrCtrl = e.metaKey || e.ctrlKey;
+
+            if (cmdOrCtrl && e.key === 'Enter')
+                (handleRunCode());
+        };
+
+        window.addEventListener('keydown', handleShortcuts);
+        return () => window.removeEventListener('keydown', handleShortcuts);
+    }, []);
 
     const handleRunCode = async () => {
         if (!workspaceRef.current) return;
@@ -89,7 +100,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         } else {
             // "Run All Days" mode
             farmManager.reset();
-            window.dispatchEvent(new CustomEvent("farm:reset-summaries"));
+            FarmEvents.dispatch.resetSummaries();
             farmManager.storeGeneratedCode(code);
             await farmManager.runAllDays();
             setHasActions(farmManager.hasActions?.() ?? true);

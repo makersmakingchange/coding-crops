@@ -1,5 +1,6 @@
 import {CropType, Tile, TileState} from "./Tile";
 import FarmA11y from '../accessibility/FarmA11y';
+import {FarmEvents} from "./FarmEvents";
 
 
 export class FarmManager {
@@ -24,11 +25,7 @@ export class FarmManager {
     }
 
     private log(message: string, type: "info" | "warning" = "info") {
-        window.dispatchEvent(
-            new CustomEvent("farm:update", {
-                detail: { message, type }
-            })
-        );
+        FarmEvents.dispatch.update({ message, type });
     }
 
     hasActions = () => this.actionQueue.length > 0;
@@ -174,13 +171,13 @@ export class FarmManager {
         while (this.actionQueue.length > 0) {
             const action = this.actionQueue.shift()!;
 
-            if ((action as any).isNextDay) window.dispatchEvent(new CustomEvent("farm:end-day"));
+            if ((action as any).isNextDay) FarmEvents.dispatch.endDay();
             action();
 
             // Wait for one frame to allow React to re-render before continuing
             await new Promise(r => setTimeout(r, 300));
         }
-        window.dispatchEvent(new CustomEvent("farm:end-day"));
+        FarmEvents.dispatch.endDay();
 
         this.processingQueue = false;
     }
@@ -212,9 +209,7 @@ export class FarmManager {
 
         } catch (err) {
             console.error("Error running all days:", err);
-            window.dispatchEvent(
-                new CustomEvent("farm:error", {detail: String(err)})
-            );
+            FarmEvents.dispatch.error(String(err));
         }
     }
 
@@ -234,7 +229,7 @@ export class FarmManager {
                 if ((action as any).isNextDay) {
                     if (!this.isPausedAtNextDay) {
                         console.log("Next Day block reached. Pausing until next click.");
-                        window.dispatchEvent(new CustomEvent("farm:end-day"));
+                        FarmEvents.dispatch.endDay();
                         this.isPausedAtNextDay = true;
                         return;
                     } else {
@@ -248,11 +243,9 @@ export class FarmManager {
                     await new Promise(r => setTimeout(r, 300));
                 }
             }
-            window.dispatchEvent(new CustomEvent("farm:end-day"));
+            FarmEvents.dispatch.endDay();
         } catch (err) {
-            window.dispatchEvent(
-                new CustomEvent("farm:error", {detail: String(err)})
-            );
+            FarmEvents.dispatch.error(String(err));
         }
     }
 }

@@ -10,9 +10,15 @@ import FarmA11y from './accessibility/FarmA11y';
 import { Warning } from './types';
 import icon from './assets/favicon.png';
 import './styles/index.css';
+import A11yAnnouncer from "./accessibility/A11yAnnouncer";
+import {FarmEvents} from "./farm/FarmEvents";
 
-function App() {
-    const [level, setLevel] = useState(1);
+type AppProps = {
+    mode?: 'internal' | 'production' | 'testing';
+}
+
+function App({mode = 'production'}: AppProps) {
+    const [level, setLevel] = useState(mode == "internal" ? "basic" : 1);
     const [tileData, setTileData] = useState(farmManager.getTileState());
     const [summaries, setSummaries] = useState(FarmA11y.getQuickSummaries());
 
@@ -25,6 +31,10 @@ function App() {
     const [warnings, setWarnings] = useState<Warning[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const liveRegionRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        A11yAnnouncer.register(liveRegionRef.current);
+    }, []);
 
     useEffect(() => {
         const unsubscribe = farmManager.subscribe(() => {
@@ -45,32 +55,37 @@ function App() {
             const sums = FarmA11y.getQuickSummaries();
             setSummaries([...sums]);
 
-            if (liveRegionRef.current) {
-
-                liveRegionRef.current.textContent = '';
-
-                setTimeout(() => {
-                    // @ts-ignore
-                    liveRegionRef.current.textContent = runModeRef.current === 'day'
-                        ? sums[sums.length - 1]
-                        : 'Farm updated.';
-                }, 50);
-
+            if (runModeRef.current === 'day') {
+                A11yAnnouncer.announce(sums[sums.length - 1]);
+            } else {
+                A11yAnnouncer.announce('Farm updated.');
             }
 
-
+            // if (liveRegionRef.current) {
+            //
+            //     liveRegionRef.current.textContent = '';
+            //
+            //     setTimeout(() => {
+            //         // @ts-ignore
+            //         liveRegionRef.current.textContent = runModeRef.current === 'day'
+            //             ? sums[sums.length - 1]
+            //             : 'Farm updated.';
+            //     }, 50);
+            // }
         };
-        window.addEventListener("farm:end-day", handler);
-        return () => window.removeEventListener("farm:end-day", handler);
+
+        FarmEvents.on("farm:end-day", handler);
+        return () => FarmEvents.off("farm:end-day", handler);
     }, []);
 
     useEffect(() => {
         const handler = () => {
             FarmA11y.reset();
             setWarnings([]);
+            setSummaries([...FarmA11y.getQuickSummaries()]);
         };
-        window.addEventListener("farm:reset-summaries", handler);
-        return () => window.removeEventListener("farm:reset-summaries", handler);
+        FarmEvents.on("farm:reset-summaries", handler);
+        return () => FarmEvents.off("farm:reset-summaries", handler);
     }, []);
 
     useEffect(() => {
@@ -82,14 +97,14 @@ function App() {
             }
         };
 
-        window.addEventListener("farm:update", handler);
-        return () => window.removeEventListener("farm:update", handler);
+        FarmEvents.on("farm:update", handler);
+        return () => FarmEvents.off("farm:update", handler);
     }, []);
 
     useEffect(() => {
         const handler = (e: any) => setErrorMessage(e.detail);
-        window.addEventListener('farm:error', handler);
-        return () => window.removeEventListener('farm:error', handler);
+        FarmEvents.on('farm:error', handler);
+        return () => FarmEvents.off('farm:error', handler);
     }, []);
 
     useEffect(() => {
@@ -168,20 +183,19 @@ function App() {
         farmManager.reset();
         setHasActions(true);
         setTileData(farmManager.getTileState());
-        window.dispatchEvent(new CustomEvent('farm:reset-summaries'));
-        setSummaries([...FarmA11y.getQuickSummaries()]);
-        if (liveRegionRef.current) {
-            liveRegionRef.current.textContent = `Game reset. Day ${farmManager.getDay()}.`;
-        }
+        FarmEvents.dispatch.resetSummaries();
+        A11yAnnouncer.announce(`Farm reset. Day ${farmManager.getDay()}.`, 0);
         setHasActions?.(true);
     };
 
     const changeLevel = (levelNum: number) => {
         setLevel(levelNum);
         resetGame();
-        if (liveRegionRef.current) {
-            liveRegionRef.current.textContent = `Level changed to ${levelNum}. Day ${farmManager.getDay()}.`;
-        }
+        A11yAnnouncer.announce(`Level changed to ${levelNum}. Day ${farmManager.getDay()}.`, 0);
+
+        // if (liveRegionRef.current) {
+        //     liveRegionRef.current.textContent = `Level changed to ${levelNum}. Day ${farmManager.getDay()}.`;
+        // }
     };
 
     const readSummaries = () => {
@@ -218,7 +232,7 @@ function App() {
                 <a href="#main-content" className="skip-to-main-content-link">Skip to main content</a>
                 <header className="App-header">
                     <h1 className="App-title"><img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops</h1>
-                    <section className="controls-bar">
+                    <section className="controls-bar" aria-keyshortcuts="Alt+G+C">
                         <h2 id="controls-heading" className="sr-only" tabIndex={0}>Farm Controls</h2>
                         <button onClick={resetGame}>Reset Farm</button>
                         <button
@@ -230,6 +244,7 @@ function App() {
                             <span>{runMode === 'all' ? 'Change To Run 1 Day' : 'Change To Run All Blocks'}</span>
                         </button>
                         <LevelSelector onChange={changeLevel}/>
+
                     </section>
                 </header>
 

@@ -3,7 +3,7 @@ import { descriptions } from '../descriptions';
 import '../styles/Instructions.css';
 
 interface InstructionsProps {
-    level: number;
+    level: number | string;
 }
 
 const Instructions: React.FC<InstructionsProps> = ({ level }) => {
