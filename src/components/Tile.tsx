@@ -53,7 +53,7 @@ const Tile = forwardRef<HTMLDivElement, TileProps>(({ tile, row, col, moveFocus,
             ref={ref}
             role="gridcell"
             aria-label={FarmA11y.getTileLabel(row, col, tile)}
-            className={`tile ${tile.watered ? 'tile-watered' : `tile-${tile.growthStage}`}`}
+            className={`tile ${tile.watered ? 'tile-watered' : ``} tile-${tile.growthStage}`}
             tabIndex={isFocused ? 0 : -1}
             onKeyDown={handleKeyDown}
         >

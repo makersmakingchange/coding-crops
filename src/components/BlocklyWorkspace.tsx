@@ -3,6 +3,7 @@ import {updateToolboxMap, setupBlockly} from '../blockly/blocklySetup';
 import {javascriptGenerator} from 'blockly/javascript';
 
 import * as levelManager from '../blockly/levelManager';
+import { getLevelConfig } from '../blockly/levelManager';
 import {WorkspaceSvg} from "blockly";
 import farmManager from "../farm/FarmManagerSingleton";
 import {FarmEvents} from "../farm/FarmEvents";
@@ -28,9 +29,10 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
     useEffect(() => {
         if (!blocklyDiv.current) return;
 
-        if (!workspaceRef.current) {
-            let toolboxLevel = typeof level === "string" ? 3 : level;
+        const config = getLevelConfig(level);
+        const toolboxLevel = config?.toolboxLevel ?? 1;
 
+        if (!workspaceRef.current) {
             workspaceRef.current = setupBlockly(blocklyDiv.current, toolboxLevel, () => {
                 FarmEvents.dispatch.resetSummaries();
                 if (runModeRef.current === "day") {
@@ -41,7 +43,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
             });
 
         } else {
-            updateToolboxMap(workspaceRef.current, typeof level === "string" ? 3 : level);
+            updateToolboxMap(workspaceRef.current, toolboxLevel);
         }
 
         if (workspaceRef.current) {

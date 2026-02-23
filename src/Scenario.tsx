@@ -1,13 +1,9 @@
 import App from "./App";
 import {useEffect, useState} from "react";
 import { KeyOSD } from "@microbit/keyosd";
-import TestScenarioSelector from "./components/TestScenarioSelector";
-import farmManager from "./farm/FarmManagerSingleton";
 
 
 function Scenario() {
-    const [scenario, setScenario] = useState("basic game");
-
     useEffect(() => {
         const keyosd = new KeyOSD({
             container: document.body, // Container element (default: document.body)

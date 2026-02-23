@@ -5,7 +5,7 @@ export default class A11yAnnouncer {
         this.liveRegion = el;
     }
 
-    static announce(message: string, delay = 50) {
+    static announce(message: string, delay = 10) {
         if (!this.liveRegion) return;
         this.liveRegion.textContent = '';
         setTimeout(() => {

@@ -278,7 +278,10 @@ button.run-mode-button-day {
 
 .tile-watered {
     --tile-bg: #386641;
+}
 
+.tile-watered.tile-0 {
+    --tile-bg: #462e22;
 }
 
 .farm-info {

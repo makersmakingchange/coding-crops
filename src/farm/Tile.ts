@@ -55,9 +55,6 @@ export class Tile {
     }
 
     water(): boolean {
-        if (this.growthStage === GrowthStage.EMPTY) {
-            return false;
-        }
         this.watered = true;
         return true;
     }

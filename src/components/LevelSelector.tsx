@@ -1,16 +1,29 @@
 import React from 'react';
 import '../styles/index.css';
+import {LevelConfig, LEVELS} from "../blockly/levelManager";
 
-const LevelSelector: React.FC<{ onChange: (level: number) => void }> = ({ onChange }) => {
+interface LevelSelectorProps {
+    onChange: (level: number | string) => void;
+    levels?: LevelConfig[];
+}
+
+const LevelSelector: React.FC<LevelSelectorProps> = ({ onChange, levels = LEVELS }) => {
     return (
         <select
             aria-label="Select level"
-            onChange={(e) => onChange(parseInt(e.target.value))}
+            onChange={(e) => {
+                const raw = e.target.value;
+                const parsed = parseInt(raw);
+                onChange(isNaN(parsed) ? raw : parsed);
+            }}
         >
-            <option value="1">Level 1</option>
-            <option value="2">Level 2</option>
-            <option value="3">Level 3</option>
+            {levels.map((l) => (
+                <option key={l.value} value={l.value}>
+                    {l.label}
+                </option>
+            ))}
         </select>
+
     );
 };
 

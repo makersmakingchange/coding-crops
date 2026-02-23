@@ -1,4 +1,4 @@
-import {chainBlocks, BlockDef, processBlocks} from "../levelManager";
+import {chainBlocks, BlockDef, processBlocks} from "../../levelManager";
 
 const numShadow = (num: number) => ({
     type: 'math_number',
@@ -77,7 +77,7 @@ const outerLoop: BlockDef[] = [
 ];
 
 
-export const level98 = {
+export const plantGrid = {
     blocks: {
         languageVersion: 0,
         blocks: [processBlocks(outerLoop)]

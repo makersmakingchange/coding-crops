@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { descriptions } from '../descriptions';
 import '../styles/Instructions.css';
+import {getLevelConfig} from "../blockly/levelManager";
 
 interface InstructionsProps {
     level: number | string;
@@ -35,7 +36,7 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
             <div className="instructions-header">
                 <div className="instructions-goal-section">
                     <h2 id="instructions-heading" className="instructions-heading">
-                        Level {level} Task
+                        {getLevelConfig(level)?.label} Task
                     </h2>
 
                     <p>{descriptions[level]?.goal || 'No instructions available for this level.'}</p>

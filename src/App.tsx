@@ -2,6 +2,7 @@ import {useEffect, useRef, useState} from 'react';
 import BlocklyWorkspace from './components/BlocklyWorkspace';
 import FarmGrid from './components/FarmGrid';
 import LevelSelector from './components/LevelSelector';
+import {getLevelConfig, LEVELS, SCENARIO_LEVELS} from "./blockly/levelManager";
 import Instructions from './components/Instructions';
 import UpdatesDialog from "./components/UpdatesDialog";
 import ErrorDialog from "./components/ErrorDialog";
@@ -12,6 +13,8 @@ import icon from './assets/favicon.png';
 import './styles/index.css';
 import A11yAnnouncer from "./accessibility/A11yAnnouncer";
 import {FarmEvents} from "./farm/FarmEvents";
+import {useKeyboardShortcuts} from "./hooks/useKeyboardShortcuts";
+import {useFarmEndDay} from "./hooks/useFarmEndDay";
 
 type AppProps = {
     mode?: 'internal' | 'production' | 'testing';
@@ -50,36 +53,6 @@ function App({mode = 'production'}: AppProps) {
 
     useEffect(() => {
         const handler = () => {
-            const tiles = farmManager.getTileState();
-            FarmA11y.generateEndOfDaySummary(farmManager.getDay(), farmManager.getCropsHarvested(), tiles);
-            const sums = FarmA11y.getQuickSummaries();
-            setSummaries([...sums]);
-
-            if (runModeRef.current === 'day') {
-                A11yAnnouncer.announce(sums[sums.length - 1]);
-            } else {
-                A11yAnnouncer.announce('Farm updated.');
-            }
-
-            // if (liveRegionRef.current) {
-            //
-            //     liveRegionRef.current.textContent = '';
-            //
-            //     setTimeout(() => {
-            //         // @ts-ignore
-            //         liveRegionRef.current.textContent = runModeRef.current === 'day'
-            //             ? sums[sums.length - 1]
-            //             : 'Farm updated.';
-            //     }, 50);
-            // }
-        };
-
-        FarmEvents.on("farm:end-day", handler);
-        return () => FarmEvents.off("farm:end-day", handler);
-    }, []);
-
-    useEffect(() => {
-        const handler = () => {
             FarmA11y.reset();
             setWarnings([]);
             setSummaries([...FarmA11y.getQuickSummaries()]);
@@ -107,77 +80,35 @@ function App({mode = 'production'}: AppProps) {
         return () => FarmEvents.off('farm:error', handler);
     }, []);
 
-    useEffect(() => {
-        type ShortcutAction = () => void;
+    useFarmEndDay(runModeRef, setSummaries);
 
-        const shortcuts: Record<string, ShortcutAction> = {
-            gt: () => {
-                console.log("Go to Blockly toolbox");
-                (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
-            },
-            gu: () => {
-                console.log("Go to Updates button");
-                (document.querySelector('.update-button') as HTMLElement | null)?.focus();
-            },
-            gr: () => {
-                console.log("Go to run button");
-                (document.querySelector('#runCodeButton') as HTMLElement | null)?.focus();
-            },
-            gc: () => {
-                console.log("Go to controls bar");
-                (document.querySelector('#controls-heading') as HTMLElement | null)?.focus();
-            },
-            gf: () => {
-                console.log("Go to farm grid");
-                (document.querySelector('.tile') as HTMLElement | null)?.focus()
-            },
-            gi: () => {
-                console.log("Go to instructions panel");
-                (document.querySelector('.instructions-panel') as HTMLElement | null)?.focus()
-            },
-            "/": () => console.log("Open command palette"),
-        };
-
-        let buffer = "";
-        let timer: number | undefined;
-        const TIMEOUT = 500; // ms
-
-        const isTypingTarget = (el: EventTarget | null): boolean => {
-            if (!(el instanceof HTMLElement)) return false;
-            return (
-                el.tagName === "INPUT" ||
-                el.tagName === "TEXTAREA" ||
-                el.isContentEditable
-            );
-        };
-
-        const handleShortcuts = (e: KeyboardEvent) => {
-            if (e.repeat) return;
-            if (isTypingTarget(e.target)) return;
-
-            if (!e.altKey) return;
-
-            const key = e.key.toLowerCase();
-            buffer += key;
-
-            // Clear buffer after timeout
-            if (timer) window.clearTimeout(timer);
-            timer = window.setTimeout(() => (buffer = ""), TIMEOUT);
-
-            // Check all shortcuts
-            for (const seq in shortcuts) {
-                if (buffer.endsWith(seq)) {
-                    e.preventDefault();
-                    buffer = "";
-                    shortcuts[seq]();
-                    break;
-                }
-            }
-        };
-
-        window.addEventListener('keydown', handleShortcuts);
-        return () => window.removeEventListener('keydown', handleShortcuts);
-    }, []);
+    useKeyboardShortcuts({
+        gt: () => {
+            console.log("Go to Blockly toolbox");
+            (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
+        },
+        gu: () => {
+            console.log("Go to Updates button");
+            (document.querySelector('.update-button') as HTMLElement | null)?.focus();
+        },
+        gr: () => {
+            console.log("Go to run button");
+            (document.querySelector('#runCodeButton') as HTMLElement | null)?.focus();
+        },
+        gc: () => {
+            console.log("Go to controls bar");
+            (document.querySelector('#controls-heading') as HTMLElement | null)?.focus();
+        },
+        gf: () => {
+            console.log("Go to farm grid");
+            (document.querySelector('.tile') as HTMLElement | null)?.focus()
+        },
+        gi: () => {
+            console.log("Go to instructions panel");
+            (document.querySelector('.instructions-panel') as HTMLElement | null)?.focus()
+        },
+        "/": () => console.log("Open command palette"),
+    });
 
     const resetGame = () => {
         farmManager.reset();
@@ -188,10 +119,10 @@ function App({mode = 'production'}: AppProps) {
         setHasActions?.(true);
     };
 
-    const changeLevel = (levelNum: number) => {
+    const changeLevel = (levelNum: string | number) => {
         setLevel(levelNum);
         resetGame();
-        A11yAnnouncer.announce(`Level changed to ${levelNum}. Day ${farmManager.getDay()}.`, 0);
+        A11yAnnouncer.announce(`Level changed to ${getLevelConfig(levelNum)?.label}. Day ${farmManager.getDay()}.`, 0);
 
         // if (liveRegionRef.current) {
         //     liveRegionRef.current.textContent = `Level changed to ${levelNum}. Day ${farmManager.getDay()}.`;
@@ -243,8 +174,10 @@ function App({mode = 'production'}: AppProps) {
                         >
                             <span>{runMode === 'all' ? 'Change To Run 1 Day' : 'Change To Run All Blocks'}</span>
                         </button>
-                        <LevelSelector onChange={changeLevel}/>
-
+                        <LevelSelector
+                            onChange={changeLevel}
+                            levels={mode === 'internal' ? SCENARIO_LEVELS : LEVELS}
+                        />
                     </section>
                 </header>
 

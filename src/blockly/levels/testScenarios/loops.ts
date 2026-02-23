@@ -1,7 +1,7 @@
-import {chainBlocks, BlockDef, processBlocks} from "../levelManager";
+import {chainBlocks, BlockDef, processBlocks} from "../../levelManager";
 
 // Define your level blocks in order
-const level99Blocks: BlockDef[] = [
+const loopsBlocks: BlockDef[] = [
     {
         type: 'plant',
         inline: true,
@@ -72,9 +72,9 @@ const level99Blocks: BlockDef[] = [
     { type: 'next_day' },
 ];
 
-export const level99 = {
+export const loops = {
     blocks: {
         languageVersion: 0,
-        blocks: [processBlocks(level99Blocks)],
+        blocks: [processBlocks(loopsBlocks)],
     },
 };
