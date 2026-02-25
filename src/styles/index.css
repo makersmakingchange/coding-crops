@@ -176,7 +176,7 @@ body {
     height: 100%;
 }
 
-.skip-to-main-content-link {
+.skip-to-main-content-link, .skip-to-game-panel-link {
     position: absolute;
     left: -9999px;
     z-index: 999;
@@ -186,7 +186,7 @@ body {
     opacity: 0;
 }
 
-.skip-to-main-content-link:focus {
+.skip-to-main-content-link:focus, .skip-to-game-panel-link:focus {
     left: 50%;
     transform: translateX(-50%);
     opacity: 1;

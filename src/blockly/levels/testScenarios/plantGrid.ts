@@ -28,7 +28,7 @@ const tileAction = (type: string): BlockDef => ({
         COLUMN: {
             block: {
                 type: 'variables_get',
-                fields: { VAR: { name: 'col' } },
+                fields: { VAR: { name: 'column' } },
             },
         },
     },
@@ -45,7 +45,7 @@ const innerLoop: BlockDef = {
                 tileAction('plant'),
                 {
                     type: 'math_change',
-                    fields: { VAR: { name: 'col' } },
+                    fields: { VAR: { name: 'column' } },
                     inputs: { DELTA: { shadow: numShadow(1) } },
                 },
             ]),
@@ -63,7 +63,7 @@ const outerLoop: BlockDef[] = [
         inputs: {
             DO: {
                 block: chainBlocks([
-                    setVar('col', 1),
+                    setVar('column', 1),
                     innerLoop,
                     {
                         type: 'math_change',

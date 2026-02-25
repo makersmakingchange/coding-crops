@@ -10,21 +10,16 @@ import {FarmEvents} from "../farm/FarmEvents";
 
 interface BlocklyProps {
     level: number | string,
-    runMode: "all" | "day"
-    hasActions: boolean;
-    setHasActions: React.Dispatch<React.SetStateAction<boolean>>;
-    setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
+    runMode: "all" | "day";
 }
 
 const BlocklyWorkspace: React.FC<BlocklyProps> = ({
                                                       level,
-                                                      runMode,
-                                                      hasActions,
-                                                      setHasActions,
-                                                      setIsRunning }) => {
+                                                      runMode }) => {
     const blocklyDiv = useRef<HTMLDivElement>(null);
     const workspaceRef = useRef<WorkspaceSvg | null>(null);
     const runModeRef = useRef(runMode);
+    const [isRunning, setIsRunning] = useState(false);
 
     useEffect(() => {
         if (!blocklyDiv.current) return;
@@ -34,11 +29,8 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
 
         if (!workspaceRef.current) {
             workspaceRef.current = setupBlockly(blocklyDiv.current, toolboxLevel, () => {
-                FarmEvents.dispatch.resetSummaries();
                 if (runModeRef.current === "day") {
-                    setHasActions(false);
-                } else {
-                    setHasActions(true);
+                    farmManager.resetActionQueue();
                 }
             });
 
@@ -66,14 +58,13 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
     useEffect(() => {
         runModeRef.current = runMode;
         FarmEvents.dispatch.resetSummaries();
-        setHasActions(true);
     }, [runMode]);
 
     useEffect(() => {
         const handleShortcuts = (e: KeyboardEvent) => {
-            const cmdOrCtrl = e.metaKey || e.ctrlKey;
+            // const cmdOrCtrl = e.metaKey || e.ctrlKey;
 
-            if (cmdOrCtrl && e.key === 'Enter')
+            if (e.altKey && (e.key === 'r' || e.key === 'R'))
                 (handleRunCode());
         };
 
@@ -92,20 +83,23 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
             if (!farmManager.hasActions?.()) {
                 console.log("Starting 1-Day run: loading code");
                 farmManager.reset();
+                FarmEvents.dispatch.resetSummaries();
                 farmManager.storeGeneratedCode(code);
                 farmManager.executeGeneratedCode();
             } else {
                 console.log("Advancing to next day…");
             }
+            setIsRunning(true);
             await farmManager.runDay();
-            setHasActions(farmManager.hasActions?.() ?? true);
+            setIsRunning(false);
         } else {
             // "Run All Days" mode
             farmManager.reset();
             FarmEvents.dispatch.resetSummaries();
             farmManager.storeGeneratedCode(code);
+            setIsRunning(true);
             await farmManager.runAllDays();
-            setHasActions(farmManager.hasActions?.() ?? true);
+            setIsRunning(false);
         }
 
         setIsRunning(false);
@@ -121,7 +115,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
                     id="runCodeButton"
                     className="run-code-button"
                     onClick={handleRunCode}
-                    disabled={!hasActions}
+                    disabled={isRunning}
                     aria-label={`Run ${runMode === 'all' ? 'All Days' : '1 Day'}`}
                     tabIndex={0}
                 >

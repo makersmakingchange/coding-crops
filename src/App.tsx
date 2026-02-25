@@ -26,8 +26,6 @@ function App({mode = 'production'}: AppProps) {
     const [summaries, setSummaries] = useState(FarmA11y.getQuickSummaries());
 
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
-    const [hasActions, setHasActions] = useState(true);
-    const [isRunning, setIsRunning] = useState(false);
     const runModeRef = useRef(runMode);
 
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
@@ -112,21 +110,15 @@ function App({mode = 'production'}: AppProps) {
 
     const resetGame = () => {
         farmManager.reset();
-        setHasActions(true);
         setTileData(farmManager.getTileState());
         FarmEvents.dispatch.resetSummaries();
         A11yAnnouncer.announce(`Farm reset. Day ${farmManager.getDay()}.`, 0);
-        setHasActions?.(true);
     };
 
     const changeLevel = (levelNum: string | number) => {
         setLevel(levelNum);
         resetGame();
         A11yAnnouncer.announce(`Level changed to ${getLevelConfig(levelNum)?.label}. Day ${farmManager.getDay()}.`, 0);
-
-        // if (liveRegionRef.current) {
-        //     liveRegionRef.current.textContent = `Level changed to ${levelNum}. Day ${farmManager.getDay()}.`;
-        // }
     };
 
     const readSummaries = () => {
@@ -160,7 +152,8 @@ function App({mode = 'production'}: AppProps) {
                 onClose={() => setErrorMessage(null)}
             />
             <div className="App-body">
-                <a href="#main-content" className="skip-to-main-content-link">Skip to main content</a>
+                <a href="#main-content" className="skip-to-main-content-link">Skip to workspace</a>
+                <a href="#game-panel" className="skip-to-game-panel-link">Skip to game panel</a>
                 <header className="App-header">
                     <h1 className="App-title"><img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops</h1>
                     <section className="controls-bar" aria-keyshortcuts="Alt+G+C">
@@ -187,13 +180,10 @@ function App({mode = 'production'}: AppProps) {
                         <BlocklyWorkspace
                             level={level}
                             runMode={runMode}
-                            hasActions={hasActions}
-                            setHasActions={setHasActions}
-                            setIsRunning={setIsRunning}
                         />
                     </main>
 
-                    <div className="game-panel">
+                    <div className="game-panel" id="game-panel">
                         <h2 className="sr-only">Farm Stats</h2>
                         <div className="game-container" id="gameContainer">
                             <div

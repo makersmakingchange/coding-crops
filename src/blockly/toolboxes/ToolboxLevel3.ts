@@ -7,8 +7,8 @@ export const ToolboxLevel3 = {
     contents: [
         {
             kind: 'category',
-            name: 'Logic Center',
-            categorystyle: 'loop_category',
+            name: 'Logic',
+            categorystyle: 'logic_category',
             contents: [
                 {
                     type: 'controls_if',
@@ -40,6 +40,13 @@ export const ToolboxLevel3 = {
                         BOOL: 'TRUE'
                     }
                 },
+            ]
+        },
+        {
+            kind: 'category',
+            name: 'Loops',
+            categorystyle: 'loop_category',
+            contents: [
                 {
                     kind: 'block',
                     type: 'controls_repeat_ext',

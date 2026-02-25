@@ -21,7 +21,9 @@
     "build:plugin": "cd ../blockly-keyboard-experimentation && npm install && npm link blockly && npm run build",
     "link:plugin": "cd ../blockly-keyboard-experimentation/dist && npm link",
 
-    "relink": "npm run pull && npm run build:blockly && npm run link:blockly && npm run build:plugin && npm run link:plugin && npm install && npm link blockly @blockly/keyboard-navigation"
+    "relink": "npm run build:blockly && npm run link:blockly && npm run build:plugin && npm run link:plugin && npm install && npm link blockly @blockly/keyboard-navigation",
+    "pull-and-link": "npm run pull && npm run build:blockly && npm run link:blockly && npm run build:plugin && npm run link:plugin && npm install && npm link blockly @blockly/keyboard-navigation"
+
   },
   "keywords": [
     "blockly"

@@ -24,6 +24,21 @@ export class FarmManager {
         this.grid = this.initializeGrid();
     }
 
+    reset(): void {
+        this.day = 1;
+        this.harvestCount = 0;
+        this.grid = this.initializeGrid();
+        this.generatedCode = null;
+        this.processingQueue = false;
+        this.isPausedAtNextDay = false;
+        this.actionQueue = [];
+        this.notify();
+    }
+
+    resetActionQueue() {
+        this.actionQueue = [];
+    }
+
     private log(message: string, type: "info" | "warning" = "info") {
         FarmEvents.dispatch.update({ message, type });
     }
@@ -142,17 +157,6 @@ export class FarmManager {
         return row >= 0 && row < this.gridSize && col >= 0 && col < this.gridSize;
     }
 
-    reset(): void {
-        this.day = 1;
-        this.harvestCount = 0;
-        this.grid = this.initializeGrid();
-        this.generatedCode = null;
-        this.processingQueue = false;
-        this.isPausedAtNextDay = false;
-        this.actionQueue = [];
-        this.notify();
-    }
-
     enqueue(action: (() => void) & { isNextDay?: boolean }) {
         this.actionQueue.push(action);
     }
@@ -196,7 +200,7 @@ export class FarmManager {
     }
 
     // Run all blocks in the workspace
-    runAllDays() {
+    async runAllDays() {
         if (!this.generatedCode) return;
 
         try {
@@ -205,7 +209,7 @@ export class FarmManager {
             this.executeGeneratedCode();
 
             // Execute all actions in the queue
-            this.processQueue();
+            await this.processQueue();
 
         } catch (err) {
             console.error("Error running all days:", err);

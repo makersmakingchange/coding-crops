@@ -86,7 +86,7 @@ export function setupBlockly(blocklyContainer: HTMLElement,
             });
         }
 
-        // ws.addChangeListener(Blockly.Events.disableOrphans);
+        ws.addChangeListener(Blockly.Events.disableOrphans);
 
         if (!keyboardNavInstance) {
             keyboardNavInstance = new KeyboardNavigation(ws, { allowCrossWorkspacePaste: true });
@@ -95,28 +95,10 @@ export function setupBlockly(blocklyContainer: HTMLElement,
         // load(ws);
     }
 
-    const ws = Blockly.common.getWorkspaceById(workspaceId) as WorkspaceSvg
-
-    ws.addChangeListener((event) => {
-        if (
-            event.type === Blockly.Events.BLOCK_CREATE ||
-            event.type === Blockly.Events.BLOCK_DELETE ||
-            event.type === Blockly.Events.BLOCK_MOVE ||
-            event.type === Blockly.Events.BLOCK_CHANGE
-        ) {
-            onWorkspaceChange?.();
-        }
-    });
-
-    return ws;
-
-    // Save & re-run code when workspace changes
-    // ws.addChangeListener((e: Blockly.Events.Abstract) => {
-    //     if (e.isUiEvent || e.type === Blockly.Events.FINISHED_LOADING || ws.isDragging()) return;
-    //     // save(ws);
-    //     runCode();
-    // });
+    return Blockly.common.getWorkspaceById(workspaceId) as WorkspaceSvg
 }
+
+
 
 export function updateToolboxMap(ws: WorkspaceSvg, level: number) {
     ws.updateToolbox(toolboxMap[level]);
