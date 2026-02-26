@@ -9,12 +9,14 @@ const plant = {
         {
             'type': 'input_value',
             'name': 'ROW',
-            'check': 'Number',
+            'min': 1,
+            'max': 3,
         },
         {
             'type': 'input_value',
             'name': 'COLUMN',
-            'check': 'Number',
+            'min': 1,
+            'max': 3,
         }
     ],
     'previousStatement': null,

@@ -32,6 +32,7 @@ export function getLevelConfig(value: number | string): LevelConfig | undefined 
 }
 
 export type BlockDef = {
+    kind?: string;
     type: string;
     deletable?: boolean;
     inline?: boolean;

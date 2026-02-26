@@ -7,6 +7,7 @@ import { getLevelConfig } from '../blockly/levelManager';
 import {WorkspaceSvg} from "blockly";
 import farmManager from "../farm/FarmManagerSingleton";
 import {FarmEvents} from "../farm/FarmEvents";
+import A11yAnnouncer from "../accessibility/A11yAnnouncer";
 
 interface BlocklyProps {
     level: number | string,
@@ -78,6 +79,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
         console.log("Generated code:", code);
         setIsRunning(true);
+        A11yAnnouncer.announce(`Running code. Day ${farmManager.getDay()}.`, 0);
 
         if (runMode === "day") {
             if (!farmManager.hasActions?.()) {
