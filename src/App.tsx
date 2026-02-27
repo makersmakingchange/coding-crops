@@ -15,6 +15,9 @@ import A11yAnnouncer from "./accessibility/A11yAnnouncer";
 import {FarmEvents} from "./farm/FarmEvents";
 import {useKeyboardShortcuts} from "./hooks/useKeyboardShortcuts";
 import {useFarmEndDay} from "./hooks/useFarmEndDay";
+import CommandPalette from "./components/CommandPalette";
+import type {Command} from "./components/CommandPalette";
+import {focusBlocklyWorkspace} from "./blockly/blocklySetup";
 
 type AppProps = {
     mode?: 'internal' | 'production' | 'testing';
@@ -27,6 +30,8 @@ function App({mode = 'production'}: AppProps) {
 
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
     const runModeRef = useRef(runMode);
+
+    const [isCommandPaletteOpen, setCommandPaletteOpen] = useState(false);
 
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
     const [warnings, setWarnings] = useState<Warning[]>([]);
@@ -81,10 +86,6 @@ function App({mode = 'production'}: AppProps) {
     useFarmEndDay(runModeRef, setSummaries);
 
     useKeyboardShortcuts({
-        gt: () => {
-            console.log("Go to Blockly toolbox");
-            (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
-        },
         gu: () => {
             console.log("Go to Updates button");
             (document.querySelector('.update-button') as HTMLElement | null)?.focus();
@@ -105,8 +106,15 @@ function App({mode = 'production'}: AppProps) {
             console.log("Go to instructions panel");
             (document.querySelector('.instructions-panel') as HTMLElement | null)?.focus()
         },
-        "/": () => console.log("Open command palette"),
-    });
+    }, true);
+
+    useKeyboardShortcuts({
+        t: () => {
+            console.log("Go to Blockly toolbox");
+            (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
+        },
+        w: () => focusBlocklyWorkspace(),
+    })
 
     const resetGame = () => {
         farmManager.reset();
@@ -134,6 +142,20 @@ function App({mode = 'production'}: AppProps) {
         }
     };
 
+    const toggleCommandPalette = () => {
+        setCommandPaletteOpen(!isCommandPaletteOpen);
+
+    };
+
+    useKeyboardShortcuts({
+        '/': toggleCommandPalette,
+    }, false, true);
+
+    const handleCommandSelect = (command: Command) => {
+        // Execute the command
+        command.action();
+    };
+
     const toggleRunMode = () => {
         setRunMode(prevMode => (prevMode === 'all' ? 'day' : 'all'));
         resetGame();
@@ -151,6 +173,14 @@ function App({mode = 'production'}: AppProps) {
                 message={errorMessage}
                 onClose={() => setErrorMessage(null)}
             />
+            {isCommandPaletteOpen && (
+                <CommandPalette
+                    isOpen={isCommandPaletteOpen}
+                    onClose={() => setCommandPaletteOpen(false)}
+                    onCommandSelect={handleCommandSelect}
+                    resetGame={resetGame}
+                />
+            )}
             <div className="App-body">
                 <a href="#main-content" className="skip-to-main-content-link">Skip to workspace</a>
                 <a href="#game-panel" className="skip-to-game-panel-link">Skip to game panel</a>

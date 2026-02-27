@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 type ShortcutMap = Record<string, () => void>;
 
-export function useKeyboardShortcuts(shortcuts: ShortcutMap, timeout = 500) {
+export function useKeyboardShortcuts(shortcuts: ShortcutMap, altModifier = false, ctrlModifier = false, timeout = 500) {
     useEffect(() => {
         let buffer = '';
         let timer: number | undefined;
@@ -13,7 +13,10 @@ export function useKeyboardShortcuts(shortcuts: ShortcutMap, timeout = 500) {
         };
 
         const handler = (e: KeyboardEvent) => {
-            if (e.repeat || isTypingTarget(e.target) || !e.altKey) return;
+            const cmdOrCtrl = e.metaKey || e.ctrlKey;
+            if (e.repeat || isTypingTarget(e.target)) return;
+            if (altModifier && !e.altKey) return;
+            if (ctrlModifier && !cmdOrCtrl) return;
 
             buffer += e.key.toLowerCase();
 

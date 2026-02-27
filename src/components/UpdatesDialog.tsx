@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import '../styles/UpdatesDialog.css';
 import { Warning } from '../types';
+import {useToggleDialog} from "../hooks/useToggleDialog";
 
 interface UpdatesDialogProps {
     isOpen: boolean;
@@ -17,18 +18,7 @@ const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
                                                      }) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
-    useEffect(() => {
-        const previouslyFocused = document.activeElement as HTMLElement;
-        const dialog = dialogRef.current;
-        if (!dialog) return;
-
-        if (isOpen) {
-            if (!dialog.open) dialog.showModal();
-        } else {
-            if (dialog.open) dialog.close();
-        }
-        return () => previouslyFocused?.focus();
-    }, [isOpen]);
+    useToggleDialog(dialogRef, isOpen);
 
     const handleCancel = (e: React.SyntheticEvent) => {
         e.preventDefault();

@@ -106,6 +106,12 @@ export function updateToolboxMap(ws: WorkspaceSvg, level: number) {
     return ws;
 }
 
+export function focusBlocklyWorkspace() {
+    const ws = Blockly.common.getWorkspaceById(workspaceId) as WorkspaceSvg;
+    const focusManager = Blockly.getFocusManager();
+    focusManager.focusNode(ws.getTopBlocks()[0]);
+}
+
 function addBlocks() {
     installColourBlocks({
         javascript: javascriptGenerator,
