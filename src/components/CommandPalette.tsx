@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import '../styles/CommandPalette.css';
 import BlocklyWorkspace from "./BlocklyWorkspace";
 import {focusBlocklyWorkspace} from "../blockly/blocklySetup";
+import {useToggleDialog} from "../hooks/useToggleDialog";
 
 export type Command = {
     label: string;
@@ -18,8 +19,17 @@ type CommandPaletteProps = {
 const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onCommandSelect, resetGame }) => {
     const [query, setQuery] = useState('');
     const [activeIndex, setActiveIndex] = useState(0);
-    const previous = document.activeElement as HTMLElement;
 
+
+    const actionCommand = useRef<Command | null>(null);
+    const listRef = useRef<HTMLUListElement>(null);
+    const commandPaletteRef = useRef<HTMLDialogElement>(null);
+    useToggleDialog(commandPaletteRef, isOpen, actionCommand);
+
+    const handleCancel = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        onClose();
+    };
 
     const commands: Command[] = [
         { label: 'Go to Blockly Toolbox', action: () => (document.querySelector('.blocklyToolbox') as HTMLElement)?.focus() },
@@ -27,10 +37,12 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onComm
         { label: 'Go to Controls Bar', action: () => (document.querySelector('#controls-heading') as HTMLElement)?.focus() },
         { label: 'Go to Farm Grid', action: () => (document.querySelector('.tile') as HTMLElement)?.focus() },
         { label: 'Go to Instructions Panel', action: () => (document.querySelector('.instructions-panel') as HTMLElement)?.focus() },
-        { label: 'Go to Level Button', action: () => onCommandSelect({ label: 'Reset Level', action: () => resetGame() }) },
-        { label: 'Reset Farm', action: () => onCommandSelect({ label: 'Reset Farm', action: () => resetGame() }) },
+        { label: 'Go to Level Button', action: () => (document.querySelector('.instructions-panel') as HTMLElement)?.focus() },
+        { label: 'Reset Farm', action: () => resetGame() },
+        { label: 'Change Run Mode', action: () => (document.querySelector('.run-mode-button') as HTMLElement)?.focus() },
         { label: 'Updates', action: () => (document.querySelector('.update-button') as HTMLElement)?.focus() },
         { label: 'Run Code', action: () => (document.querySelector('#runCodeButton') as HTMLElement)?.focus() },
+        { label: 'Open Shortcuts Menu', action: () => (document.querySelector('#pauseButton') as HTMLElement)?.focus() },
     ];
 
     const filteredCommands = commands.filter(cmd => cmd.label.toLowerCase().includes(query.toLowerCase()));
@@ -42,40 +54,42 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onComm
         }
     }, [isOpen]);
 
+    // useEffect(() => {
+    //     activeIndex.focus();
+    // }, [activeIndex]);
+
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'ArrowDown') {
+            // const previouslyFocused = document.activeElement as HTMLElement;
+            // if (previouslyFocused && !previouslyFocused.classList.contains('suggestions-list')) {
+            //     document.getElementById('command-0')?.focus();
+            // }
             setActiveIndex((prev) => (prev + 1) % filteredCommands.length);
         } else if (e.key === 'ArrowUp') {
             setActiveIndex((prev) => (prev - 1 + filteredCommands.length) % filteredCommands.length);
         } else if (e.key === 'Enter') {
-            filteredCommands[activeIndex]?.action();
+            actionCommand.current = filteredCommands[activeIndex];
+            onCommandSelect(filteredCommands[activeIndex]);
             onClose();
         } else if (e.key === 'Escape') {
-            previous?.focus();
+            actionCommand.current = null;
             onClose();
         }
     };
 
     return (
-        <div
+        <dialog
+            ref={commandPaletteRef}
+            onCancel={handleCancel}
             className={`command-palette ${isOpen ? 'open' : ''}`}
             onKeyDown={handleKeyDown}
-            tabIndex={0}
             role="dialog"
             aria-labelledby="command-palette-title"
-            aria-describedby="command-palette-description"
-            aria-hidden={!isOpen} // Hide the dialog from screen readers when it's not open
+            aria-hidden={!isOpen}
             aria-live="assertive" // Announce changes to live region
         >
             <div className="command-palette-header">
-                <h2 id="command-palette-title">Command Palette</h2>
-                <button
-                    aria-label="Close Command Palette"
-                    className="close-button"
-                    onClick={onClose}
-                >
-                    ✕
-                </button>
+                <h3 id="command-palette-title">Command Palette</h3>
             </div>
 
             <input
@@ -83,52 +97,38 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onComm
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search commands..."
+                placeholder="Search commands"
                 className="command-input"
                 aria-label="Search commands"
             />
 
-            <ul className="suggestions-list" role="listbox">
+            <ul
+                ref={listRef}
+                className="suggestions-list"
+                role="listbox"
+                aria-label="Command suggestions"
+                // aria-activedescendant={`command-${activeIndex}`}
+                tabIndex={0}
+            >
                 {filteredCommands.map((command, index) => (
                     <li
                         key={index}
+                        id={`command-${index}`}
                         className={`suggestion-item ${activeIndex === index ? 'active' : ''}`}
                         onClick={() => {
-                            command.action();
-                            onClose(); // Close Command Palette after executing command
+                            actionCommand.current = filteredCommands[activeIndex];
+                            onCommandSelect(filteredCommands[activeIndex]);
+                            onClose();
                         }}
                         role="option"
+                        aria-label={command.label}
                         aria-selected={activeIndex === index}
                     >
                         {command.label}
                     </li>
                 ))}
             </ul>
-        </div>
-        //
-        // <div className="command-palette" onKeyDown={handleKeyDown} tabIndex={0}>
-        //     <input
-        //         type="text"
-        //         value={query}
-        //         onChange={(e) => setQuery(e.target.value)}
-        //         placeholder="Search commands..."
-        //         className="command-input"
-        //     />
-        //     <ul className="suggestions-list">
-        //         {filteredCommands.map((command, index) => (
-        //             <li
-        //                 key={index}
-        //                 className={`suggestion-item ${activeIndex === index ? 'active' : ''}`}
-        //                 onClick={() => {
-        //                     command.action();
-        //                     onClose();
-        //                 }}
-        //             >
-        //                 {command.label}
-        //             </li>
-        //         ))}
-        //     </ul>
-        // </div>
+        </dialog>
     );
 };
 

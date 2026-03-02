@@ -217,11 +217,11 @@ body {
     background-color: #2b68c5;
 }
 
-button.run-mode-button-all {
+button.run-mode-button.all {
     background-color: #d6611a;
 }
 
-button.run-mode-button-day {
+button.run-mode-button.day {
     background-color: #3c9c18;
 }
 

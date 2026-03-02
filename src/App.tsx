@@ -109,10 +109,10 @@ function App({mode = 'production'}: AppProps) {
     }, true);
 
     useKeyboardShortcuts({
-        t: () => {
-            console.log("Go to Blockly toolbox");
-            (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
-        },
+        // t: () => {
+        //     console.log("Go to Blockly toolbox");
+        //     (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
+        // },
         w: () => focusBlocklyWorkspace(),
     })
 
@@ -191,7 +191,7 @@ function App({mode = 'production'}: AppProps) {
                         <button onClick={resetGame}>Reset Farm</button>
                         <button
                             onClick={toggleRunMode}
-                            className={`run-mode-button${runMode === 'all' ? '-all' : '-day'}`}
+                            className={`run-mode-button${runMode === 'all' ? ' all' : ' day'}`}
                             aria-pressed={runMode === 'all'}
                             aria-label={runMode === 'all' ? 'Change to Run 1 Day Mode' : 'Change to Run All Blocks Mode'}
                         >
