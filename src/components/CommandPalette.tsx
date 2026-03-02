@@ -54,17 +54,15 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onComm
         }
     }, [isOpen]);
 
-    // useEffect(() => {
-    //     activeIndex.focus();
-    // }, [activeIndex]);
-
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'ArrowDown') {
-            // const previouslyFocused = document.activeElement as HTMLElement;
-            // if (previouslyFocused && !previouslyFocused.classList.contains('suggestions-list')) {
-            //     document.getElementById('command-0')?.focus();
-            // }
-            setActiveIndex((prev) => (prev + 1) % filteredCommands.length);
+            const previouslyFocused = document.activeElement as HTMLElement;
+            if (previouslyFocused && !previouslyFocused.classList.contains('suggestions-list')) {
+                document.getElementById('suggestions-list')?.focus();
+                setActiveIndex(0);
+            } else {
+                setActiveIndex((prev) => (prev + 1) % filteredCommands.length);
+            }
         } else if (e.key === 'ArrowUp') {
             setActiveIndex((prev) => (prev - 1 + filteredCommands.length) % filteredCommands.length);
         } else if (e.key === 'Enter') {
@@ -104,10 +102,11 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onComm
 
             <ul
                 ref={listRef}
+                id="suggestions-list"
                 className="suggestions-list"
                 role="listbox"
                 aria-label="Command suggestions"
-                // aria-activedescendant={`command-${activeIndex}`}
+                aria-activedescendant={`command-${activeIndex}`}
                 tabIndex={0}
             >
                 {filteredCommands.map((command, index) => (
