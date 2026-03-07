@@ -1,16 +1,16 @@
 import React, { useEffect, useRef } from 'react';
-import '../styles/UpdatesDialog.css';
+import '../styles/UpdatesModal.css';
 import { Warning } from '../types';
-import {useToggleDialog} from "../hooks/useToggleDialog";
+import {useToggleModal} from "../hooks/useToggleModal";
 
-interface UpdatesDialogProps {
+interface UpdatesModalProps {
     isOpen: boolean;
     onClose: () => void;
     summaries: string[];
     warnings?: Warning[];
 }
 
-const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
+const UpdatesModal: React.FC<UpdatesModalProps> = ({
                                                          isOpen,
                                                          onClose,
                                                          summaries,
@@ -18,7 +18,7 @@ const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
                                                      }) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
-    useToggleDialog(dialogRef, isOpen);
+    useToggleModal(dialogRef, isOpen);
 
     const handleCancel = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -30,7 +30,7 @@ const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
     return (
         <dialog
             ref={dialogRef}
-            className="updates-dialog"
+            className="updates-modal"
             aria-labelledby="updates-title"
             onCancel={handleCancel}
         >
@@ -51,7 +51,7 @@ const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
                 </section>
             )}
 
-            <div className="updates-dialog-content">
+            <div className="updates-modal-content">
                 <ul>
                     {summaries.length === 0 ? (
                         <li className="no-updates" tabIndex={0}>No updates yet.</li>
@@ -70,9 +70,8 @@ const UpdatesDialog: React.FC<UpdatesDialogProps> = ({
                     onClick={onClose}
                 >Close</button>
             </form>
-
         </dialog>
     );
 };
 
-export default UpdatesDialog;
+export default UpdatesModal;

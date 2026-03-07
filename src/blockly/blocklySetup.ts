@@ -112,6 +112,12 @@ export function focusBlocklyWorkspace() {
     focusManager.focusNode(ws.getTopBlocks()[0]);
 }
 
+export function focusBlocklyToolbox() {
+    // const tb = Blockly.common.tool
+    // const focusManager = Blockly.getFocusManager();
+    // focusManager.focusNode(tb);
+}
+
 function addBlocks() {
     installColourBlocks({
         javascript: javascriptGenerator,

@@ -4,19 +4,23 @@ import FarmGrid from './components/FarmGrid';
 import LevelSelector from './components/LevelSelector';
 import {getLevelConfig, LEVELS, SCENARIO_LEVELS} from "./blockly/levelManager";
 import Instructions from './components/Instructions';
-import UpdatesDialog from "./components/UpdatesDialog";
+import UpdatesModal from "./components/UpdatesModal";
 import ErrorDialog from "./components/ErrorDialog";
+import VersionModal from "./components/VersionModal";
 import farmManager from './farm/FarmManagerSingleton';
 import FarmA11y from './accessibility/FarmA11y';
 import { Warning } from './types';
 import icon from './assets/favicon.png';
+import blocklyAttr from './assets/built-with-blockly-badge.png';
+import mmcLogo from './assets/MMC_Logo.png';
+import mmcLogoWhite from './assets/MMC_Logo_White.svg';
 import './styles/index.css';
 import A11yAnnouncer from "./accessibility/A11yAnnouncer";
 import {FarmEvents} from "./farm/FarmEvents";
 import {useKeyboardShortcuts} from "./hooks/useKeyboardShortcuts";
 import {useFarmEndDay} from "./hooks/useFarmEndDay";
-import CommandPalette from "./components/CommandPalette";
-import type {Command} from "./components/CommandPalette";
+import CommandModal from "./components/CommandModal";
+import type {Command} from "./components/CommandModal";
 import {focusBlocklyWorkspace} from "./blockly/blocklySetup";
 
 type AppProps = {
@@ -32,11 +36,17 @@ function App({mode = 'production'}: AppProps) {
     const runModeRef = useRef(runMode);
 
     const [isCommandPaletteOpen, setCommandPaletteOpen] = useState(false);
-
+    const [isVersionOpen, setVersionOpen] = useState(false);
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
+
     const [warnings, setWarnings] = useState<Warning[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const liveRegionRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const link = document.querySelector("link[rel='icon']") as HTMLLinkElement;
+        if (link) link.href = icon;
+    }, []);
 
     useEffect(() => {
         A11yAnnouncer.register(liveRegionRef.current);
@@ -163,7 +173,7 @@ function App({mode = 'production'}: AppProps) {
 
     return (
         <div id="app" className="App">
-            <UpdatesDialog
+            <UpdatesModal
                 isOpen={isUpdatesOpen}
                 onClose={() => setIsUpdatesOpen(false)}
                 summaries={summaries}
@@ -174,7 +184,7 @@ function App({mode = 'production'}: AppProps) {
                 onClose={() => setErrorMessage(null)}
             />
             {isCommandPaletteOpen && (
-                <CommandPalette
+                <CommandModal
                     isOpen={isCommandPaletteOpen}
                     onClose={() => setCommandPaletteOpen(false)}
                     onCommandSelect={handleCommandSelect}
@@ -185,7 +195,11 @@ function App({mode = 'production'}: AppProps) {
                 <a href="#main-content" className="skip-to-main-content-link">Skip to workspace</a>
                 <a href="#game-panel" className="skip-to-game-panel-link">Skip to game panel</a>
                 <header className="App-header">
-                    <h1 className="App-title"><img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops</h1>
+                    <h1 className="App-title">
+                        <img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops
+                    </h1>
+                    <img src={blocklyAttr} alt="Built with Blockly" className="built-with-blockly-badge" aria-hidden="true"/>
+                    <img src={mmcLogoWhite} alt="Makers Making Change logo" className="mmc-logo" aria-hidden="true"/>
                     <section className="controls-bar" aria-keyshortcuts="Alt+G+C">
                         <h2 id="controls-heading" className="sr-only" tabIndex={0}>Farm Controls</h2>
                         <button onClick={resetGame}>Reset Farm</button>
@@ -234,6 +248,20 @@ function App({mode = 'production'}: AppProps) {
                                     aria-description="Read history of current farm changes, escape to leave">
                                 Updates
                             </button>
+
+                            <div id="version-footer">
+                                <button
+                                    tabIndex={-1}
+                                    className="version-button"
+                                    onClick={() => setVersionOpen(true)}>
+                                    v{__APP_VERSION__}
+                                </button>
+
+                                <VersionModal
+                                    isOpen={isVersionOpen}
+                                    onClose={() => setVersionOpen(false)}
+                                />
+                            </div>
                             <div
                                 aria-live="polite"
                                 role="status"
@@ -242,19 +270,7 @@ function App({mode = 'production'}: AppProps) {
                                 ref={liveRegionRef}
                             />
                         </div>
-                        <div id="version-footer">
-                            {`App v${__APP_VERSION__} 
-                        • Blockly: add-screen-reader-support-experimental 
-                        • Commit ${__GIT_HASH__} 
-                        • Build ${new Date(__BUILD_DATE__).toLocaleString('en-US', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit',
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                hour12: true,
-                            })}`}
-                        </div>
+
                     </div>
                 </div>
             </div>

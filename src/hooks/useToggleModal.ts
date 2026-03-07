@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
-import type {Command} from "../components/CommandPalette";
+import type {Command} from "../components/CommandModal";
 
-export function useToggleDialog(
+export function useToggleModal(
     dialogRef: React.RefObject<HTMLDialogElement | null>,
     isOpen: boolean,
     actionCommand?: React.RefObject<Command | null>

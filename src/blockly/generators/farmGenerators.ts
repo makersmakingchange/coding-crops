@@ -31,8 +31,8 @@ forBlock['plant'] = function (
     block: Blockly.Block,
     generator: Blockly.CodeGenerator,
 ) {
-    const row = generator.valueToCode(block, 'ROW', Order.NONE) || 1;
-    const col = generator.valueToCode(block, 'COLUMN', Order.NONE) || 1;
+    const row = generator.valueToCode(block, 'ROW', Order.ASSIGNMENT) || 1;
+    const col = generator.valueToCode(block, 'COLUMN', Order.ASSIGNMENT) || 1;
 
     return `
         (function(row, col) {
@@ -47,8 +47,8 @@ forBlock['water'] = function (
     block: Blockly.Block,
     generator: Blockly.CodeGenerator,
 ) {
-    const row = generator.valueToCode(block, 'ROW', Order.NONE) || 1;
-    const col = generator.valueToCode(block, 'COLUMN', Order.NONE) || 1;
+    const row = generator.valueToCode(block, 'ROW', Order.ASSIGNMENT) || 1;
+    const col = generator.valueToCode(block, 'COLUMN', Order.ASSIGNMENT) || 1;
 
     return `
         (function(row, col) {
@@ -63,8 +63,8 @@ forBlock['harvest'] = function (
     block: Blockly.Block,
     generator: Blockly.CodeGenerator,
 ) {
-    const row = generator.valueToCode(block, 'ROW', Order.NONE) || 1;
-    const col = generator.valueToCode(block, 'COLUMN', Order.NONE) || 1;
+    const row = generator.valueToCode(block, 'ROW', Order.ASSIGNMENT) || 1;
+    const col = generator.valueToCode(block, 'COLUMN', Order.ASSIGNMENT) || 1;
 
     return `
         (function(row, col) {

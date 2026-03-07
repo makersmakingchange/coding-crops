@@ -122,7 +122,7 @@ body {
 }
 
 .App-title {
-    width: 20%;
+    width: 15%;
     color: white;
     font-weight: bold;
     font-size: 1.5rem;
@@ -134,9 +134,28 @@ body {
 }
 
 .App-icon {
-    width: 1.5rem;
-    height: 1.5rem;
+    height: 1.75rem;
     margin-right: 2%;
+}
+
+.attr-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.attr-icons img {
+    height: 4rem;
+    margin: 0 2rem;
+}
+
+.built-with-blockly-badge {
+    height: 1.5rem;
+    margin: 0 0.5rem;
+}
+
+.mmc-logo {
+    height: 1.5rem;
 }
 
 .App button, select {
@@ -199,12 +218,13 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
+    background-color: #333;
 }
 
 .game-container {
-    height: 90%;
+    height: 95%;
     width: 100%;
-    padding: 20px;
+    padding: 20px 10px 0 10px;
     overflow-y: auto;
     background-color: #333;
     color: #fff;
@@ -213,7 +233,7 @@ body {
     justify-content: flex-start;
 }
 
-.update-button:hover {
+button:hover {
     background-color: #2b68c5;
 }
 
@@ -317,9 +337,11 @@ button.run-mode-button.day {
     stroke: none;
 }
 
+.update-button {
+    margin: 1rem;
+}
 
 button.run-code-button {
-    tab-index: 0 !important;
     margin-left: auto;
     background-color: #7e3000;
     padding: 8px 30px;
@@ -354,14 +376,24 @@ button.run-code-button {
 
 #version-footer {
     position: absolute;
-    bottom: 15px;
-    right: 5px;
-    left: 5px;
-    font-size: 11px;
+    bottom: 5px;
+    right: 0;
     opacity: 0.6;
-    color: #fff; /* or match your theme */
-    pointer-events: none; /* avoid blocking clicks */
     user-select: none;
+}
+
+button.version-button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 10px;
+    box-shadow: none;
+    pointer-events: auto;
+}
+
+button.version-button:hover {
+    background: #1e1e1e;
 }
 
 /*Screen reader styles*/

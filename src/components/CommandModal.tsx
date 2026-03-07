@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import '../styles/CommandPalette.css';
 import BlocklyWorkspace from "./BlocklyWorkspace";
 import {focusBlocklyWorkspace} from "../blockly/blocklySetup";
-import {useToggleDialog} from "../hooks/useToggleDialog";
+import {useToggleModal} from "../hooks/useToggleModal";
 
 export type Command = {
     label: string;
@@ -16,15 +16,15 @@ type CommandPaletteProps = {
     resetGame: () => void;
 };
 
-const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onCommandSelect, resetGame }) => {
+const CommandModal: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onCommandSelect, resetGame }) => {
     const [query, setQuery] = useState('');
     const [activeIndex, setActiveIndex] = useState(0);
 
 
     const actionCommand = useRef<Command | null>(null);
     const listRef = useRef<HTMLUListElement>(null);
-    const commandPaletteRef = useRef<HTMLDialogElement>(null);
-    useToggleDialog(commandPaletteRef, isOpen, actionCommand);
+    const commandModalRef = useRef<HTMLDialogElement>(null);
+    useToggleModal(commandModalRef, isOpen, actionCommand);
 
     const handleCancel = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -77,7 +77,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onComm
 
     return (
         <dialog
-            ref={commandPaletteRef}
+            ref={commandModalRef}
             onCancel={handleCancel}
             className={`command-palette ${isOpen ? 'open' : ''}`}
             onKeyDown={handleKeyDown}
@@ -131,4 +131,4 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onComm
     );
 };
 
-export default CommandPalette;
+export default CommandModal;
