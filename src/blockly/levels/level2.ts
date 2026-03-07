@@ -1,4 +1,5 @@
 import {chainBlocks, BlockDef, processBlocks} from "../levelManager";
+import {nextDayBlock, plantBlock, waterBlock} from "./levelBuilder";
 
 const numShadow = (num: number) => ({
     type: 'math_number',
@@ -6,96 +7,11 @@ const numShadow = (num: number) => ({
 });
 
 const level2Actions: BlockDef[] = [
-    {
-        type: 'plant',
-        inline: true,
-        inputs: {
-            ROW: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            },
-            COLUMN: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            }
-        }
-    },
-    {
-        type: 'water',
-        inline: true,
-        inputs: {
-            ROW: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            },
-            COLUMN: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            }
-        }
-    },
-    { type: 'next_day' },
-    {
-        type: 'water',
-        inline: true,
-        inputs: {
-            ROW: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            },
-            COLUMN: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            }
-        }
-    },
-    { type: 'next_day' },
-    {
-        type: 'harvest',
-        inline: true,
-        inputs: {
-            ROW: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            },
-            COLUMN: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            }
-        }
-    },
+    plantBlock(1, 1),
+    waterBlock(1, 1),
+    nextDayBlock,
+    waterBlock(1, 1),
+    nextDayBlock,
 ];
 
 const repeatBlock: BlockDef = {

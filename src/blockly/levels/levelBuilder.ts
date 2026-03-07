@@ -1,25 +1,18 @@
-import * as Blockly from "blockly";
 import {BlockDef, processBlocks} from "../levelManager";
+import {createAriaNumberInstance} from "../blocks/mathBlocks";
+
+const rowBlock = createAriaNumberInstance(1, 'Row number');
+const colBlock = createAriaNumberInstance(1, 'Column number');
 
 export const plantBlock = (row: number, col: number): BlockDef => ({
     type: 'plant',
     inline: true,
     inputs: {
         ROW: {
-            shadow: {
-                type: 'math_number',
-                fields: {
-                    NUM: row,
-                },
-            },
+            shadow: rowBlock,
         },
         COLUMN: {
-            shadow: {
-                type: 'math_number',
-                fields: {
-                    NUM: col,
-                },
-            },
+            shadow: colBlock,
         }
     }
 });
@@ -29,20 +22,10 @@ export const waterBlock = (row: number, col: number): BlockDef => ({
     inline: true,
     inputs: {
         ROW: {
-            shadow: {
-                type: 'math_number',
-                fields: {
-                    NUM: row,
-                },
-            },
+            shadow: rowBlock
         },
         COLUMN: {
-            shadow: {
-                type: 'math_number',
-                fields: {
-                    NUM: col,
-                },
-            },
+            shadow: colBlock
         }
     }
 });
@@ -52,20 +35,10 @@ export const harvestBlock = (row: number, col: number): BlockDef => ({
     inline: true,
     inputs: {
         ROW: {
-            shadow: {
-                type: 'math_number',
-                fields: {
-                    NUM: row,
-                },
-            },
+            shadow: rowBlock
         },
         COLUMN: {
-            shadow: {
-                type: 'math_number',
-                fields: {
-                    NUM: col,
-                },
-            },
+            shadow: colBlock
         }
     }
 });

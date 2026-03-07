@@ -1,29 +1,9 @@
 import {chainBlocks, BlockDef, processBlocks} from "../levelManager";
+import {plantBlock} from "./levelBuilder";
 
 // Define your level blocks in order
 const level3Blocks: BlockDef[] = [
-    {
-        type: 'plant',
-        inline: true,
-        inputs: {
-            ROW: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            },
-            COLUMN: {
-                shadow: {
-                    type: 'math_number',
-                    fields: {
-                        NUM: 1,
-                    },
-                },
-            }
-        }
-    },
+    plantBlock(1, 1)
 ];
 
 export const level3 = {

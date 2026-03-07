@@ -9,12 +9,14 @@ import {javascriptGenerator} from 'blockly/javascript';
 
 import {farmBlocks} from './blocks/farmBlocks';
 import {forBlock} from './generators/farmGenerators';
+import {ariaBlock} from "./generators/mathGenerators";
 
 import {save, load} from './serialization';
 import {toolboxMap} from './toolboxes';
 import '../styles/index.css';
 import {WorkspaceSvg} from "blockly";
 import {copy} from "blockly/core/clipboard";
+import {registerFarmFieldNumber} from "./fields/FarmFieldNumber";
 
 export class CustomToolbox extends Blockly.Toolbox {
     protected override onKeyDown_(e: KeyboardEvent) {}
@@ -55,6 +57,7 @@ export function setupBlockly(blocklyContainer: HTMLElement,
         });
 
         addBlocks();
+        registerFarmFieldNumber();
         copyPastePluginInitialized = true;
     }
 
@@ -124,4 +127,5 @@ function addBlocks() {
     });
     Blockly.common.defineBlocks(farmBlocks);
     Object.assign(javascriptGenerator.forBlock, forBlock);
+    Object.assign(javascriptGenerator.forBlock, ariaBlock);
 }
