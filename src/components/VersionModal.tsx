@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { useToggleModal } from "../hooks/useToggleModal";
 import blocklyAttr from '../assets/built-with-blockly-badge.png';
 import mmcLogo from '../assets/MMC_Logo.png';
+import NSSLogo from '../assets/NSS_MMC_White.png';
 
 type Props = {
     isOpen: boolean;
@@ -48,7 +49,7 @@ export function VersionModal({ isOpen, onClose }: Props) {
             <br />
             <div className="attr-icons">
                 <img src={blocklyAttr} alt="Built with Blockly" className="built-with-blockly-badge" aria-hidden="true"/>
-                <img src={mmcLogo} alt="Makers Making Change logo" className="mmc-logo" aria-hidden="true"/>
+                <img src={NSSLogo} alt="Makers Making Change logo" className="nss-mmc-logo" aria-hidden="true"/>
             </div>
 
             <form method="dialog" className="dialog-footer">

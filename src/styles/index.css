@@ -146,15 +146,20 @@ body {
 
 .attr-icons img {
     height: 4rem;
-    margin: 0 2rem;
+    /*margin: 0 2rem;*/
+}
+
+.attr-icons .built-with-blockly-badge {
+    margin-left: 0;
+    margin-right: 3rem;
 }
 
 .built-with-blockly-badge {
     height: 1.5rem;
-    margin: 0 0.5rem;
+    margin: 0 1.25rem 0 0.5rem;
 }
 
-.mmc-logo {
+.nss-mmc-logo {
     height: 1.5rem;
 }
 

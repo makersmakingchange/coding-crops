@@ -12,7 +12,7 @@ import FarmA11y from './accessibility/FarmA11y';
 import { Warning } from './types';
 import icon from './assets/favicon.png';
 import blocklyAttr from './assets/built-with-blockly-badge.png';
-import mmcLogo from './assets/MMC_Logo.png';
+import nssLogo from './assets/NSS_MMC_White.png';
 import mmcLogoWhite from './assets/MMC_Logo_White.svg';
 import './styles/index.css';
 import A11yAnnouncer from "./accessibility/A11yAnnouncer";
@@ -199,7 +199,7 @@ function App({mode = 'production'}: AppProps) {
                         <img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops
                     </h1>
                     <img src={blocklyAttr} alt="Built with Blockly" className="built-with-blockly-badge" aria-hidden="true"/>
-                    <img src={mmcLogoWhite} alt="Makers Making Change logo" className="mmc-logo" aria-hidden="true"/>
+                    <img src={nssLogo} alt="Makers Making Change logo" className="nss-mmc-logo" aria-hidden="true"/>
                     <section className="controls-bar" aria-keyshortcuts="Alt+G+C">
                         <h2 id="controls-heading" className="sr-only" tabIndex={0}>Farm Controls</h2>
                         <button onClick={resetGame}>Reset Farm</button>
@@ -254,7 +254,15 @@ function App({mode = 'production'}: AppProps) {
                                     tabIndex={-1}
                                     className="version-button"
                                     onClick={() => setVersionOpen(true)}>
-                                    v{__APP_VERSION__}
+                                    v{__APP_VERSION__}: &nbsp;&nbsp;
+                                    {new Date(__BUILD_DATE__).toLocaleString("en-US", {
+                                        year: "numeric",
+                                        month: "2-digit",
+                                        day: "2-digit",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                        hour12: true,
+                                    })}
                                 </button>
 
                                 <VersionModal
