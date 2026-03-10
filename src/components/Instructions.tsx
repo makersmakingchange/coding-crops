@@ -27,7 +27,6 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
             className="instructions-panel"
             ref={instructionsRef}
             role="region"
-            aria-live="polite"
             tabIndex={0}
         >
             <div className="instructions-header">
@@ -55,8 +54,9 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
                         <div
                             id="hint-text"
                             className="hint-text"
+                            tabIndex={0}
                         >
-                            {hint}
+                            Hint, {hint}
                         </div>
                     )}
                 </div>

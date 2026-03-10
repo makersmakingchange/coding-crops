@@ -15,11 +15,7 @@ export function useFarmEndDay(
             const sums = FarmA11y.getQuickSummaries();
             setSummaries([...sums]);
 
-            const message = runModeRef.current === 'day'
-                ? sums[sums.length - 1]
-                : 'Farm updated.';
-
-            A11yAnnouncer.announce(message);
+            if (runModeRef.current === 'day') A11yAnnouncer.announce(sums[sums.length - 1]);
         };
 
         FarmEvents.on('farm:end-day', handler);

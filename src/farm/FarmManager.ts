@@ -1,6 +1,7 @@
 import {CropType, Tile, TileState} from "./Tile";
 import FarmA11y from '../accessibility/FarmA11y';
 import {FarmEvents} from "./FarmEvents";
+import A11yAnnouncer from "../accessibility/A11yAnnouncer";
 
 
 export class FarmManager {
@@ -182,6 +183,7 @@ export class FarmManager {
             await new Promise(r => setTimeout(r, 300));
         }
         FarmEvents.dispatch.endDay();
+        A11yAnnouncer.announce(`Farm updated. Day ${this.day} complete. ${this.harvestCount} crops harvested.`, 0);
 
         this.processingQueue = false;
     }

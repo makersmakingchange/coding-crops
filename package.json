@@ -11,7 +11,7 @@
 
     "pull": "npm run pull:blockly && npm run pull:plugin && npm run pull:app",
 
-    "pull:blockly": "cd ../blockly && git fetch upstream && git checkout add-screen-reader-support-experimental && git pull",
+    "pull:blockly": "cd ../blockly && git fetch upstream && git checkout codingcrops-changes && git pull",
     "pull:plugin": "cd ../blockly-keyboard-experimentation && git fetch upstream && git checkout add-screen-reader-support-experimental && git pull",
     "pull:app": "git fetch && git checkout master && git pull",
 

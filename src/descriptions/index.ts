@@ -5,20 +5,20 @@ interface Description {
 }
 
 const level1 = {
-    goal: "Plant, water and harvest 1 crop.",
-    hint: "Use the 'Plant' block to grow crops, the 'Water' block to speed up growth and the 'Harvest' block to harvest the crops.",
+    goal: "Plant and harvest 1 crop.",
+    hint: "Add a 'Harvest' block and Run All Days to harvest 1 crop. Then, add a new 'Plant' block and change the row and column numbers.",
     level: 1
 }
 
 const level2 = {
-    goal: "Plant and water 3 crops using loops.",
-    hint: "You can use the 'Repeat' block to repeat a block of code multiple times.",
+    goal: "Plant and harvest 1 crop using loops.",
+    hint: "Add a repeat block, and use it to repeat the 'Water' and 'Next Day' blocks 2 times.",
     level: 2
 }
 
 const level3 = {
-    goal: "Plant and water 3 crops using variables.",
-    hint: "You can create variables and replace the values in the code.",
+    goal: "Plant 1 crop using variables.",
+    hint: "Create a variable called 'row number' and set it to 3, then plant a crop at row, row number, and column, row number minus 1. ",
     level: 3
 }
 

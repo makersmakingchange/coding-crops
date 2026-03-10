@@ -66,7 +66,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
             // const cmdOrCtrl = e.metaKey || e.ctrlKey;
 
             if (e.altKey && (e.key === 'r' || e.key === 'R'))
-                (handleRunCode());
+                (document.querySelector('#runCodeButton') as HTMLElement)?.focus();
         };
 
         window.addEventListener('keydown', handleShortcuts);
@@ -77,9 +77,8 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         if (!workspaceRef.current) return;
 
         const code = javascriptGenerator.workspaceToCode(workspaceRef.current);
-        console.log("Generated code:", code);
         setIsRunning(true);
-        A11yAnnouncer.announce(`Running code. Day ${farmManager.getDay()}.`, 0);
+        A11yAnnouncer.announce(`Running code.`, 0);
 
         if (runMode === "day") {
             if (!farmManager.hasActions?.()) {
