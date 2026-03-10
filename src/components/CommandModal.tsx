@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import '../styles/CommandPalette.css';
+import '../styles/CommandModal.css';
 import BlocklyWorkspace from "./BlocklyWorkspace";
 import {focusBlocklyWorkspace} from "../blockly/blocklySetup";
 import {useToggleModal} from "../hooks/useToggleModal";
@@ -9,14 +9,14 @@ export type Command = {
     action: () => void;
 };
 
-type CommandPaletteProps = {
+type CommandModalProps = {
     isOpen: boolean;
     onClose: () => void;
     onCommandSelect: (command: Command) => void;
     resetGame: () => void;
 };
 
-const CommandModal: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onCommandSelect, resetGame }) => {
+const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandSelect, resetGame }) => {
     const [query, setQuery] = useState('');
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -37,12 +37,12 @@ const CommandModal: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onComman
         { label: 'Go to Controls Bar', action: () => (document.querySelector('#controls-heading') as HTMLElement)?.focus() },
         { label: 'Go to Farm Grid', action: () => (document.querySelector('.tile') as HTMLElement)?.focus() },
         { label: 'Go to Instructions Panel', action: () => (document.querySelector('.instructions-panel') as HTMLElement)?.focus() },
-        { label: 'Go to Level Button', action: () => (document.querySelector('.instructions-panel') as HTMLElement)?.focus() },
+        { label: 'Go to Level Button', action: () => (document.querySelector('.level-selector') as HTMLElement)?.focus() },
         { label: 'Reset Farm', action: () => resetGame() },
         { label: 'Change Run Mode', action: () => (document.querySelector('.run-mode-button') as HTMLElement)?.focus() },
         { label: 'Updates', action: () => (document.querySelector('.update-button') as HTMLElement)?.focus() },
         { label: 'Run Code', action: () => (document.querySelector('#runCodeButton') as HTMLElement)?.focus() },
-        { label: 'Open Shortcuts Menu', action: () => (document.querySelector('#pauseButton') as HTMLElement)?.focus() },
+        // { label: 'Open Shortcuts Menu', action: () => toggleShortcutDialog() },
     ];
 
     const filteredCommands = commands.filter(cmd => cmd.label.toLowerCase().includes(query.toLowerCase()));
@@ -79,7 +79,7 @@ const CommandModal: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onComman
         <dialog
             ref={commandModalRef}
             onCancel={handleCancel}
-            className={`command-palette ${isOpen ? 'open' : ''}`}
+            className={`command-modal ${isOpen ? 'open' : ''}`}
             onKeyDown={handleKeyDown}
             role="dialog"
             aria-labelledby="command-palette-title"

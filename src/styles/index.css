@@ -138,6 +138,23 @@ body {
     margin-right: 2%;
 }
 
+.divider {
+    margin: 0 0.5rem;
+    color: #e0e0e0;
+}
+
+.header-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+}
+
+.header-icons a {
+    line-height: 0;
+}
+
 .attr-icons {
     display: flex;
     align-items: center;
@@ -145,22 +162,27 @@ body {
 }
 
 .attr-icons img {
-    height: 4rem;
-    /*margin: 0 2rem;*/
+    height: 3rem;
 }
 
 .attr-icons .built-with-blockly-badge {
     margin-left: 0;
-    margin-right: 3rem;
+    margin-right: 2.2rem;
+}
+
+.attr-icons .nss-mmc-logo {
+    margin-left: 1.5rem;
+    margin-right: 0;
 }
 
 .built-with-blockly-badge {
     height: 1.5rem;
-    margin: 0 1.25rem 0 0.5rem;
+    margin: 0 1.75rem 0 0.5rem;
 }
 
 .nss-mmc-logo {
     height: 1.5rem;
+    margin-right: 0.8rem;
 }
 
 .App button, select {
@@ -202,17 +224,16 @@ body {
 
 .skip-to-main-content-link, .skip-to-game-panel-link {
     position: absolute;
-    left: -9999px;
     z-index: 999;
     padding: 1em;
-    background-color: black;
+    background: black;
     color: white;
     opacity: 0;
 }
 
 .skip-to-main-content-link:focus, .skip-to-game-panel-link:focus {
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 45%;
     opacity: 1;
 }
 

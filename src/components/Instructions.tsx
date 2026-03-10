@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import { descriptions } from '../descriptions';
 import '../styles/Instructions.css';
 import {getLevelConfig} from "../blockly/levelManager";
+import A11yAnnouncer from "../accessibility/A11yAnnouncer";
 
 interface InstructionsProps {
     level: number | string;
@@ -12,10 +13,6 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
     const instructionsRef = useRef<HTMLDivElement>(null);
 
     const hint = descriptions[level]?.hint || 'No hint available for this level.';
-
-    useEffect(() => {
-        instructionsRef.current?.focus();
-    }, [level]);
 
     useEffect(() => {
         setShowHint(false);

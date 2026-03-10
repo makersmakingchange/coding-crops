@@ -18,9 +18,8 @@ const getPlantEmoji = (growthStage: GrowthStage, cropType: CropType | null): str
         case GrowthStage.GROWING:
             return '🌿';
         case GrowthStage.MATURE:
-            return cropType === CropType.Sunflower ? '🌻'
-                : cropType === CropType.Corn ? '🌽'
-                    : '🎃';
+            return cropType === CropType.Sunflower ? '🌻' :
+                   cropType === CropType.Corn ? '🌽' : '🎃';
         default:
             return '';
     }

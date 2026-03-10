@@ -17,6 +17,7 @@ import '../styles/index.css';
 import {WorkspaceSvg} from "blockly";
 import {copy} from "blockly/core/clipboard";
 import {registerFarmFieldNumber} from "./fields/FarmFieldNumber";
+import {registerFlyoutCursor} from "../../../blockly-keyboard-experimentation/src/flyout_cursor";
 
 export class CustomToolbox extends Blockly.Toolbox {
     protected override onKeyDown_(e: KeyboardEvent) {}
@@ -34,7 +35,7 @@ function registerNavigationDeferringToolbox() {
 let keyboardStylesRegistered = false;
 let copyPastePluginInitialized = false;
 let workspaceInitialized = false;
-let workspaceId = 'workspace';
+let workspaceId = 'coding-crops-workspace';
 let keyboardNavInstance: KeyboardNavigation | null = null;
 
 export function setupBlockly(blocklyContainer: HTMLElement,
@@ -42,6 +43,7 @@ export function setupBlockly(blocklyContainer: HTMLElement,
                              onWorkspaceChange?: () => void,) {
     if (!keyboardStylesRegistered) {
         KeyboardNavigation.registerKeyboardNavigationStyles();
+        registerFlyoutCursor();
         registerNavigationDeferringToolbox();
         keyboardStylesRegistered = true;
     }
@@ -71,7 +73,7 @@ export function setupBlockly(blocklyContainer: HTMLElement,
                     length: 3,
                     colour: '#333',
                     snap: true},
-            trashcan: true,
+                trashcan: true,
         });
         workspaceInitialized = true;
         workspaceId = ws.id;

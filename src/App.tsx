@@ -12,8 +12,8 @@ import FarmA11y from './accessibility/FarmA11y';
 import { Warning } from './types';
 import icon from './assets/favicon.png';
 import blocklyAttr from './assets/built-with-blockly-badge.png';
-import nssLogo from './assets/NSS_MMC_White.png';
-import mmcLogoWhite from './assets/MMC_Logo_White.svg';
+import nssLogo from './assets/NSS_Logo_White.svg';
+import mmcLogo from './assets/MMC_Logo_White.svg';
 import './styles/index.css';
 import A11yAnnouncer from "./accessibility/A11yAnnouncer";
 import {FarmEvents} from "./farm/FarmEvents";
@@ -198,8 +198,18 @@ function App({mode = 'production'}: AppProps) {
                     <h1 className="App-title">
                         <img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops
                     </h1>
-                    <img src={blocklyAttr} alt="Built with Blockly" className="built-with-blockly-badge" aria-hidden="true"/>
-                    <img src={nssLogo} alt="Makers Making Change logo" className="nss-mmc-logo" aria-hidden="true"/>
+                    <span className="divider" aria-hidden="true">|</span>
+                    <div className="header-icons">
+                        <a href="https://developers.google.com/blockly" target="_self" rel="noopener noreferrer">
+                            <img src={blocklyAttr} alt="Built with Blockly" className="built-with-blockly-badge"/>
+                        </a>
+                        <a href="https://www.makersmakingchange.com/" target="_self" rel="noopener noreferrer">
+                            <img src={mmcLogo} alt="Makers Making Change logo" className="nss-mmc-logo" aria-hidden="true"/>
+                        </a>
+                        <a href="https://www.neilsquire.ca/" target="_self" rel="noopener noreferrer">
+                            <img src={nssLogo} alt="Neil Squire Society logo" className="nss-mmc-logo" aria-hidden="true"/>
+                        </a>
+                    </div>
                     <section className="controls-bar" aria-keyshortcuts="Alt+G+C">
                         <h2 id="controls-heading" className="sr-only" tabIndex={0}>Farm Controls</h2>
                         <button onClick={resetGame}>Reset Farm</button>

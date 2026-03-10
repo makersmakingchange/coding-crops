@@ -10,6 +10,7 @@ interface LevelSelectorProps {
 const LevelSelector: React.FC<LevelSelectorProps> = ({ onChange, levels = LEVELS }) => {
     return (
         <select
+            className="level-selector"
             aria-label="Select level"
             onChange={(e) => {
                 const raw = e.target.value;

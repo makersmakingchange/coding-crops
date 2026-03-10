@@ -18,17 +18,30 @@ const FarmGrid: React.FC<FarmGridProps> = ({ tiles, ariaLiveRef, dayCount }) => 
         Array.from({ length: rows }, () => Array(cols).fill(null))
     );
 
-    const [focusedRow, setFocusedRow] = useState(0);
-    const [focusedCol, setFocusedCol] = useState(0);
+    const hasMounted = useRef(false);
+    const [focusedPos, setFocusedPos] = useState({ row: 0, col: 0 });
+
+    const handleGridFocus = (e: React.FocusEvent<HTMLDivElement>) => {
+        if (!gridRef.current?.contains(e.relatedTarget as Node)) {
+            setFocusedPos({ row: 0, col: 0 });
+            tileRefs.current[0]?.[0]?.focus(); // Focus on the first tile (0, 0)
+        }
+    };
 
     useEffect(() => {
-        const tile = tileRefs.current[focusedRow]?.[focusedCol];
+        if (!hasMounted.current) {
+            hasMounted.current = true;
+            return;
+        }
+        const tile = tileRefs.current[focusedPos.row]?.[focusedPos.col];
         tile?.focus();
-    }, [focusedRow, focusedCol]);
+    }, [focusedPos.row, focusedPos.col]);
 
     const moveFocus = (rowDelta: number, colDelta: number) => {
-        setFocusedRow(r => Math.max(0, Math.min(rows - 1, r + rowDelta)));
-        setFocusedCol(c => Math.max(0, Math.min(cols - 1, c + colDelta)));
+        setFocusedPos(prev => ({
+            row: Math.max(0, Math.min(rows - 1, prev.row + rowDelta)),
+            col: Math.max(0, Math.min(cols - 1, prev.col + colDelta)),
+        }));
     };
 
     return (
@@ -39,6 +52,7 @@ const FarmGrid: React.FC<FarmGridProps> = ({ tiles, ariaLiveRef, dayCount }) => 
             role="grid"
             aria-label={`Farm grid, Day ${dayCount}. 3 rows and 3 columns.`}
             ref={gridRef}
+            onFocus={handleGridFocus}
             style={{
                 gridTemplateColumns: `15px repeat(${tiles[0].length}, 105px)`,
                 gridTemplateRows: `15px repeat(${tiles.length}, 105px)`,
@@ -76,7 +90,7 @@ const FarmGrid: React.FC<FarmGridProps> = ({ tiles, ariaLiveRef, dayCount }) => 
                             row={rowIndex}
                             col={colIndex}
                             moveFocus={moveFocus}
-                            isFocused={rowIndex === focusedRow && colIndex === focusedCol}
+                            isFocused={rowIndex === focusedPos.row && colIndex === focusedPos.col}
                             ref={el => {
                                 tileRefs.current[rowIndex][colIndex] = el;
                             }}
