@@ -103,7 +103,12 @@ export function setupBlockly(blocklyContainer: HTMLElement,
     return Blockly.common.getWorkspaceById(workspaceId) as WorkspaceSvg
 }
 
-
+export function toggleShortcutDialog() {
+    const shortcutDialog = document.getElementsByClassName('shortcut-modal')[0] as HTMLDialogElement;
+    if (shortcutDialog) {
+        shortcutDialog.showModal();
+    }
+}
 
 export function updateToolboxMap(ws: WorkspaceSvg, level: number) {
     ws.updateToolbox(toolboxMap[level]);
@@ -118,9 +123,15 @@ export function focusBlocklyWorkspace() {
 }
 
 export function focusBlocklyToolbox() {
-    // const tb = Blockly.common.tool
-    // const focusManager = Blockly.getFocusManager();
-    // focusManager.focusNode(tb);
+    // const ws = Blockly.common.getWorkspaceById(workspaceId) as WorkspaceSvg;
+    // const toolbox = ws.getToolbox();
+    // const flyout = ws.getFlyout()?.getWorkspace();
+    // if (toolbox && flyout) {
+    //     Blockly.getFocusManager().focusTree(flyout);
+    // } else {
+    //     if (toolbox)
+    //     Blockly.getFocusManager().focusTree(toolbox);
+    // }
 }
 
 function addBlocks() {

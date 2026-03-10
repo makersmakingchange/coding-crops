@@ -3,6 +3,7 @@ import '../styles/CommandModal.css';
 import BlocklyWorkspace from "./BlocklyWorkspace";
 import {focusBlocklyWorkspace} from "../blockly/blocklySetup";
 import {useToggleModal} from "../hooks/useToggleModal";
+import {toggleShortcutDialog} from "../blockly/blocklySetup";
 
 export type Command = {
     label: string;
@@ -42,7 +43,7 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
         { label: 'Change Run Mode', action: () => (document.querySelector('.run-mode-button') as HTMLElement)?.focus() },
         { label: 'Updates', action: () => (document.querySelector('.update-button') as HTMLElement)?.focus() },
         { label: 'Run Code', action: () => (document.querySelector('#runCodeButton') as HTMLElement)?.focus() },
-        // { label: 'Open Shortcuts Menu', action: () => toggleShortcutDialog() },
+        { label: 'Open Shortcuts Menu', action: () => toggleShortcutDialog() },
     ];
 
     const filteredCommands = commands.filter(cmd => cmd.label.toLowerCase().includes(query.toLowerCase()));

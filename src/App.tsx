@@ -21,7 +21,7 @@ import {useKeyboardShortcuts} from "./hooks/useKeyboardShortcuts";
 import {useFarmEndDay} from "./hooks/useFarmEndDay";
 import CommandModal from "./components/CommandModal";
 import type {Command} from "./components/CommandModal";
-import {focusBlocklyWorkspace} from "./blockly/blocklySetup";
+import {focusBlocklyToolbox, focusBlocklyWorkspace, toggleShortcutDialog} from "./blockly/blocklySetup";
 
 type AppProps = {
     mode?: 'internal' | 'production' | 'testing';
@@ -96,6 +96,10 @@ function App({mode = 'production'}: AppProps) {
     useFarmEndDay(runModeRef, setSummaries);
 
     useKeyboardShortcuts({
+        gt: () => {
+            console.log("Go to Toolbox");
+            (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
+        },
         gu: () => {
             console.log("Go to Updates button");
             (document.querySelector('.update-button') as HTMLElement | null)?.focus();
@@ -119,12 +123,14 @@ function App({mode = 'production'}: AppProps) {
     }, true);
 
     useKeyboardShortcuts({
-        // t: () => {
-        //     console.log("Go to Blockly toolbox");
-        //     (document.querySelector('.blocklyToolbox') as HTMLElement | null)?.focus();
-        // },
+        t: () => focusBlocklyToolbox(),
         w: () => focusBlocklyWorkspace(),
+        '/': () => toggleShortcutDialog(),
     })
+
+    useKeyboardShortcuts({
+        'ctrl+/' : () => toggleCommandPalette(),
+    }, false, true)
 
     const resetGame = () => {
         farmManager.reset();
@@ -157,10 +163,6 @@ function App({mode = 'production'}: AppProps) {
 
     };
 
-    useKeyboardShortcuts({
-        '/': toggleCommandPalette,
-    }, false, true);
-
     const handleCommandSelect = (command: Command) => {
         // Execute the command
         command.action();
@@ -172,7 +174,7 @@ function App({mode = 'production'}: AppProps) {
     };
 
     return (
-        <div id="app" className="App">
+        <div id="app" className="App" role="application">
             <UpdatesModal
                 isOpen={isUpdatesOpen}
                 onClose={() => setIsUpdatesOpen(false)}

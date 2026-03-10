@@ -18,6 +18,15 @@ export function useKeyboardShortcuts(shortcuts: ShortcutMap, altModifier = false
             if (altModifier && !e.altKey) return;
             if (ctrlModifier && !cmdOrCtrl) return;
 
+            // Detect if it's a Ctrl + / or just /
+            if (cmdOrCtrl && e.key === '/') {
+                e.preventDefault();
+                if (shortcuts['ctrl+/']) {
+                    shortcuts['ctrl+/']();  // Execute the Ctrl + / shortcut
+                }
+                return;
+            }
+
             buffer += e.key.toLowerCase();
 
             if (timer) window.clearTimeout(timer);
