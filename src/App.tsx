@@ -206,10 +206,10 @@ function App({mode = 'production'}: AppProps) {
                             <img src={blocklyAttr} alt="Built with Blockly" className="built-with-blockly-badge"/>
                         </a>
                         <a href="https://www.makersmakingchange.com/" target="_self" rel="noopener noreferrer">
-                            <img src={mmcLogo} alt="Makers Making Change logo" className="nss-mmc-logo" aria-hidden="true"/>
+                            <img src={mmcLogo} alt="Makers Making Change logo" className="nss-mmc-logo"/>
                         </a>
                         <a href="https://www.neilsquire.ca/" target="_self" rel="noopener noreferrer">
-                            <img src={nssLogo} alt="Neil Squire Society logo" className="nss-mmc-logo" aria-hidden="true"/>
+                            <img src={nssLogo} alt="Neil Squire Society logo" className="nss-mmc-logo"/>
                         </a>
                     </div>
                     <section className="controls-bar" aria-keyshortcuts="Alt+G+C">
