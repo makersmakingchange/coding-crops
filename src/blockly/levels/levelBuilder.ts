@@ -9,10 +9,20 @@ export const plantBlock = (row: number, col: number): BlockDef => ({
     inline: true,
     inputs: {
         ROW: {
-            shadow: rowBlock,
+            shadow: {
+                type: 'math_number',
+                fields: {
+                    NUM: row
+                },
+            }
         },
         COLUMN: {
-            shadow: colBlock,
+            shadow: {
+                type: 'math_number',
+                fields: {
+                    NUM: col
+                },
+            }
         }
     }
 });
@@ -22,10 +32,20 @@ export const waterBlock = (row: number, col: number): BlockDef => ({
     inline: true,
     inputs: {
         ROW: {
-            shadow: rowBlock
+            shadow: {
+                type: 'math_number',
+                fields: {
+                    NUM: row
+                },
+            }
         },
         COLUMN: {
-            shadow: colBlock
+            shadow: {
+                type: 'math_number',
+                fields: {
+                    NUM: col
+                },
+            }
         }
     }
 });
@@ -35,10 +55,20 @@ export const harvestBlock = (row: number, col: number): BlockDef => ({
     inline: true,
     inputs: {
         ROW: {
-            shadow: rowBlock
+            shadow: {
+                type: 'math_number',
+                fields: {
+                    NUM: row
+                },
+            }
         },
         COLUMN: {
-            shadow: colBlock
+            shadow: {
+                type: 'math_number',
+                fields: {
+                    NUM: col
+                },
+            }
         }
     }
 });

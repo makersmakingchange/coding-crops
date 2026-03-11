@@ -1,8 +1,5 @@
 import {createAriaNumberInstance} from "../../blocks/mathBlocks";
 
-const rowBlock = createAriaNumberInstance(1, 'Row number');
-const colBlock = createAriaNumberInstance(1, 'Column number');
-
 export const farmCategoryContents = [
     {
         kind: 'block',
@@ -10,10 +7,20 @@ export const farmCategoryContents = [
         inline: true,
         inputs: {
             ROW: {
-                shadow: rowBlock
+                shadow: {
+                    type: 'math_number',
+                    fields: {
+                        NUM: 1
+                    },
+                }
             },
             COLUMN: {
-                shadow: colBlock
+                shadow: {
+                    type: 'math_number',
+                    fields: {
+                        NUM: 1
+                    },
+                }
             }
         }
     },
@@ -23,10 +30,20 @@ export const farmCategoryContents = [
         inline: true,
         inputs: {
             ROW: {
-                shadow: rowBlock
+                shadow: {
+                    type: 'math_number',
+                    fields: {
+                        NUM: 1
+                    },
+                }
             },
             COLUMN: {
-                shadow: colBlock
+                shadow: {
+                    type: 'math_number',
+                    fields: {
+                        NUM: 1
+                    },
+                }
             }
         }
     },
@@ -36,10 +53,20 @@ export const farmCategoryContents = [
         inline: true,
         inputs: {
             ROW: {
-                shadow: rowBlock
+                shadow: {
+                    type: 'math_number',
+                    fields: {
+                        NUM: 1
+                    },
+                }
             },
             COLUMN: {
-                shadow: colBlock
+                shadow: {
+                    type: 'math_number',
+                    fields: {
+                        NUM: 1
+                    },
+                }
             }
         }
     },
