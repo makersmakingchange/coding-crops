@@ -9,10 +9,10 @@ export const plantBlock = (row: number, col: number): BlockDef => ({
     inline: true,
     inputs: {
         ROW: {
-            shadow: rowBlock,
+            shadow: createAriaNumberInstance(row, 'Row number'),
         },
         COLUMN: {
-            shadow: colBlock,
+            shadow: createAriaNumberInstance(col, 'Column number'),
         }
     }
 });
@@ -22,10 +22,10 @@ export const waterBlock = (row: number, col: number): BlockDef => ({
     inline: true,
     inputs: {
         ROW: {
-            shadow: rowBlock
+            shadow: createAriaNumberInstance(row, 'Row number')
         },
         COLUMN: {
-            shadow: colBlock
+            shadow: createAriaNumberInstance(col, 'Column number')
         }
     }
 });
@@ -35,10 +35,10 @@ export const harvestBlock = (row: number, col: number): BlockDef => ({
     inline: true,
     inputs: {
         ROW: {
-            shadow: rowBlock
+            shadow: createAriaNumberInstance(row, 'Row number')
         },
         COLUMN: {
-            shadow: colBlock
+            shadow: createAriaNumberInstance(col, 'Column number')
         }
     }
 });

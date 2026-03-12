@@ -21,6 +21,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
     const workspaceRef = useRef<WorkspaceSvg | null>(null);
     const runModeRef = useRef(runMode);
     const [isRunning, setIsRunning] = useState(false);
+    const wasRunning = useRef(false);
 
     useEffect(() => {
         if (!blocklyDiv.current) return;
@@ -73,6 +74,12 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         return () => window.removeEventListener('keydown', handleShortcuts);
     }, []);
 
+    useEffect(() => {
+        if (wasRunning.current && !isRunning) {
+            document.getElementById('runCodeButton')?.focus();
+        }
+    }, [isRunning]);
+
     const handleRunCode = async () => {
         if (!workspaceRef.current) return;
 
@@ -104,6 +111,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         }
 
         setIsRunning(false);
+        wasRunning.current = true;
     };
 
     return (
@@ -117,6 +125,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
                     className="run-code-button"
                     onClick={handleRunCode}
                     disabled={isRunning}
+                    aria-disabled={isRunning}
                     aria-label={`Run ${runMode === 'all' ? 'All Days' : '1 Day'}`}
                     tabIndex={0}
                 >
