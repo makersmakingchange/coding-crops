@@ -194,22 +194,23 @@ function App({mode = 'production'}: AppProps) {
                 />
             )}
             <div className="App-body">
-                <a href="#main-content" className="skip-to-main-content-link">Skip to workspace</a>
-                <a href="#game-panel" className="skip-to-game-panel-link">Skip to game panel</a>
+                <a href="#main-content" className="skip-to-main-content-link">Skip to main content</a>
+                <a href="#game-panel" className="skip-to-farm-link">Skip to farm</a>
                 <header className="App-header">
                     <h1 className="App-title">
                         <img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops
                     </h1>
                     <span className="divider" aria-hidden="true">|</span>
                     <div className="header-icons">
+                        <h2 className="sr-only">Attributions</h2>
                         <a href="https://developers.google.com/blockly" target="_self" rel="noopener noreferrer">
                             <img src={blocklyAttr} alt="Built with Blockly" className="built-with-blockly-badge"/>
                         </a>
                         <a href="https://www.makersmakingchange.com/" target="_self" rel="noopener noreferrer">
-                            <img src={mmcLogo} alt="Makers Making Change logo" className="nss-mmc-logo"/>
+                            <img src={mmcLogo} alt="Makers Making Change" className="nss-mmc-logo"/>
                         </a>
                         <a href="https://www.neilsquire.ca/" target="_self" rel="noopener noreferrer">
-                            <img src={nssLogo} alt="Neil Squire Society logo" className="nss-mmc-logo"/>
+                            <img src={nssLogo} alt="Neil Squire Society" className="nss-mmc-logo"/>
                         </a>
                     </div>
                     <section className="controls-bar" aria-keyshortcuts="Alt+G+C">
@@ -232,6 +233,7 @@ function App({mode = 'production'}: AppProps) {
 
                 <div className="App-bottom-panel">
                     <main id="main-content">
+                        <h2 className="sr-only">Code Workspace</h2>
                         <Instructions level={level} />
                         <BlocklyWorkspace
                             level={level}

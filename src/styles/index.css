@@ -222,7 +222,7 @@ body {
     height: 100%;
 }
 
-.skip-to-main-content-link, .skip-to-game-panel-link {
+.skip-to-main-content-link, .skip-to-farm-link {
     position: absolute;
     z-index: 999;
     padding: 1em;
@@ -231,7 +231,7 @@ body {
     opacity: 0;
 }
 
-.skip-to-main-content-link:focus, .skip-to-game-panel-link:focus {
+.skip-to-main-content-link:focus, .skip-to-farm-link:focus {
     top: 0;
     left: 45%;
     opacity: 1;
