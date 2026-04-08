@@ -4,7 +4,7 @@ import FarmFieldNumber from "../fields/FarmFieldNumber";
 Blockly.Blocks['math_aria_number'] = {
     init: function () {
         const field = new FarmFieldNumber(1, 1, 3, null, null, {
-            type: 'farm_field_number',
+            // type: 'farm_field_number',
             ariaTypeName: 'Number',
         });
 
@@ -31,7 +31,7 @@ Blockly.Blocks['math_aria_number'] = {
 
 export function createAriaNumberInstance(value: number, ariaTypeName: string) {
     return {
-        type: 'math_aria_number',
+        type: 'math_number',
         fields: {
             NUM: value,
         },

@@ -49,7 +49,7 @@
     "@blockly/plugin-cross-tab-copy-paste": "^8.0.1",
     "@blockly/theme-dark": "^8.0.1",
     "@microbit/keyosd": "^0.1.2",
-    "blockly": "^12.0.0",
+    "blockly": "^13.0.0-beta.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.6"

@@ -1,7 +1,7 @@
 import * as Blockly from 'blockly';
 
 class FarmFieldNumber extends Blockly.FieldNumber {
-    ariaTypeName?: string;
+    // ariaTypeName?: string;
 
     constructor(value?: string | number,
                 min?: string | number | null,
@@ -31,7 +31,7 @@ class FarmFieldNumber extends Blockly.FieldNumber {
 }
 
 export function registerFarmFieldNumber() {
-    Blockly.fieldRegistry.register('farm_field_number', FarmFieldNumber);
+    // Blockly.fieldRegistry.register('farm_field_number', FarmFieldNumber);
 }
 
 export default FarmFieldNumber;
