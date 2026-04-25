@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import '../styles/UpdatesModal.css';
+import '../styles/Modal.css';
 import { Warning } from '../types';
 import {useToggleModal} from "../hooks/useToggleModal";
 
