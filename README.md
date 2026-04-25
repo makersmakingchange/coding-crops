@@ -10,7 +10,7 @@
 </p>
 
 <p style="font-size: 0.9em; color: #666;">
-  Based on <a href="https://github.com/RaspberryPiFoundation/blockly">Blockly</a> by Raspberry Pi Foundation (Apache 2.0).
+  Based on <a href="https://github.com/RaspberryPiFoundation/blockly">Blockly</a> by Raspberry Pi Foundation.
 </p>
 
 <hr>
