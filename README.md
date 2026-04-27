@@ -35,10 +35,13 @@
 <hr>
 
 <p>
+  <a href="https://www.makersmakingchange.com/">
   <img src="https://github.com/user-attachments/assets/08be907b-1864-40e2-9201-1ca7676110fa"
        width="140"
        style="vertical-align: middle;">
+  </a>
   &nbsp;&nbsp;&nbsp;
+  <a href="https://developers.google.com/blockly">
   <img src="https://github.com/user-attachments/assets/1b300d78-d6e2-418e-a608-a400d4368469"
        width="125"
        style="vertical-align: middle;">
