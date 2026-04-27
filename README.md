@@ -24,8 +24,8 @@
 
 <p>
   <strong>Content & assets:</strong> 
-  <a href="https://codingcrops.com/">CodingCrops</a> © 2025 
-  <a href="https://www.makersmakingchange.com/">Makers Making Change</a>, licensed under 
+  <a href="https://codingcrops.com/">CodingCrops</a> © 2026 
+  <a href="https://www.makersmakingchange.com/">Neil Squire Society - Makers Making Change</a>, licensed under 
   <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
   <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" width="18" style="vertical-align: text-bottom; margin-left:4px;">
   <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" width="18" style="vertical-align: text-bottom;">
