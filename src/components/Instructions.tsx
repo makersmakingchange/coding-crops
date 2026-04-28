@@ -19,7 +19,11 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
     }, [level]);
 
     const toggleHint = () => {
-        setShowHint((prev) => !prev);
+        setShowHint((prev) => {
+            const next = !prev;
+            if (next) A11yAnnouncer.announce(`Hint, ${hint}`, 0);
+            return next;
+        });
     };
 
     return (
