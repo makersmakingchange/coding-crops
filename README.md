@@ -119,12 +119,15 @@
 <h3>License</h3>
 
 <p>
-  <strong>Code:</strong> Licensed under the 
+  <strong>Code:</strong> 
+  <br>
+  Licensed under the 
   <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.
 </p>
 
 <p>
   <strong>Content & assets:</strong> 
+  <br>
   <a href="https://codingcrops.com/">CodingCrops</a> © 2026 
   <a href="https://www.makersmakingchange.com/">Neil Squire Society - Makers Making Change</a>, licensed under 
   <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
