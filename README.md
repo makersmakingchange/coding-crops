@@ -76,7 +76,7 @@
   CodingCrops transforms traditional block-based programming into an interactive farming environment where players use code-based logic to plant, grow, and harvest crops. By combining block coding with meaningful delivery of information via auditory feedback, the project helps learners build computational thinking skills while reducing barriers to participation.
 </p>
 
-<p>
+<!-- <p>
   This project aims to:
 </p>
 
@@ -85,7 +85,7 @@
   <li>Demonstrate best practices for accessible Blockly implementations</li>
   <li>Provide an engaging, game-based learning environment</li>
   <li>Support educators and organizations in inclusive STEM education</li>
-</ul>
+</ul> -->
 
 <p>
   CodingCrops is built on top of <a href="https://github.com/RaspberryPiFoundation/blockly">Blockly</a> (an open-source visual programming library) and it's <a href="https://github.com/RaspberryPiFoundation/blockly-keyboard-experimentation">accessibility plugin</a> (ongoing development).
