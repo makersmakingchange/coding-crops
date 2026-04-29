@@ -74,7 +74,7 @@ For technical questions, to get involved, or to share your experience, we encour
 </p>
 
 <p style="font-size: 0.9em; color: #666;">
-  This project is based on <a href="https://github.com/RaspberryPiFoundation/blockly">Blockly</a> by Raspberry Pi Foundation.
+  This project is built with <a href="https://github.com/RaspberryPiFoundation/blockly">Blockly</a>.
 </p>
 <br>
 <p>
