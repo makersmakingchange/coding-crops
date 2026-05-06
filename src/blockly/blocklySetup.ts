@@ -1,4 +1,8 @@
-import {ToolboxDefinition} from "blockly/core/utils/toolbox";
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
 import * as Blockly from 'blockly';
 import DarkTheme from '@blockly/theme-dark';
@@ -11,6 +15,7 @@ import {farmBlocks} from './blocks/farmBlocks';
 import {forBlock} from './generators/farmGenerators';
 import {ariaBlock} from "./generators/mathGenerators";
 
+import {ToolboxDefinition} from "blockly/core/utils/toolbox";
 import {save, load} from './serialization';
 import {toolboxMap} from './toolboxes';
 import '../styles/index.css';

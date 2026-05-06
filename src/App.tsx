@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {useEffect, useRef, useState} from 'react';
 import BlocklyWorkspace from './components/BlocklyWorkspace';
 import FarmGrid from './components/FarmGrid';
@@ -193,31 +199,40 @@ function App({mode = 'production'}: AppProps) {
                     resetGame={resetGame}
                 />
             )}
+
             <div className="App-body">
                 <a href="#main-content" className="skip-to-main-content-link">Skip to main content</a>
                 <a href="#game-panel" className="skip-to-farm-link">Skip to farm</a>
                 <header className="App-header">
-                    <h1 className="App-title">
-                        <img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops
-                    </h1>
-                    <span className="divider" aria-hidden="true">|</span>
-                    <div className="header-icons">
-                        <h2 className="sr-only">Attributions</h2>
-                        <a href="https://developers.google.com/blockly" target="_self" rel="noopener noreferrer">
-                            <img src={blocklyAttr} alt="Built with Blockly" className="built-with-blockly-badge"/>
-                        </a>
-                        <a href="https://www.makersmakingchange.com/" target="_self" rel="noopener noreferrer">
-                            <img src={mmcLogo} alt="Makers Making Change" className="nss-mmc-logo"/>
-                        </a>
-                        <a href="https://www.neilsquire.ca/" target="_self" rel="noopener noreferrer">
-                            <img src={nssLogo} alt="Neil Squire Society" className="nss-mmc-logo"/>
-                        </a>
+                    <div className="App-attr">
+                        <header>
+                            <h1 className="App-title">
+                                <img src={icon} alt="Coding crops logo" className="App-icon" aria-hidden="true"/>CodingCrops
+                            </h1>
+                        </header>
+
+                        <section className="header-icons" aria-labelledby={'attr-header'}>
+                            <span className="divider" aria-hidden="true">|</span>
+
+                            <h2 id="attr-header" className="sr-only">Attributed sources</h2>
+                            <a href="https://developers.google.com/blockly" target="_blank" rel="noopener noreferrer">
+                                <img src={blocklyAttr} alt="Blockly website" className="built-with-blockly-badge"/>
+                            </a>
+                            <a href="https://www.makersmakingchange.com/" target="_blank" rel="noopener noreferrer">
+                                <img src={mmcLogo} alt="Makers Making Change website" className="nss-mmc-logo"/>
+                            </a>
+                            <a href="https://www.neilsquire.ca/" target="_blank" rel="noopener noreferrer">
+                                <img src={nssLogo} alt="Neil Squire Society website" className="nss-mmc-logo"/>
+                            </a>
+                        </section>
                     </div>
-                    <section className="controls-bar" aria-keyshortcuts="Alt+G+C">
-                        <h2 id="controls-heading" className="sr-only" tabIndex={0}>Farm Controls</h2>
+
+                    <div className="controls-bar" tabIndex={0} aria-labelledby={'controls-heading'}>
+                        <h2 id="controls-heading" className="sr-only">Farm Controls</h2>
                         <button onClick={resetGame}>Reset Farm</button>
                         <button
                             onClick={toggleRunMode}
+                            id='runModeButton'
                             className={`run-mode-button${runMode === 'all' ? ' all' : ' day'}`}
                             aria-pressed={runMode === 'all'}
                             aria-label={runMode === 'all' ? 'Change to Run 1 Day Mode' : 'Change to Run All Blocks Mode'}
@@ -228,12 +243,12 @@ function App({mode = 'production'}: AppProps) {
                             onChange={changeLevel}
                             levels={mode === 'internal' ? SCENARIO_LEVELS : LEVELS}
                         />
-                    </section>
+                    </div>
                 </header>
 
                 <div className="App-bottom-panel">
                     <main id="main-content">
-                        <h2 className="sr-only">Code Workspace</h2>
+                        <h2 className="sr-only">Instructions and Workspace</h2>
                         <Instructions level={level} />
                         <BlocklyWorkspace
                             level={level}

@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import React, {useEffect, useState, useRef} from 'react';
 import { descriptions } from '../descriptions';
 import '../styles/Instructions.css';

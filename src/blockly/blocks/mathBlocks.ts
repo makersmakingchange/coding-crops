@@ -1,5 +1,13 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as Blockly from 'blockly/core';
 import FarmFieldNumber from "../fields/FarmFieldNumber";
+import {announceDynamicAriaState} from "blockly/core/utils/aria";
+import A11yAnnouncer from "../../accessibility/A11yAnnouncer";
 
 Blockly.Blocks['math_aria_number'] = {
     init: function () {
@@ -11,6 +19,12 @@ Blockly.Blocks['math_aria_number'] = {
         this.appendDummyInput().appendField(field, 'NUM');
         this.setOutput(true, 'Number');
         this.setStyle('math_blocks');
+
+        this.onchange = function(changeEvent: any) {
+            const fieldValue = this.getFieldValue('NUM');
+            const ariaTypeName = this.getField('NUM')?.ariaTypeName;
+            A11yAnnouncer.announce(fieldValue + ', ' + ariaTypeName);
+        };
     },
 
     saveExtraState() {

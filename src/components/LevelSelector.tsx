@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import React from 'react';
 import '../styles/index.css';
 import {LevelConfig, LEVELS} from "../blockly/levelManager";

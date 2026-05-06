@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {chainBlocks, BlockDef, processBlocks} from "../../levelManager";
 import {plantBlock, waterBlock, harvestBlock, nextDayBlock} from "../levelBuilder";
 

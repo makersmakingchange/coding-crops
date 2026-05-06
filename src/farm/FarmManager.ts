@@ -1,8 +1,13 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {CropType, Tile, TileState} from "./Tile";
 import FarmA11y from '../accessibility/FarmA11y';
 import {FarmEvents} from "./FarmEvents";
 import A11yAnnouncer from "../accessibility/A11yAnnouncer";
-
 
 export class FarmManager {
     private day: number;

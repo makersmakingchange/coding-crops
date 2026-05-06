@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 declare const __APP_VERSION__: string;
 declare const __PLUGIN_VERSION__: string;
 declare const __BLOCKLY_VERSION__: string;

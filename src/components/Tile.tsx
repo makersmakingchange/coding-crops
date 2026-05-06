@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import React, {forwardRef} from 'react';
 import {CropType, GrowthStage, TileState} from '../farm/Tile';
 import FarmA11y from '../accessibility/FarmA11y';
@@ -51,7 +57,7 @@ const Tile = forwardRef<HTMLDivElement, TileProps>(({ tile, row, col, moveFocus,
         <div
             ref={ref}
             role="gridcell"
-            aria-label={FarmA11y.getTileLabel(row, col, tile)}
+            aria-label={FarmA11y.getTileLabel(row, col, tile)}      // Row 2, Column 2, Mature, Sunflower, Watered
             className={`tile ${tile.watered ? 'tile-watered' : ``} tile-${tile.growthStage}`}
             tabIndex={isFocused ? 0 : -1}
             onKeyDown={handleKeyDown}

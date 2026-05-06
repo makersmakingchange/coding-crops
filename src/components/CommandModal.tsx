@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import React, {useEffect, useRef, useState} from 'react';
 import '../styles/CommandModal.css';
 import BlocklyWorkspace from "./BlocklyWorkspace";
@@ -33,16 +39,17 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
     };
 
     const commands: Command[] = [
-        { label: 'Go to Blockly Toolbox', action: () => (document.querySelector('.blocklyToolbox') as HTMLElement)?.focus() },
-        { label: 'Go to Blockly Workspace', action: () => focusBlocklyWorkspace() },
-        { label: 'Go to Controls Bar', action: () => (document.querySelector('#controls-heading') as HTMLElement)?.focus() },
-        { label: 'Go to Farm Grid', action: () => (document.querySelector('.tile') as HTMLElement)?.focus() },
+        { label: 'Go to Toolbox', action: () => (document.querySelector('.blocklyToolbox') as HTMLElement)?.focus() },
+        { label: 'Go to Workspace', action: () => focusBlocklyWorkspace() },
+        { label: 'Go to Farm Field', action: () => (document.querySelector('.tile') as HTMLElement)?.focus() },
         { label: 'Go to Instructions Panel', action: () => (document.querySelector('.instructions-panel') as HTMLElement)?.focus() },
         { label: 'Go to Level Button', action: () => (document.querySelector('.level-selector') as HTMLElement)?.focus() },
-        { label: 'Reset Farm', action: () => resetGame() },
-        { label: 'Change Run Mode', action: () => (document.querySelector('.run-mode-button') as HTMLElement)?.focus() },
-        { label: 'Updates', action: () => (document.querySelector('.update-button') as HTMLElement)?.focus() },
+        { label: 'Go to Run Code Button', action: () => (document.querySelector('.run-code-button') as HTMLElement)?.focus() },
+        // { label: 'Change to Run All Blocks', action: () => {if (runMode === "day") (document.querySelector('#runModeButton') as HTMLElement)?.focus() }},
+        // { label: 'Change to Run One Day', action: () => {if (runMode === "all") (document.querySelector('#runModeButton') as HTMLElement)?.focus()}},
         { label: 'Run Code', action: () => (document.querySelector('#runCodeButton') as HTMLElement)?.focus() },
+        { label: 'Reset Farm', action: () => resetGame() },
+        { label: 'Show Updates', action: () => (document.querySelector('.update-button') as HTMLElement)?.focus() },
         { label: 'Open Shortcuts Menu', action: () => toggleShortcutDialog() },
     ];
 
@@ -56,21 +63,37 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
     }, [isOpen]);
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
+        const suggestion_list = document.getElementById('suggestions-list');
         if (e.key === 'ArrowDown') {
+            e.preventDefault();
             const previouslyFocused = document.activeElement as HTMLElement;
             if (previouslyFocused && !previouslyFocused.classList.contains('suggestions-list')) {
-                document.getElementById('suggestions-list')?.focus();
                 setActiveIndex(0);
+                suggestion_list?.focus();
+                document.getElementById(`command-0`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } else {
-                setActiveIndex((prev) => (prev + 1) % filteredCommands.length);
+                setActiveIndex((prev) => {
+                    const next = (prev + 1) % filteredCommands.length;
+                    suggestion_list?.focus();
+                    document.getElementById(`command-${next}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    return next;
+                });
             }
         } else if (e.key === 'ArrowUp') {
-            setActiveIndex((prev) => (prev - 1 + filteredCommands.length) % filteredCommands.length);
-        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            suggestion_list?.focus();
+            setActiveIndex((prev) => {
+                const next = (prev - 1 + filteredCommands.length) % filteredCommands.length;
+                document.getElementById(`command-${next}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                return next;
+            });
+        } else if ((e.key === 'Enter') || (e.key === 'Space')) {
+            // e.preventDefault();
             actionCommand.current = filteredCommands[activeIndex];
             onCommandSelect(filteredCommands[activeIndex]);
             onClose();
         } else if (e.key === 'Escape') {
+            e.preventDefault();
             actionCommand.current = null;
             onClose();
         }
@@ -99,6 +122,7 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
                 placeholder="Search commands"
                 className="command-input"
                 aria-label="Search commands"
+                aria-roledescription="combo box"
             />
 
             <ul
@@ -108,7 +132,6 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
                 role="listbox"
                 aria-label="Command suggestions"
                 aria-activedescendant={`command-${activeIndex}`}
-                tabIndex={0}
             >
                 {filteredCommands.map((command, index) => (
                     <li
@@ -116,8 +139,9 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
                         id={`command-${index}`}
                         className={`suggestion-item ${activeIndex === index ? 'active' : ''}`}
                         onClick={() => {
-                            actionCommand.current = filteredCommands[activeIndex];
-                            onCommandSelect(filteredCommands[activeIndex]);
+                            setActiveIndex(index);
+                            actionCommand.current = command;
+                            onCommandSelect(command);
                             onClose();
                         }}
                         role="option"
