@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as Blockly from 'blockly/core';
+import * as Blockly from 'blockly';
 import FarmFieldNumber from "../fields/FarmFieldNumber";
 import {announceDynamicAriaState} from "blockly/core/utils/aria";
 import A11yAnnouncer from "../../accessibility/A11yAnnouncer";
@@ -12,19 +12,12 @@ import A11yAnnouncer from "../../accessibility/A11yAnnouncer";
 Blockly.Blocks['math_aria_number'] = {
     init: function () {
         const field = new FarmFieldNumber(1, 1, 3, null, null, {
-            type: 'farm_field_number',
             ariaTypeName: 'Number',
         });
 
         this.appendDummyInput().appendField(field, 'NUM');
         this.setOutput(true, 'Number');
         this.setStyle('math_blocks');
-
-        this.onchange = function(changeEvent: any) {
-            const fieldValue = this.getFieldValue('NUM');
-            const ariaTypeName = this.getField('NUM')?.ariaTypeName;
-            A11yAnnouncer.announce(fieldValue + ', ' + ariaTypeName);
-        };
     },
 
     saveExtraState() {

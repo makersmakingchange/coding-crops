@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { execSync } = require("child_process");
 const webpack = require("webpack");
 const pkg = require("./package.json");
@@ -36,7 +37,7 @@ const config = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif|mp3|wav|ogg)$/i,
         type: 'asset/resource',
       },
     ],
@@ -58,6 +59,16 @@ const config = {
           __PLUGIN_VERSION__: JSON.stringify(pkg.dependencies["@blockly/keyboard-navigation"]),
           __GIT_HASH__: JSON.stringify(commitHash),
           __BUILD_DATE__: JSON.stringify(buildDate),
+      }),
+
+      new CopyWebpackPlugin({
+          patterns: [
+              {
+                  from: path.resolve(__dirname, 'src/assets/blockly/media'),
+                  to: 'assets/blockly/media',
+                  noErrorOnMissing: true,
+              },
+          ],
       }),
   ],
 };

@@ -7,7 +7,7 @@
 import * as Blockly from 'blockly';
 
 class FarmFieldNumber extends Blockly.FieldNumber {
-    ariaTypeName?: string;
+    ariaTypeName: string;
 
     constructor(value?: string | number,
                 min?: string | number | null,

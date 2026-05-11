@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as Blockly from 'blockly/core';
+import * as Blockly from 'blockly';
 import { Order } from 'blockly/javascript';
 
 export const ariaBlock = Object.create(null);

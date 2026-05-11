@@ -39,15 +39,15 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
     };
 
     const commands: Command[] = [
+        { label: 'Run Code', action: () => (document.querySelector('#runCodeButton') as HTMLElement)?.focus() },
         { label: 'Go to Toolbox', action: () => (document.querySelector('.blocklyToolbox') as HTMLElement)?.focus() },
         { label: 'Go to Workspace', action: () => focusBlocklyWorkspace() },
         { label: 'Go to Farm Field', action: () => (document.querySelector('.tile') as HTMLElement)?.focus() },
         { label: 'Go to Instructions Panel', action: () => (document.querySelector('.instructions-panel') as HTMLElement)?.focus() },
         { label: 'Go to Level Button', action: () => (document.querySelector('.level-selector') as HTMLElement)?.focus() },
-        { label: 'Go to Run Code Button', action: () => (document.querySelector('.run-code-button') as HTMLElement)?.focus() },
+        // { label: 'Go to Run Code Button', action: () => (document.querySelector('.run-code-button') as HTMLElement)?.focus() },
         // { label: 'Change to Run All Blocks', action: () => {if (runMode === "day") (document.querySelector('#runModeButton') as HTMLElement)?.focus() }},
         // { label: 'Change to Run One Day', action: () => {if (runMode === "all") (document.querySelector('#runModeButton') as HTMLElement)?.focus()}},
-        { label: 'Run Code', action: () => (document.querySelector('#runCodeButton') as HTMLElement)?.focus() },
         { label: 'Reset Farm', action: () => resetGame() },
         { label: 'Show Updates', action: () => (document.querySelector('.update-button') as HTMLElement)?.focus() },
         { label: 'Open Shortcuts Menu', action: () => toggleShortcutDialog() },

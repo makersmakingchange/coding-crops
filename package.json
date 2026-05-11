@@ -8,22 +8,16 @@
     "build": "webpack --mode production",
     "start": "webpack serve --open --mode development",
     "prod": "npm run build && npx serve dist",
-
     "pull": "npm run pull:blockly && npm run pull:plugin && npm run pull:app",
-
     "pull:blockly": "cd ../blockly && git fetch upstream && git checkout codingcrops-changes && git pull",
     "pull:plugin": "cd ../blockly-keyboard-experimentation && git fetch upstream && git checkout add-screen-reader-support-experimental && git pull",
     "pull:app": "git fetch && git checkout master && git pull",
-
     "build:blockly": "cd ../blockly && npm install && npm run package",
     "link:blockly": "cd ../blockly/dist && npm link",
-
     "build:plugin": "cd ../blockly-keyboard-experimentation && npm install && npm link blockly && npm run build",
     "link:plugin": "cd ../blockly-keyboard-experimentation/dist && npm link",
-
     "relink": "npm run build:blockly && npm run link:blockly && npm run build:plugin && npm run link:plugin && npm install && npm link blockly @blockly/keyboard-navigation",
     "pull-and-link": "npm run pull && npm run build:blockly && npm run link:blockly && npm run build:plugin && npm run link:plugin && npm install && npm link blockly @blockly/keyboard-navigation"
-
   },
   "keywords": [
     "blockly"
@@ -33,6 +27,7 @@
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@types/react-router-dom": "^5.3.3",
+    "copy-webpack-plugin": "^14.0.0",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
     "source-map-loader": "^4.0.1",
@@ -45,12 +40,11 @@
   },
   "dependencies": {
     "@blockly/field-colour": "^6.0.4",
-    "@blockly/keyboard-navigation": "^3.0.3",
     "@blockly/plugin-cross-tab-copy-paste": "^8.0.1",
     "@blockly/theme-dark": "^8.0.1",
     "@blockly/toolbox-search": "^3.1.9",
     "@microbit/keyosd": "^0.1.2",
-    "blockly": "^12.0.0",
+    "blockly": "^13.0.0-beta.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.6"

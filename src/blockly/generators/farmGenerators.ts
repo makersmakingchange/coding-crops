@@ -5,7 +5,7 @@
  */
 
 import {Order} from 'blockly/javascript';
-import * as Blockly from 'blockly/core';
+import * as Blockly from 'blockly';
 
 // Export all the code generators for our custom blocks,
 // but don't register them with Blockly yet.
