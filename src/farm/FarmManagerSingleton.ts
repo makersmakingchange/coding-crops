@@ -5,6 +5,7 @@
  */
 
 import { FarmManager } from './FarmManager';
+import AudioManager from "../audio/AudioManager";
 
 declare global {
     interface Window {
@@ -13,6 +14,8 @@ declare global {
 }
 
 const farmManager = new FarmManager();
+
+AudioManager.initialize();
 
 if (typeof window !== 'undefined') {
     window.farmManager = farmManager;

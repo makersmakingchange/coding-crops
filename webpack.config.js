@@ -19,7 +19,8 @@ const config = {
   },
   // Enable webpack-dev-server to get hot refresh of the app.
   devServer: {
-    static: './build',
+    static: ['./build',
+            './assets'],
       historyApiFallback: true,
 
   },
@@ -36,7 +37,7 @@ const config = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif|mp3)$/i,
         type: 'asset/resource',
       },
     ],
