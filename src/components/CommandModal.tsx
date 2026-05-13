@@ -39,17 +39,18 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
     };
 
     const commands: Command[] = [
+        { label: 'Run Code', action: () => (document.querySelector('#runCodeButton') as HTMLElement)?.click() },
         { label: 'Go to Toolbox', action: () => (document.querySelector('.blocklyToolbox') as HTMLElement)?.focus() },
         { label: 'Go to Workspace', action: () => focusBlocklyWorkspace() },
         { label: 'Go to Farm Field', action: () => (document.querySelector('.tile') as HTMLElement)?.focus() },
-        { label: 'Go to Instructions Panel', action: () => (document.querySelector('.instructions-panel') as HTMLElement)?.focus() },
+        { label: 'Go to Instructions Panel', action: () => (document.querySelector('#instructionsPanel') as HTMLElement)?.focus() },
         { label: 'Go to Level Button', action: () => (document.querySelector('.level-selector') as HTMLElement)?.focus() },
         { label: 'Go to Run Code Button', action: () => (document.querySelector('.run-code-button') as HTMLElement)?.focus() },
+        { label: 'Go to Updates Button', action: () => (document.querySelector('.update-button') as HTMLElement)?.focus() },
         // { label: 'Change to Run All Blocks', action: () => {if (runMode === "day") (document.querySelector('#runModeButton') as HTMLElement)?.focus() }},
         // { label: 'Change to Run One Day', action: () => {if (runMode === "all") (document.querySelector('#runModeButton') as HTMLElement)?.focus()}},
-        { label: 'Run Code', action: () => (document.querySelector('#runCodeButton') as HTMLElement)?.focus() },
         { label: 'Reset Farm', action: () => resetGame() },
-        { label: 'Show Updates', action: () => (document.querySelector('.update-button') as HTMLElement)?.focus() },
+        { label: 'Show Updates', action: () => (document.querySelector('.update-button') as HTMLElement)?.click() },
         { label: 'Open Shortcuts Menu', action: () => toggleShortcutDialog() },
     ];
 
@@ -88,7 +89,7 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
                 return next;
             });
         } else if ((e.key === 'Enter') || (e.key === 'Space')) {
-            // e.preventDefault();
+            e.preventDefault();
             actionCommand.current = filteredCommands[activeIndex];
             onCommandSelect(filteredCommands[activeIndex]);
             onClose();
@@ -139,6 +140,7 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
                         id={`command-${index}`}
                         className={`suggestion-item ${activeIndex === index ? 'active' : ''}`}
                         onClick={() => {
+                            document.getElementById('suggestions-list')?.focus();
                             setActiveIndex(index);
                             actionCommand.current = command;
                             onCommandSelect(command);

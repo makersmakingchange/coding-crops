@@ -34,6 +34,7 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
 
     return (
         <section
+            id="instructionsPanel"
             className="instructions-panel"
             ref={instructionsRef}
             role="region"
