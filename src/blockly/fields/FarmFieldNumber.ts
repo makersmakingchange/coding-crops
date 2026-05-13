@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as Blockly from 'blockly';
 
 class FarmFieldNumber extends Blockly.FieldNumber {

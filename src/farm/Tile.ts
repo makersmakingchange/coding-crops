@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export enum GrowthStage {
     EMPTY,
     SEEDLING,
@@ -55,6 +61,8 @@ export class Tile {
     }
 
     water(): boolean {
+        if (this.growthStage === GrowthStage.EMPTY) return false;
+
         this.watered = true;
         return true;
     }
@@ -68,5 +76,4 @@ export class Tile {
         this.growthStage++;
         this.watered = false;
     }
-
 }

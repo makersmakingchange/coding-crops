@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as Blockly from 'blockly';
 import { level1 } from './levels/level1';
 import { level2 } from './levels/level2';

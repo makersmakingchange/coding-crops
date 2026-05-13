@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { useEffect, useRef } from 'react';
 import FarmA11y from '../accessibility/FarmA11y';
 import A11yAnnouncer from '../accessibility/A11yAnnouncer';

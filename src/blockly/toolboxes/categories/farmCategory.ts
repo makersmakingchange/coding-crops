@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {createAriaNumberInstance} from "../../blocks/mathBlocks";
 
 const rowBlock = createAriaNumberInstance(1, 'Row number');

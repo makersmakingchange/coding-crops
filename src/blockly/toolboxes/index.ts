@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {ToolboxLevel1} from './ToolboxLevel1';
 import {ToolboxLevel2} from './ToolboxLevel2';
 import {ToolboxLevel3} from './ToolboxLevel3';
