@@ -5,7 +5,6 @@
  */
 
 import React, {useEffect} from "react";
-import type {Command} from "../components/CommandModal";
 
 export function useToggleModal(
     dialogRef: React.RefObject<HTMLDialogElement | null>,
