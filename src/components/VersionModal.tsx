@@ -38,8 +38,7 @@ export function VersionModal({ isOpen, onClose }: Props) {
             <div className="version-modal-content">
                 <div style={{ whiteSpace: "pre-line" }}>
                     <b>v{__APP_VERSION__}</b>
-                    {"\n"}• blockly: add-screen-reader-support-experimental
-                    {"\n"}• blockly-keyboard-experimentation: add-screen-reader-support-experimental
+                    {"\n"}• blockly: v{__BLOCKLY_VERSION__}
                     {"\n"}• Commit: {__GIT_HASH__}
                     {"\n"}• Build:{" "}
                     {new Date(__BUILD_DATE__).toLocaleString("en-US", {

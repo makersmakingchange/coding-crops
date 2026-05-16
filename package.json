@@ -44,7 +44,7 @@
     "@blockly/theme-dark": "^8.0.1",
     "@blockly/toolbox-search": "^3.1.9",
     "@microbit/keyosd": "^0.1.2",
-    "blockly": "^13.0.0-beta.3",
+    "blockly": "^13.0.0-beta.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.6"
