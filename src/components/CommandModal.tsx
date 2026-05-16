@@ -31,7 +31,7 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
     const actionCommand = useRef<Command | null>(null);
     const listRef = useRef<HTMLUListElement>(null);
     const commandModalRef = useRef<HTMLDialogElement>(null);
-    useToggleModal(commandModalRef, isOpen, actionCommand);
+    useToggleModal(commandModalRef, isOpen);
 
     const handleCancel = (e: React.SyntheticEvent) => {
         e.preventDefault();
