@@ -205,6 +205,10 @@ body {
     transition: background-color 0.3s;
 }
 
+:focus {
+    outline: 3px solid #66aaff;
+}
+
 /* Controls bar */
 .controls-bar {
     height: 100%;

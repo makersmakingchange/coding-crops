@@ -42,6 +42,7 @@ function App({mode = 'production'}: AppProps) {
     const runModeRef = useRef(runMode);
 
     const [isCommandPaletteOpen, setCommandPaletteOpen] = useState(false);
+    const [pendingCommand, setPendingCommand] = useState<Command | null>(null);
     const [isVersionOpen, setVersionOpen] = useState(false);
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
 
@@ -169,15 +170,25 @@ function App({mode = 'production'}: AppProps) {
 
     };
 
-    const handleCommandSelect = (command: Command) => {
-        // Execute the command
-        command.action();
-    };
-
     const toggleRunMode = () => {
         setRunMode(prevMode => (prevMode === 'all' ? 'day' : 'all'));
         resetGame();
     };
+
+
+    const handleCommandSelect = (command: Command) => {
+        setPendingCommand(command);
+        setCommandPaletteOpen(false);
+    };
+
+    useEffect(() => {
+        if (!isCommandPaletteOpen && pendingCommand) {
+            requestAnimationFrame(() => {
+                pendingCommand.action();
+                setPendingCommand(null);
+            });
+        }
+    }, [isCommandPaletteOpen, pendingCommand]);
 
     return (
         <div id="app" className="App" role="application">

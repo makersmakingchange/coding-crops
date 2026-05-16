@@ -68,7 +68,7 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
         if (e.key === 'ArrowDown') {
             e.preventDefault();
             const previouslyFocused = document.activeElement as HTMLElement;
-            if (previouslyFocused && !previouslyFocused.classList.contains('suggestions-list')) {
+            if (previouslyFocused && previouslyFocused.classList.contains('command-input')) {
                 setActiveIndex(0);
                 suggestion_list?.focus();
                 document.getElementById(`command-0`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -140,9 +140,6 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
                         id={`command-${index}`}
                         className={`suggestion-item ${activeIndex === index ? 'active' : ''}`}
                         onClick={() => {
-                            document.getElementById('suggestions-list')?.focus();
-                            setActiveIndex(index);
-                            actionCommand.current = command;
                             onCommandSelect(command);
                             onClose();
                         }}

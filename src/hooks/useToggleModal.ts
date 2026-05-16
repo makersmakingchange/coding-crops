@@ -10,7 +10,6 @@ import type {Command} from "../components/CommandModal";
 export function useToggleModal(
     dialogRef: React.RefObject<HTMLDialogElement | null>,
     isOpen: boolean,
-    actionCommand?: React.RefObject<Command | null>
 ) {
     useEffect(() => {
         const previouslyFocused = document.activeElement as HTMLElement;
@@ -21,8 +20,9 @@ export function useToggleModal(
         if (!isOpen && dialog.open) dialog.close();
 
         return () => {
-            if (actionCommand?.current) actionCommand.current.action();
-            else previouslyFocused?.focus();
-        }
-    }, [isOpen]);
+            if (previouslyFocused) {
+                previouslyFocused.focus();
+            }
+        };
+    }, [isOpen, dialogRef]);
 }
