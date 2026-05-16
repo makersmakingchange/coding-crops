@@ -33,7 +33,8 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
     };
 
     return (
-        <section
+        <div
+            id="instructionsPanel"
             className="instructions-panel"
             ref={instructionsRef}
             role="region"
@@ -72,7 +73,7 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
                 </div>
             </div>
 
-        </section>
+        </div>
     );
 };
 
