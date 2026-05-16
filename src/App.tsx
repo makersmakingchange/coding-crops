@@ -183,10 +183,8 @@ function App({mode = 'production'}: AppProps) {
 
     useEffect(() => {
         if (!isCommandPaletteOpen && pendingCommand) {
-            requestAnimationFrame(() => {
-                pendingCommand.action();
-                setPendingCommand(null);
-            });
+            pendingCommand.action();
+            setPendingCommand(null);
         }
     }, [isCommandPaletteOpen, pendingCommand]);
 
@@ -208,6 +206,7 @@ function App({mode = 'production'}: AppProps) {
                     onClose={() => setCommandPaletteOpen(false)}
                     onCommandSelect={handleCommandSelect}
                     resetGame={resetGame}
+                    runMode={runModeRef.current}
                 />
             )}
 
