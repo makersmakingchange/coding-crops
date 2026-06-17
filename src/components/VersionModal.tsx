@@ -23,7 +23,6 @@ export function VersionModal({ isOpen, onClose }: Props) {
 
     const handleCancel = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        AudioManager.play(SoundEffect.Cancel);
         onClose();
     };
 
