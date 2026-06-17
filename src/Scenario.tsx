@@ -1,7 +1,12 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import App from "./App";
 import {useEffect, useState} from "react";
 import { KeyOSD } from "@microbit/keyosd";
-
 
 function Scenario() {
     useEffect(() => {

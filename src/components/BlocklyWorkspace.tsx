@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import React, {useEffect, useRef, useState} from 'react';
 import {updateToolboxMap, setupBlockly} from '../blockly/blocklySetup';
 import {javascriptGenerator} from 'blockly/javascript';
@@ -128,7 +134,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         <div className="blockly-panel">
             <h2 id="code-workspace-heading"
                 className="sr-only">Code Workspace</h2>
-            <div id="blocklyDiv" ref={blocklyDiv} role="application"></div>
+            <div id="blocklyDiv" ref={blocklyDiv}></div>
             <div className="run-controls">
                 <button
                     className="run-code-button day"

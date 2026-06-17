@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2023 Google LLC
+ * Copyright 2026 Neil Squire Society - Makers Making Change
  * SPDX-License-Identifier: Apache-2.0
  */
 

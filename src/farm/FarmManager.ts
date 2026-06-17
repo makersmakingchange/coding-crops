@@ -1,8 +1,14 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {CropType, Tile, TileState} from "./Tile";
 import FarmA11y from '../accessibility/FarmA11y';
 import {FarmEvents} from "./FarmEvents";
 import A11yAnnouncer from "../accessibility/A11yAnnouncer";
-
+import AudioManager, {SoundEffect} from "../audio/AudioManager";
 
 export class FarmManager {
     private day: number;
@@ -71,7 +77,7 @@ export class FarmManager {
 
     getTileState(): TileState[][] {
         return this.grid.map(row =>
-            row.map(tile => ({...tile.getTileState()})) // clone the object
+            row.map(tile => ({...tile.getTileState()}))
         );
     }
 
@@ -83,7 +89,7 @@ export class FarmManager {
         const c = col - 1;
 
         if (!this.isValidCoordinate(r, c)) {
-            this.log(`Invalid coordinates. ${row},${col}`, "warning"); // original values
+            this.log(`Invalid coordinates. ${row},${col}`, "warning");
             return false;
         }
 
@@ -94,6 +100,7 @@ export class FarmManager {
         }
 
         this.log(`Planted sunflower at (${row},${col})`);
+        AudioManager.play(SoundEffect.Plant);
         this.notify();
         return true;
     }
@@ -115,6 +122,7 @@ export class FarmManager {
 
         this.harvestCount++;
         this.log(`Harvested crop at (${row},${col})`);
+        AudioManager.play(SoundEffect.Harvest);
         this.notify();
         return true;
     }
@@ -136,6 +144,7 @@ export class FarmManager {
         }
 
         this.log(`Watered tile (${row},${col})`);
+        AudioManager.play(SoundEffect.Water);
         this.notify();
         return true;
     }

@@ -1,10 +1,14 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import React, {useEffect} from "react";
-import type {Command} from "../components/CommandModal";
 
 export function useToggleModal(
     dialogRef: React.RefObject<HTMLDialogElement | null>,
     isOpen: boolean,
-    actionCommand?: React.RefObject<Command | null>
 ) {
     useEffect(() => {
         const previouslyFocused = document.activeElement as HTMLElement;
@@ -15,8 +19,9 @@ export function useToggleModal(
         if (!isOpen && dialog.open) dialog.close();
 
         return () => {
-            if (actionCommand?.current) actionCommand.current.action();
-            else previouslyFocused?.focus();
-        }
+            if (previouslyFocused) {
+                previouslyFocused.focus();
+            }
+        };
     }, [isOpen]);
 }

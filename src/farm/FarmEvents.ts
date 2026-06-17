@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2026 Neil Squire Society - Makers Making Change
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const FarmEvents = {
     dispatch: {
         resetSummaries: () => window.dispatchEvent(new CustomEvent('farm:reset-summaries')),
