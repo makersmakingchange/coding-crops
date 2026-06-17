@@ -216,14 +216,6 @@ function App({mode = 'production'}: AppProps) {
                     <section className="controls-bar" aria-keyshortcuts="Alt+G+C">
                         <h2 id="controls-heading" className="sr-only" tabIndex={0}>Farm Controls</h2>
                         <button onClick={resetGame}>Reset Farm</button>
-                        <button
-                            onClick={toggleRunMode}
-                            className={`run-mode-button${runMode === 'all' ? ' all' : ' day'}`}
-                            aria-pressed={runMode === 'all'}
-                            aria-label={runMode === 'all' ? 'Change to Run 1 Day Mode' : 'Change to Run All Blocks Mode'}
-                        >
-                            <span>{runMode === 'all' ? 'Change To Run 1 Day' : 'Change To Run All Blocks'}</span>
-                        </button>
                         <LevelSelector
                             onChange={changeLevel}
                             levels={mode === 'internal' ? SCENARIO_LEVELS : LEVELS}

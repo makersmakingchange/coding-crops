@@ -40,7 +40,6 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
         { label: 'Go to Instructions Panel', action: () => (document.querySelector('.instructions-panel') as HTMLElement)?.focus() },
         { label: 'Go to Level Button', action: () => (document.querySelector('.level-selector') as HTMLElement)?.focus() },
         { label: 'Reset Farm', action: () => resetGame() },
-        { label: 'Change Run Mode', action: () => (document.querySelector('.run-mode-button') as HTMLElement)?.focus() },
         { label: 'Updates', action: () => (document.querySelector('.update-button') as HTMLElement)?.focus() },
         { label: 'Run Code', action: () => (document.querySelector('#runCodeButton') as HTMLElement)?.focus() },
         { label: 'Open Shortcuts Menu', action: () => toggleShortcutDialog() },
