@@ -5,6 +5,7 @@
  */
 
 import React, {useEffect} from "react";
+import AudioManager, {SoundEffect} from "../audio/AudioManager";
 
 export function useToggleModal(
     dialogRef: React.RefObject<HTMLDialogElement | null>,
@@ -15,7 +16,10 @@ export function useToggleModal(
         const dialog = dialogRef.current;
         if (!dialog) return;
 
-        if (isOpen && !dialog.open) dialog.showModal();
+        if (isOpen && !dialog.open) {
+            AudioManager.play(SoundEffect.OpenModal);
+            dialog.showModal();
+        }
         if (!isOpen && dialog.open) dialog.close();
 
         return () => {

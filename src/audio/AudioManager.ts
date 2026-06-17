@@ -9,12 +9,15 @@ import waterSound from "../assets/sounds/water.mp3";
 import harvestSound from "../assets/sounds/harvest.mp3";
 import endOfGridSound from "../assets/sounds/endOfGrid.mp3";
 import openModal from "../assets/sounds/openModal.mp3";
+import cancel from "../assets/sounds/cancel.mp3";
 
 export enum SoundEffect {
     Plant = "plant",
     Water = "water",
     Harvest = "harvest",
     EndOfGrid = "endOfGrid",
+    OpenModal = "openModal",
+    Cancel = "cancel",
     Error = "error",
 }
 
@@ -39,7 +42,9 @@ class AudioManager {
         this.load("plant", plantSound);
         this.load("water", waterSound);
         this.load("harvest", harvestSound);
-        this.load("endOfGrid", endOfGridSound)
+        this.load("endOfGrid", endOfGridSound);
+        this.load("openModal", openModal);
+        this.load("cancel", cancel);
     }
 
 

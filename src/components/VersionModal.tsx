@@ -9,6 +9,7 @@ import { useToggleModal } from "../hooks/useToggleModal";
 import blocklyAttr from '../assets/built-with-blockly-badge.png';
 import mmcLogo from '../assets/MMC_Logo_White.svg';
 import nssLogo from '../assets/NSS_Logo_White.svg';
+import AudioManager, {SoundEffect} from "../audio/AudioManager";
 
 type Props = {
     isOpen: boolean;
@@ -22,6 +23,7 @@ export function VersionModal({ isOpen, onClose }: Props) {
 
     const handleCancel = (e: React.SyntheticEvent) => {
         e.preventDefault();
+        AudioManager.play(SoundEffect.Cancel);
         onClose();
     };
 

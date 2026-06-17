@@ -10,6 +10,7 @@ import BlocklyWorkspace from "./BlocklyWorkspace";
 import {focusBlocklyWorkspace} from "../blockly/blocklySetup";
 import {useToggleModal} from "../hooks/useToggleModal";
 import {toggleShortcutDialog} from "../blockly/blocklySetup";
+import AudioManager, {SoundEffect} from "../audio/AudioManager";
 
 export type Command = {
     label: string;
@@ -36,6 +37,7 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
 
     const handleCancel = (e: React.SyntheticEvent) => {
         e.preventDefault();
+        AudioManager.play(SoundEffect.Cancel);
         onClose();
     };
 
