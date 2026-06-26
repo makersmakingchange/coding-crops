@@ -37,6 +37,7 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
 
     const handleCancel = (e: React.SyntheticEvent) => {
         e.preventDefault();
+        AudioManager.play(SoundEffect.OpenModal);
         onClose();
     };
 
