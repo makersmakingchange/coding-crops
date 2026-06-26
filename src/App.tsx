@@ -139,18 +139,20 @@ function App({mode = 'production'}: AppProps) {
         'ctrl+/' : () => toggleCommandPalette(),
     }, false, true)
 
-    const resetGame = () => {
+    function resetGame(announceFarmReset: boolean = true): void {
         farmManager.reset();
         setTileData(farmManager.getTileState());
         FarmEvents.dispatch.resetSummaries();
-        A11yAnnouncer.announce(`Farm reset. Day ${farmManager.getDay()}.`, 0);
-    };
+        if (announceFarmReset) A11yAnnouncer.announce(`Farm reset. Day ${farmManager.getDay()}.`, 0);
+    }
+
+    const handleResetGame = () => {resetGame(true)};
 
     const changeLevel = (levelNum: string | number) => {
         setLevel(levelNum);
-        resetGame();
         A11yAnnouncer.announce(`Level changed to ${getLevelConfig(levelNum)?.label}. Day ${farmManager.getDay()}.`, 0);
-    };
+        resetGame(false);
+ };
 
     const readSummaries = () => {
         if (liveRegionRef.current) {
@@ -239,7 +241,7 @@ function App({mode = 'production'}: AppProps) {
 
                     <div className="controls-bar" tabIndex={0} aria-labelledby={'controls-heading'}>
                         <h2 id="controls-heading" className="sr-only">Farm Controls</h2>
-                        <button onClick={resetGame}>Reset Farm</button>
+                        <button onClick={handleResetGame}>Reset Farm</button>
                         <LevelSelector
                             onChange={changeLevel}
                             levels={mode === 'internal' ? SCENARIO_LEVELS : LEVELS}
@@ -248,8 +250,8 @@ function App({mode = 'production'}: AppProps) {
                 </header>
 
                 <div className="App-bottom-panel">
-                    <main id="main-content">
-                        <h2 className="sr-only">Instructions and Workspace</h2>
+                    <main id="main-content" aria-labelledby={"mainContentLabel"} tabIndex={0}>
+                        <h2 id="mainContentLabel" className="sr-only">Instructions and Workspace</h2>
                         <Instructions level={level} />
                         <BlocklyWorkspace
                             level={level}

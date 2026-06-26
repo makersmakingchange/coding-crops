@@ -1,5 +1,13 @@
 {
-  "goal": "Plant and water 3 crops using loops.",
-  "hint": "You can use the 'Repeat' block to repeat a block of code multiple times.",
-  "levelNumber": 2
+  "level": 2,
+  "steps": [
+    {
+      "title": "Goal",
+      "content": "Plant and harvest 1 crop using loops."
+    },
+    {
+      "title": "Step 1",
+      "content": "Add a repeat block, and use it to repeat the 'Water' and 'Next Day' blocks 2 times."
+    }
+  ]
 }
