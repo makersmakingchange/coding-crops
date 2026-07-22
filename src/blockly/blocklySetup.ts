@@ -78,7 +78,11 @@ export function setupBlockly(blocklyContainer: HTMLElement,
                     length: 3,
                     colour: '#333',
                     snap: true},
-                trashcan: true,
+            trashcan: true,
+            zoom: {
+                controls: true,
+                wheel: true,
+            }
         });
         workspaceInitialized = true;
         workspaceId = ws.id;
