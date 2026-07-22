@@ -11,7 +11,7 @@ import {getLevelConfig} from "../blockly/levelManager";
 import A11yAnnouncer from "../accessibility/A11yAnnouncer";
 import next from '../assets/next-icon.svg';
 import prev from '../assets/prev-icon.svg';
-
+import {blockTypes, parseContent} from "../descriptions/parser";
 
 interface InstructionsProps {
     level: number | string;
@@ -22,7 +22,6 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
     const instructionsRef = useRef<HTMLDivElement>(null);
     const [stepIndex, setStepIndex] = useState(0);
     const stepsRef = useRef<Step[]>(descriptions[level]?.steps);
-    console.log(stepsRef);
 
     useEffect(() => {
         setShowHint(false);
@@ -33,7 +32,6 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
 
     const goPrev = () => {
         setStepIndex(prev => Math.max(prev - 1, 0));
-
     };
 
     const goNext = () => {
@@ -48,7 +46,6 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
             role="region"
             tabIndex={0}
         >
-
             <div className="instructions-container" aria-live={"polite"}>
                 <div className="instructions-header">
                     <h2 id="instructions-heading" className="instructions-heading">
@@ -57,7 +54,20 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
                 </div>
 
                 <div className="instructions-content">
-                    <p>{stepsRef.current[stepIndex].content || 'No instructions available for this level.'}</p>
+                    <p>
+                        {parseContent(stepsRef.current[stepIndex].content).map((part, index) =>
+                                part.blockType ? (
+                                    <span
+                                        key={index}
+                                        className={blockTypes[part.blockType]?.className ?? "block-default"}
+                                    >
+                                        {part.text}
+                                    </span>
+                                ) : (
+                                    <React.Fragment key={index}>{part.text}</React.Fragment>
+                                )
+                        )}
+                    </p>
                 </div>
 
                 <div className="instructions-nav">

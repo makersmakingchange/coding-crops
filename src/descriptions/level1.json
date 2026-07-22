@@ -3,15 +3,15 @@
   "steps": [
     {
       "title": "Goal",
-      "content": "Plant and harvest 1 crop."
+      "content": "[Plant] and [Harvest] 1 crop."
     },
     {
       "title": "Step 1",
-      "content": "Add a 'Harvest' block and Run All Days to harvest 1 crop."
+      "content": "Add a [Harvest] block and [Run All Days] to harvest 1 crop."
     },
     {
       "title": "Step 2",
-      "content": "Add a new 'Plant' block and change the row and column numbers."
+      "content": "Add a new [Plant] block and change the row and column numbers."
     }
   ]
 }
