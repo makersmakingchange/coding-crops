@@ -24,9 +24,9 @@
     --coord-label-size: 15px;
 
     /* Farm tile colors */
+    --tile-bg: #836248;
     --tile-empty: #8B4513;
-    --tile-watered: #386641;
-    --tile-planted: #6a994e;
+    --tile-watered: #371d09;
 
     /* Font */
     --instruction-font-size: 1rem;
@@ -304,7 +304,6 @@ button:hover {
 .tile {
     width: 100%;
     aspect-ratio: 1;
-    --tile-bg: #836248;
     background-color: var(--tile-bg);
     border: 2px solid #5D4037;
     border-radius: 4px;
@@ -323,16 +322,12 @@ button:hover {
     z-index: 9999;
 }
 
-.tile-1, .tile-2, .tile-3 {
-    --tile-bg: #8FAD7D;
-}
-
 .tile-watered {
-    --tile-bg: #386641;
+    --tile-bg: var(--tile-watered);
 }
 
 .tile-watered.tile-0 {
-    --tile-bg: #462e22;
+    --tile-bg: var(--tile-watered);
 }
 
 .farm-info {

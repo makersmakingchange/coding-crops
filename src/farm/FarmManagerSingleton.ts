@@ -15,8 +15,6 @@ declare global {
 
 const farmManager = new FarmManager();
 
-AudioManager.initialize();
-
 if (typeof window !== 'undefined') {
     window.farmManager = farmManager;
 }

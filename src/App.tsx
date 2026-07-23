@@ -13,6 +13,9 @@ import Instructions from './components/Instructions';
 import UpdatesModal from "./components/UpdatesModal";
 import ErrorDialog from "./components/ErrorDialog";
 import VersionModal from "./components/VersionModal";
+import CommandModal from "./components/CommandModal";
+import type {Command} from "./components/CommandModal";
+import InfoModal from "./components/InfoModal";
 import farmManager from './farm/FarmManagerSingleton';
 import FarmA11y from './accessibility/FarmA11y';
 import { Warning } from './types';
@@ -45,6 +48,7 @@ function App({mode = 'production'}: AppProps) {
     const [pendingCommand, setPendingCommand] = useState<Command | null>(null);
     const [isVersionOpen, setVersionOpen] = useState(false);
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
+    const [isInfoOpen, setIsInfoOpen] = useState(true);
 
     const [warnings, setWarnings] = useState<Warning[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -133,6 +137,7 @@ function App({mode = 'production'}: AppProps) {
         t: () => focusBlocklyToolbox(),
         w: () => focusBlocklyWorkspace(),
         '/': () => toggleShortcutDialog(),
+        '?': () => setIsInfoOpen(!isInfoOpen),
     })
 
     useKeyboardShortcuts({

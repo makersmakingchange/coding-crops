@@ -11,8 +11,11 @@ import './styles/index.css';
 import App from './App';
 import Testing from './Testing';
 import Scenario from './Scenario';
+import AudioManager from "./audio/AudioManager";
 
 let root = ReactDOM.createRoot(document.getElementById('app') as HTMLElement);
+
+AudioManager.initialize();
 
 root.render(
     <BrowserRouter>
