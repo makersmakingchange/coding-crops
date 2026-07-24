@@ -5,7 +5,6 @@
  */
 
 import { FarmManager } from './FarmManager';
-import AudioManager from "../audio/AudioManager";
 
 declare global {
     interface Window {

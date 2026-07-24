@@ -48,10 +48,48 @@
     overflow: hidden;
 }
 
-.updates-modal-content, .version-modal-content {
+.updates-modal {
+    height: 80vh;
+}
+
+.updates-body {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.version-modal-content {
     flex: 1;
     overflow-y: auto;
-    margin-top: 1rem;
+}
+
+.summaries-section,
+.warning-section {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.summaries-content,
+.warning-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.summaries-section h3, .warning-section h3 {
+    flex: 0 0 auto;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 .updates-modal ul {
@@ -110,21 +148,15 @@
     font-weight: bold;
 }
 /* Container for warning messages */
-.warning-section {
+.warning-content {
     border: 1px solid #ffcc00;      /* yellow border to match warning color */
     color: #ff9900;                 /* dark yellow/orange text */
     padding: 0.5rem;
     margin-bottom: 0.5rem;
     border-radius: 4px;
-    overflow: hidden;
-    overflow-y: auto;
 }
 
 /* Section title */
 .warning-section h3 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    font-weight: bold;
     color: #ff9900;                 /* match the warning text color */
 }

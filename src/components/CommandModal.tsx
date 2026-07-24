@@ -71,8 +71,6 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'ArrowDown') {
             e.preventDefault();
-            const previouslyFocused = document.activeElement as HTMLElement;
-            console.log("Previously focused element:", previouslyFocused);
             if (document.activeElement?.id === 'commandInput') {
                 document.getElementById('command-0')?.focus();
                 setActiveIndex(0);

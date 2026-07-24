@@ -28,8 +28,6 @@ import A11yAnnouncer from "./accessibility/A11yAnnouncer";
 import {FarmEvents} from "./farm/FarmEvents";
 import {useKeyboardShortcuts} from "./hooks/useKeyboardShortcuts";
 import {useFarmEndDay} from "./hooks/useFarmEndDay";
-import CommandModal from "./components/CommandModal";
-import type {Command} from "./components/CommandModal";
 import {focusBlocklyToolbox, focusBlocklyWorkspace, toggleShortcutDialog} from "./blockly/blocklySetup";
 
 type AppProps = {
@@ -174,7 +172,6 @@ function App({mode = 'production'}: AppProps) {
 
     const toggleCommandPalette = () => {
         setCommandPaletteOpen(!isCommandPaletteOpen);
-
     };
 
     const toggleRunMode = () => {
@@ -202,6 +199,10 @@ function App({mode = 'production'}: AppProps) {
                 onClose={() => setIsUpdatesOpen(false)}
                 summaries={summaries}
                 warnings={warnings}
+            />
+            <InfoModal
+                isOpen={isInfoOpen}
+                onClose={() => setIsInfoOpen(false)}
             />
             <ErrorDialog
                 message={errorMessage}

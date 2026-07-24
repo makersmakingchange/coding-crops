@@ -1,6 +1,8 @@
 import {useRef} from "react";
 import {useToggleModal} from "../hooks/useToggleModal";
 import AudioManager, {SoundEffect} from "../audio/AudioManager";
+import {useKeyboardShortcuts} from "../hooks/useKeyboardShortcuts";
+import {focusBlocklyToolbox, focusBlocklyWorkspace, toggleShortcutDialog} from "../blockly/blocklySetup";
 
 interface InfoModalProps {
     isOpen: boolean;
@@ -14,14 +16,13 @@ const InfoModal: React.FC<InfoModalProps> = ({
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     useToggleModal(dialogRef, isOpen);
+    if (!isOpen) return null;
 
     const handleCancel = (e: React.SyntheticEvent) => {
         e.preventDefault();
         AudioManager.play(SoundEffect.OpenModal);
         onClose();
     };
-
-    if (!isOpen) return null;
 
     return (
         <dialog
@@ -33,7 +34,8 @@ const InfoModal: React.FC<InfoModalProps> = ({
         >
             <h2 id="info-title">Welcome!</h2>
 
-            <div className="info-description">
+            <div
+                className="info-description">
                 <p>
                     Welcome to Coding Crops, where we use code to harvest crops! Crops take 2 days to fully grow, and must be watered each day.
                     Once they are fully grown they can be harvested using the harvest block.
