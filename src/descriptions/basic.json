@@ -1,0 +1,13 @@
+{
+  "level": "basic",
+  "steps": [
+    {
+      "title": "Goal",
+      "content": "Test blocks."
+    },
+    {
+      "title": "Step 1",
+      "content": "Test [Farm] blocks."
+    }
+  ]
+}

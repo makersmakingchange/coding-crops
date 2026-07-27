@@ -23,12 +23,27 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
     const [stepIndex, setStepIndex] = useState(0);
     const stepsRef = useRef<Step[]>(descriptions[level]?.steps);
 
+    const fallbackSteps = descriptions["basic"]?.steps ?? [
+        {
+            "level": "basic",
+            "steps": [
+                {
+                    "title": "Goal",
+                    "content": "Test blocks."
+                },
+                {
+                    "title": "Step 1",
+                    "content": "Test [Farm] blocks."
+                }
+            ]
+        }
+    ];
+
     useEffect(() => {
         setShowHint(false);
         setStepIndex(0);
-        stepsRef.current = descriptions[level]?.steps;
+        stepsRef.current = descriptions[level]?.steps ?? fallbackSteps;
     }, [level]);
-
 
     const goPrev = () => {
         setStepIndex(prev => Math.max(prev - 1, 0));
