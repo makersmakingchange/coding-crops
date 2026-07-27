@@ -8,6 +8,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Tile from './Tile';
 import { TileState, CropType, GrowthStage } from '../farm/Tile';
 import '../styles/index.css';
+import AudioManager, {SoundEffect} from "../audio/AudioManager";
 
 interface FarmGridProps {
     tiles: TileState[][];
@@ -27,13 +28,6 @@ const FarmGrid: React.FC<FarmGridProps> = ({ tiles, ariaLiveRef, dayCount }) => 
     const hasMounted = useRef(false);
     const [focusedPos, setFocusedPos] = useState({ row: 0, col: 0 });
 
-    const handleGridFocus = (e: React.FocusEvent<HTMLDivElement>) => {
-        if (!gridRef.current?.contains(e.relatedTarget as Node)) {
-            setFocusedPos({ row: 0, col: 0 });
-            tileRefs.current[0]?.[0]?.focus(); // Focus on the first tile (0, 0)
-        }
-    };
-
     useEffect(() => {
         if (!hasMounted.current) {
             hasMounted.current = true;
@@ -43,11 +37,29 @@ const FarmGrid: React.FC<FarmGridProps> = ({ tiles, ariaLiveRef, dayCount }) => 
         tile?.focus();
     }, [focusedPos.row, focusedPos.col]);
 
+    const focusOnTopLeftTile = (e: React.FocusEvent<HTMLDivElement>) => {
+        if (!gridRef.current?.contains(e.relatedTarget as Node)) {
+            setFocusedPos({ row: 0, col: 0 });
+            tileRefs.current[0]?.[0]?.focus(); // Focus on the first tile (0, 0)
+        }
+    };
+
+    // move focus depending on the where the user moves
     const moveFocus = (rowDelta: number, colDelta: number) => {
+        if (edgeOfGrid(rowDelta, colDelta)) {
+            AudioManager.play(SoundEffect.EndOfGrid);
+        }
         setFocusedPos(prev => ({
             row: Math.max(0, Math.min(rows - 1, prev.row + rowDelta)),
             col: Math.max(0, Math.min(cols - 1, prev.col + colDelta)),
         }));
+    };
+
+    const edgeOfGrid = (rowDelta: number, colDelta: number) => {
+        return (((focusedPos.row == 0) && (rowDelta == -1)) ||
+                ((focusedPos.row) == (rows - 1) && (rowDelta == 1)) ||
+                ((focusedPos.col == 0) && (colDelta == -1)) ||
+                ((focusedPos.col) == (cols - 1) && (colDelta == 1)));
     };
 
     return (
@@ -58,7 +70,7 @@ const FarmGrid: React.FC<FarmGridProps> = ({ tiles, ariaLiveRef, dayCount }) => 
             role="grid"
             aria-label={`Farm field, Day ${dayCount}. 3 rows and 3 columns.`}
             ref={gridRef}
-            onFocus={handleGridFocus}
+            onFocus={focusOnTopLeftTile}
             style={{
                 gridTemplateColumns: `15px repeat(${tiles[0].length}, 105px)`,
                 gridTemplateRows: `15px repeat(${tiles.length}, 105px)`,

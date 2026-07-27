@@ -24,9 +24,9 @@
     --coord-label-size: 15px;
 
     /* Farm tile colors */
+    --tile-bg: #836248;
     --tile-empty: #8B4513;
-    --tile-watered: #386641;
-    --tile-planted: #6a994e;
+    --tile-watered: #371d09;
 
     /* Font */
     --instruction-font-size: 1rem;
@@ -205,6 +205,10 @@ body {
     transition: background-color 0.3s;
 }
 
+:focus {
+    outline: 3px solid #66aaff;
+}
+
 /* Controls bar */
 .controls-bar {
     height: 100%;
@@ -272,14 +276,6 @@ button:hover {
     background-color: #2b68c5;
 }
 
-button.run-mode-button.all {
-    background-color: #d6611a;
-}
-
-button.run-mode-button.day {
-    background-color: #3c9c18;
-}
-
 .grid-container {
     flex-grow: 1;
     overflow-y: auto;
@@ -308,7 +304,6 @@ button.run-mode-button.day {
 .tile {
     width: 100%;
     aspect-ratio: 1;
-    --tile-bg: #836248;
     background-color: var(--tile-bg);
     border: 2px solid #5D4037;
     border-radius: 4px;
@@ -327,16 +322,12 @@ button.run-mode-button.day {
     z-index: 9999;
 }
 
-.tile-1, .tile-2, .tile-3 {
-    --tile-bg: #8FAD7D;
-}
-
 .tile-watered {
-    --tile-bg: #386641;
+    --tile-bg: var(--tile-watered);
 }
 
 .tile-watered.tile-0 {
-    --tile-bg: #462e22;
+    --tile-bg: var(--tile-watered);
 }
 
 .farm-info {
@@ -376,13 +367,26 @@ button.run-mode-button.day {
     margin: 1rem;
 }
 
+.run-controls {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    display: flex;
+    flex-direction: row;
+}
+
 button.run-code-button {
-    margin-left: auto;
     background-color: #7e3000;
     padding: 8px 30px;
-    position: absolute;
-    bottom: 10%;
-    right: 30%;
+    margin: 0.5rem;
+}
+
+button.run-code-button.all {
+    background-color: #d6611a;
+}
+
+button.run-code-button.day {
+    background-color: #3c9c18;
 }
 
 .run-code-button:hover {

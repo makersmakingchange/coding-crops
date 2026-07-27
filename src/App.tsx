@@ -13,6 +13,9 @@ import Instructions from './components/Instructions';
 import UpdatesModal from "./components/UpdatesModal";
 import ErrorDialog from "./components/ErrorDialog";
 import VersionModal from "./components/VersionModal";
+import CommandModal from "./components/CommandModal";
+import type {Command} from "./components/CommandModal";
+import InfoModal from "./components/InfoModal";
 import farmManager from './farm/FarmManagerSingleton';
 import FarmA11y from './accessibility/FarmA11y';
 import { Warning } from './types';
@@ -25,8 +28,6 @@ import A11yAnnouncer from "./accessibility/A11yAnnouncer";
 import {FarmEvents} from "./farm/FarmEvents";
 import {useKeyboardShortcuts} from "./hooks/useKeyboardShortcuts";
 import {useFarmEndDay} from "./hooks/useFarmEndDay";
-import CommandModal from "./components/CommandModal";
-import type {Command} from "./components/CommandModal";
 import {focusBlocklyToolbox, focusBlocklyWorkspace, toggleShortcutDialog} from "./blockly/blocklySetup";
 
 type AppProps = {
@@ -42,8 +43,10 @@ function App({mode = 'production'}: AppProps) {
     const runModeRef = useRef(runMode);
 
     const [isCommandPaletteOpen, setCommandPaletteOpen] = useState(false);
+    const [pendingCommand, setPendingCommand] = useState<Command | null>(null);
     const [isVersionOpen, setVersionOpen] = useState(false);
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
+    const [isInfoOpen, setIsInfoOpen] = useState(true);
 
     const [warnings, setWarnings] = useState<Warning[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -132,24 +135,27 @@ function App({mode = 'production'}: AppProps) {
         t: () => focusBlocklyToolbox(),
         w: () => focusBlocklyWorkspace(),
         '/': () => toggleShortcutDialog(),
+        '?': () => setIsInfoOpen(!isInfoOpen),
     })
 
     useKeyboardShortcuts({
         'ctrl+/' : () => toggleCommandPalette(),
     }, false, true)
 
-    const resetGame = () => {
+    function resetGame(announceFarmReset: boolean = true): void {
         farmManager.reset();
         setTileData(farmManager.getTileState());
         FarmEvents.dispatch.resetSummaries();
-        A11yAnnouncer.announce(`Farm reset. Day ${farmManager.getDay()}.`, 0);
-    };
+        if (announceFarmReset) A11yAnnouncer.announce(`Farm reset. Day ${farmManager.getDay()}.`, 0);
+    }
+
+    const handleResetGame = () => {resetGame(true)};
 
     const changeLevel = (levelNum: string | number) => {
         setLevel(levelNum);
-        resetGame();
         A11yAnnouncer.announce(`Level changed to ${getLevelConfig(levelNum)?.label}. Day ${farmManager.getDay()}.`, 0);
-    };
+        resetGame(false);
+ };
 
     const readSummaries = () => {
         if (liveRegionRef.current) {
@@ -166,18 +172,25 @@ function App({mode = 'production'}: AppProps) {
 
     const toggleCommandPalette = () => {
         setCommandPaletteOpen(!isCommandPaletteOpen);
-
-    };
-
-    const handleCommandSelect = (command: Command) => {
-        // Execute the command
-        command.action();
     };
 
     const toggleRunMode = () => {
         setRunMode(prevMode => (prevMode === 'all' ? 'day' : 'all'));
         resetGame();
     };
+
+
+    const handleCommandSelect = (command: Command) => {
+        setPendingCommand(command);
+        setCommandPaletteOpen(false);
+    };
+
+    useEffect(() => {
+        if (!isCommandPaletteOpen && pendingCommand) {
+            pendingCommand.action();
+            setPendingCommand(null);
+        }
+    }, [isCommandPaletteOpen, pendingCommand]);
 
     return (
         <div id="app" className="App" role="application">
@@ -186,6 +199,10 @@ function App({mode = 'production'}: AppProps) {
                 onClose={() => setIsUpdatesOpen(false)}
                 summaries={summaries}
                 warnings={warnings}
+            />
+            <InfoModal
+                isOpen={isInfoOpen}
+                onClose={() => setIsInfoOpen(false)}
             />
             <ErrorDialog
                 message={errorMessage}
@@ -197,6 +214,7 @@ function App({mode = 'production'}: AppProps) {
                     onClose={() => setCommandPaletteOpen(false)}
                     onCommandSelect={handleCommandSelect}
                     resetGame={resetGame}
+                    runMode={runModeRef.current}
                 />
             )}
 
@@ -229,16 +247,7 @@ function App({mode = 'production'}: AppProps) {
 
                     <div className="controls-bar" tabIndex={0} aria-labelledby={'controls-heading'}>
                         <h2 id="controls-heading" className="sr-only">Farm Controls</h2>
-                        <button onClick={resetGame}>Reset Farm</button>
-                        <button
-                            onClick={toggleRunMode}
-                            id='runModeButton'
-                            className={`run-mode-button${runMode === 'all' ? ' all' : ' day'}`}
-                            aria-pressed={runMode === 'all'}
-                            aria-label={runMode === 'all' ? 'Change to Run 1 Day Mode' : 'Change to Run All Blocks Mode'}
-                        >
-                            <span>{runMode === 'all' ? 'Change To Run 1 Day' : 'Change To Run All Blocks'}</span>
-                        </button>
+                        <button onClick={handleResetGame}>Reset Farm</button>
                         <LevelSelector
                             onChange={changeLevel}
                             levels={mode === 'internal' ? SCENARIO_LEVELS : LEVELS}
@@ -247,8 +256,8 @@ function App({mode = 'production'}: AppProps) {
                 </header>
 
                 <div className="App-bottom-panel">
-                    <main id="main-content">
-                        <h2 className="sr-only">Instructions and Workspace</h2>
+                    <main id="main-content" aria-labelledby={"mainContentLabel"} tabIndex={0}>
+                        <h2 id="mainContentLabel" className="sr-only">Instructions and Workspace</h2>
                         <Instructions level={level} />
                         <BlocklyWorkspace
                             level={level}

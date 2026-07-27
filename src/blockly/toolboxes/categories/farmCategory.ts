@@ -14,6 +14,9 @@ export const farmCategoryContents = [
         kind: 'block',
         type: 'plant',
         inline: true,
+        fields: {
+            TYPE: "Sunflower",
+        },
         inputs: {
             ROW: {
                 shadow: rowBlock

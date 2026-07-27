@@ -86,6 +86,16 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         }
     }, [isRunning]);
 
+    const handleRunOneDay = async () => {
+        runMode = "day";
+        await handleRunCode();
+    }
+
+    const handleRunAllDays = async () => {
+        runMode = "all";
+        await handleRunCode();
+    }
+
     const handleRunCode = async () => {
         if (!workspaceRef.current) return;
 
@@ -124,20 +134,27 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
         <div className="blockly-panel">
             <h2 id="code-workspace-heading"
                 className="sr-only">Code Workspace</h2>
-            <div id="blocklyDiv" ref={blocklyDiv} aria-hidden={"true"}></div>
+            <div id="blocklyDiv" ref={blocklyDiv}></div>
             <div className="run-controls">
                 <button
-                    id="runCodeButton"
-                    className="run-code-button"
-                    onClick={handleRunCode}
+                    className="run-code-button day"
+                    onClick={handleRunOneDay}
                     disabled={isRunning}
                     aria-disabled={isRunning}
-                    aria-label={`Run ${runMode === 'all' ? 'All Days' : '1 Day'}`}
+                    aria-label={`Run One Day`}
                     tabIndex={0}
                 >
-                    {runMode === "all"
-                        ? "Run All Days"
-                        : "Run One Day"}
+                    Run One Day
+                </button>
+                <button
+                    className="run-code-button all"
+                    onClick={handleRunAllDays}
+                    disabled={isRunning}
+                    aria-disabled={isRunning}
+                    aria-label={`Run All Days`}
+                    tabIndex={0}
+                >
+                    Run All Days
                 </button>
             </div>
             <div id="shortcuts"></div>

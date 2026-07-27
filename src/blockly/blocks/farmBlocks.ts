@@ -10,8 +10,17 @@ import * as Blockly from 'blockly';
 
 const plant = {
     type: 'plant',
-    message0: 'plant 🌱 at row %1 column %2',
+    message0: 'plant %1 at row %2 column %3',
     args0: [
+        {
+            type: 'field_dropdown',
+            name: 'TYPE',
+            options: [
+                ['sunflower', 'Sunflower'],
+                ['corn', 'Corn'],
+                ['pumpkin', 'Pumpkin'],
+            ],
+        },
         {
             type: 'input_value',
             name: 'ROW',

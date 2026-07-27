@@ -9,6 +9,15 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6),
                 0 1px 0 rgba(255, 255, 255, 0.05);
     margin: 8px;
+    --title-font-size: clamp(1rem, 1.5vh, 1.4rem);
+    --instruction-font-size: clamp(0.9rem, 1.5vh, 1.5rem);
+    position: relative;
+}
+
+.instructions-container {
+    display: flex;
+    flex-direction: column;
+    height: 15%;
 }
 
 .instructions-header {
@@ -16,12 +25,21 @@
     justify-content: space-between;
 }
 
-.instructions-goal-section {
-    width: 40%;
+.instructions-content {
+    width: 80%;
+}
+
+.instructions-nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 
 .instructions-heading {
-    font-size: var(--instruction-font-size);
+    font-size: var(--title-font-size);
     color: #e0e0e0;
 }
 
@@ -31,13 +49,13 @@
     align-items: center;
 }
 
-.hint-button {
+.instructions-panel.button {
     background: linear-gradient(145deg, #1e6091, #184e77);
     color: #ffffff;
     border: none;
     padding: 8px 16px;
-    min-width: 110px;
-    height: 36px;
+    /*min-width: 110px;*/
+    /*max-height: 36px;*/
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6),
@@ -57,4 +75,65 @@
     width: 60%;
     white-space: pre-wrap;
     text-align: right;
+}
+
+button.icon {
+    padding: 0.2rem;
+    object-fit: contain;
+    width: 1.75rem;
+    height: 1.75rem;
+}
+
+#stepNumber {
+    font-size: 0.8rem;
+}
+
+/*Block Reference Styles*/
+.instructions-content span[class^="block-"]{
+    font: var(--instruction-font-size) "Helvetica Neue", "Segoe UI", Helvetica, sans-serif;
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 0 2px;
+    border-radius: 4px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
+.instructions-content span[class^="button-"] {
+    font: bold var(--instruction-font-size) "Helvetica Neue", "Segoe UI", Helvetica, sans-serif;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 50px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
+.block-harvest {
+    background: #a55b5b;
+}
+
+.block-plant {
+    background: #5ba55b;
+}
+
+.button-run-all-days {
+    background: #d6611a;
+}
+
+.button-run-one-day {
+    background: #3c9c18;
+}
+
+.block-next-day {
+    background: #d1a600;
+}
+
+.block-water {
+    background: #5b80a5;
+}
+
+.block-default {
+    background: #666;
 }

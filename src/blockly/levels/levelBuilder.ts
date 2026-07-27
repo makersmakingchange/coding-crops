@@ -10,9 +10,12 @@ import {createAriaNumberInstance} from "../blocks/mathBlocks";
 const rowBlock = createAriaNumberInstance(1, 'Row number');
 const colBlock = createAriaNumberInstance(1, 'Column number');
 
-export const plantBlock = (row: number, col: number): BlockDef => ({
+export const plantBlock = (row: number, col: number, type: string = "Sunflower"): BlockDef => ({
     type: 'plant',
     inline: true,
+    fields: {
+        TYPE: type,
+    },
     inputs: {
         ROW: {
             shadow: createAriaNumberInstance(row, 'Row number'),
