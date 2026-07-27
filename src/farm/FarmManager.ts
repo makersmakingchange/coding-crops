@@ -84,7 +84,7 @@ export class FarmManager {
     getDay(): number { return this.day; }
     getCropsHarvested(): number { return this.harvestCount; }
 
-    plant(row: number, col: number): boolean {
+    plant(row: number, col: number, type: string): boolean {
         const r = row - 1;
         const c = col - 1;
 
@@ -94,12 +94,13 @@ export class FarmManager {
         }
 
         const tile = this.grid[r][c];
-        if (!tile.plant(CropType.Sunflower)) {
+
+        if (!tile.plant(CropType[type as keyof typeof CropType])) {
             this.log(`Cannot plant. Tile ${row},${col} already has a plant`, "warning");
             return false;
         }
 
-        this.log(`Planted sunflower at (${row},${col})`);
+        this.log(`Planted a ${(type as keyof typeof CropType).toLowerCase()} at (${row},${col})`);
         AudioManager.play(SoundEffect.Plant);
         this.notify();
         return true;

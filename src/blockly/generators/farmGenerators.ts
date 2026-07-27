@@ -39,13 +39,14 @@ forBlock['plant'] = function (
 ) {
     const row = generator.valueToCode(block, 'ROW', Order.ASSIGNMENT) || 1;
     const col = generator.valueToCode(block, 'COLUMN', Order.ASSIGNMENT) || 1;
+    const type = block.getFieldValue('TYPE') || 'Sunflower';
 
     return `
-        (function(row, col) {
+        (function(row, col, type) {
             farmManager.enqueue(() => {
-                farmManager.plant(row, col);
+                farmManager.plant(row, col, type);
             });
-        })(${row}, ${col});
+        })(${row}, ${col}, "${type}");
     `;
 };
 
