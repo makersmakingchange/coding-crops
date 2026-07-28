@@ -27,7 +27,7 @@ const InfoModal: React.FC<InfoModalProps> = ({
     return (
         <dialog
             ref={dialogRef}
-            className="command-modal"
+            className="info-modal"
             aria-labelledby="info-title"
             aria-describedby="info-description"
             onCancel={handleCancel}
@@ -43,8 +43,11 @@ const InfoModal: React.FC<InfoModalProps> = ({
                     Some keyboard shortcuts that can help you get around the page include:
                     <br/>
                     T for toolbox,
-                    W for workspace, &nbsp;
-                    <kbd>/</kbd> for the shortcuts menu, &nbsp;
+                    <br/>
+                    W for workspace,
+                    <br/>
+                    <kbd>/</kbd> for the shortcuts menu,
+                    <br/>
                     <kbd>Ctrl</kbd>
                     <span className="sr-only">and</span>
                     <span aria-hidden="true"> + </span>

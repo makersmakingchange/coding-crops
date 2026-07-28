@@ -114,8 +114,12 @@ function App({mode = 'production'}: AppProps) {
             (document.querySelector('.update-button') as HTMLElement | null)?.focus();
         },
         gr: () => {
-            console.log("Go to run button");
-            (document.querySelector('#runCodeButton') as HTMLElement | null)?.focus();
+            console.log("Go to run one day button");
+            (document.querySelector('#runDayButton') as HTMLElement | null)?.focus();
+        },
+        r: () => {
+            console.log("Run all day");
+            (document.querySelector('#runAllButton') as HTMLElement | null)?.click();
         },
         gc: () => {
             console.log("Go to controls bar");

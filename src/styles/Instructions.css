@@ -9,7 +9,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6),
                 0 1px 0 rgba(255, 255, 255, 0.05);
     margin: 8px;
-    --title-font-size: clamp(1rem, 1.5vh, 1.4rem);
+    --title-font-size: clamp(0.9rem, 1.5vh, 1.4rem);
     --instruction-font-size: clamp(0.9rem, 1.5vh, 1.5rem);
     position: relative;
 }
@@ -89,23 +89,14 @@ button.icon {
 }
 
 /*Block Reference Styles*/
-.instructions-content span[class^="block-"]{
+.instructions-content span[class^="block-"],
+.instructions-content span[class^="category-"] {
     font: var(--instruction-font-size) "Helvetica Neue", "Segoe UI", Helvetica, sans-serif;
     display: inline-block;
-    padding: 4px 10px;
+    padding: 4px 8px;
     margin: 0 2px;
     border-radius: 4px;
     color: white;
-    font-weight: 600;
-    font-size: 0.95em;
-}
-
-.instructions-content span[class^="button-"] {
-    font: bold var(--instruction-font-size) "Helvetica Neue", "Segoe UI", Helvetica, sans-serif;
-    display: inline-block;
-    padding: 8px 12px;
-    border-radius: 50px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     font-weight: 600;
     font-size: 0.95em;
 }
@@ -118,14 +109,6 @@ button.icon {
     background: #5ba55b;
 }
 
-.button-run-all-days {
-    background: #d6611a;
-}
-
-.button-run-one-day {
-    background: #3c9c18;
-}
-
 .block-next-day {
     background: #d1a600;
 }
@@ -134,6 +117,40 @@ button.icon {
     background: #5b80a5;
 }
 
+.block-begin {
+    background: #793E02;
+}
+
 .block-default {
     background: #666;
+}
+
+/*Category styles*/
+.instructions-content span[class^="category-"] {
+    background-color: #666;
+}
+
+.category-farm {
+    border-left: 5px solid #5CA699;
+
+    /*border-left-color: #5CA699;*/
+}
+
+/*Button styles*/
+.instructions-content span[class^="button-"] {
+    font: bold var(--instruction-font-size) "Helvetica Neue", "Segoe UI", Helvetica, sans-serif;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 50px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
+.button-run-all-days {
+    background: #d6611a;
+}
+
+.button-run-one-day {
+    background: #3c9c18;
 }

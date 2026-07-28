@@ -393,7 +393,7 @@ button.run-code-button.day {
     background-color: #bf4a02;
 }
 
-.run-code-button:disabled {
+.disabled {
     cursor: not-allowed;
     opacity: 0.4;
 }

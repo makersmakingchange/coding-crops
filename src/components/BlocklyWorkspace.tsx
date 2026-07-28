@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, {useEffect, useRef, useState} from 'react';
-import {updateToolboxMap, setupBlockly} from '../blockly/blocklySetup';
-import {javascriptGenerator} from 'blockly/javascript';
+import React, { useEffect, useRef, useState } from 'react';
+import { updateToolboxMap, setupBlockly } from '../blockly/blocklySetup';
+import { javascriptGenerator } from 'blockly/javascript';
 
 import * as levelManager from '../blockly/levelManager';
 import { getLevelConfig } from '../blockly/levelManager';
-import {WorkspaceSvg} from "blockly";
+import { WorkspaceSvg } from "blockly";
 import farmManager from "../farm/FarmManagerSingleton";
-import {FarmEvents} from "../farm/FarmEvents";
+import { FarmEvents } from "../farm/FarmEvents";
 import A11yAnnouncer from "../accessibility/A11yAnnouncer";
 
 interface BlocklyProps {
@@ -37,9 +37,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
 
         if (!workspaceRef.current) {
             workspaceRef.current = setupBlockly(blocklyDiv.current, toolboxLevel, () => {
-                if (runModeRef.current === "day") {
-                    farmManager.resetActionQueue();
-                }
+                farmManager.resetActionQueue();
             });
 
         } else {
@@ -73,7 +71,7 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
             // const cmdOrCtrl = e.metaKey || e.ctrlKey;
 
             if (e.altKey && (e.key === 'r' || e.key === 'R'))
-                (document.querySelector('#runCodeButton') as HTMLElement)?.focus();
+                (document.querySelector('#runAllButton') as HTMLElement)?.focus();
         };
 
         window.addEventListener('keydown', handleShortcuts);
@@ -87,13 +85,17 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
     }, [isRunning]);
 
     const handleRunOneDay = async () => {
-        runMode = "day";
-        await handleRunCode();
+        if (!isRunning) {
+            runMode = "day";
+            await handleRunCode();
+        }
     }
 
     const handleRunAllDays = async () => {
-        runMode = "all";
-        await handleRunCode();
+        if (!isRunning) {
+            runMode = "all";
+            await handleRunCode();
+        }
     }
 
     const handleRunCode = async () => {
@@ -137,20 +139,18 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
             <div id="blocklyDiv" ref={blocklyDiv}></div>
             <div className="run-controls">
                 <button
-                    className="run-code-button day"
+                    id="runDayButton"
+                    className={`run-code-button day ${isRunning? "disabled" : " " }`}
                     onClick={handleRunOneDay}
-                    disabled={isRunning}
-                    aria-disabled={isRunning}
                     aria-label={`Run One Day`}
                     tabIndex={0}
                 >
                     Run One Day
                 </button>
                 <button
-                    className="run-code-button all"
+                    id="runAllButton"
+                    className={`run-code-button all ${isRunning? "disabled" : " " }`}
                     onClick={handleRunAllDays}
-                    disabled={isRunning}
-                    aria-disabled={isRunning}
                     aria-label={`Run All Days`}
                     tabIndex={0}
                 >

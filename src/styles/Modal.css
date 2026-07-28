@@ -49,7 +49,8 @@
 }
 
 .updates-modal {
-    height: 80vh;
+    min-width: 20%;
+    min-height: 20%;
 }
 
 .updates-body {
@@ -159,4 +160,22 @@
 /* Section title */
 .warning-section h3 {
     color: #ff9900;                 /* match the warning text color */
+}
+
+.info-modal {
+    position: absolute;
+    top: 20%;
+    left: 45%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0);
+    color: white;
+    min-width: 40%;
+    max-width: 90%;
+    max-height: 60%;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    flex-direction: column;
 }

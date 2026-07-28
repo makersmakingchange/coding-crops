@@ -42,7 +42,8 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
     };
 
     const commands: Command[] = [
-        { label: 'Run Code', action: () => (document.querySelector('#runCodeButton') as HTMLElement)?.click() },
+        { label: 'Run All Day', action: () => (document.querySelector('#runAllButton') as HTMLElement)?.click() },
+        { label: 'Run One Day', action: () => (document.querySelector('#runDayButton') as HTMLElement)?.click() },
         { label: 'Go to Toolbox', action: () => (document.querySelector('.blocklyToolbox') as HTMLElement)?.focus() },
         { label: 'Go to Workspace', action: () => focusBlocklyWorkspace() },
         { label: 'Go to Farm Field', action: () => (document.querySelector('.tile') as HTMLElement)?.focus() },

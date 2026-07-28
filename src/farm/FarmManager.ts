@@ -245,6 +245,7 @@ export class FarmManager {
                 if ((action as any).isNextDay) {
                     if (!this.isPausedAtNextDay) {
                         console.log("Next Day block reached. Pausing until next click.");
+                        A11yAnnouncer.announce(`Running Day ${this.day}.`, 0);
                         FarmEvents.dispatch.endDay();
                         this.isPausedAtNextDay = true;
                         return;
@@ -259,6 +260,7 @@ export class FarmManager {
                     await new Promise(r => setTimeout(r, 300));
                 }
             }
+            A11yAnnouncer.announce(`Running Day ${this.day}.`, 0);
             FarmEvents.dispatch.endDay();
         } catch (err) {
             FarmEvents.dispatch.error(String(err));
