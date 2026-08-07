@@ -111,11 +111,48 @@ const begin_farm = {
     helpUrl: ''
 };
 
+const if_tile_state = {
+    type: 'if_tile_state',
+    message0: 'if row %1 column %2 is %3 %4 do %5',
+    args0: [
+        { type: 'input_value', name: 'ROW', check: 'Number' },
+        { type: 'input_value', name: 'COLUMN', check: 'Number' },
+        {
+            type: 'field_dropdown',
+            name: 'STATE',
+            options: [
+                ['empty', 'EMPTY'],
+                ['watered', 'WATERED'],
+                ['a seedling', 'SEEDLING'],
+                ['a young plant', 'GROWING'],
+                ['ready for harvesting', 'MATURE'],
+            ],
+        },
+        {
+            type: "input_end_row",
+            name: "END_ROW"
+        },
+        { type: 'input_statement', name: 'DO' }
+    ],
+    message1: 'else %1',
+    args1: [
+        { type: 'input_statement', name: 'ELSE' }
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    colour: 210,
+    tooltip: 'If tile at row/column matches state, run the DO branch.',
+    helpUrl: '',
+    inputsInline: true,
+};
+
+
 // Register all blocks
 export const farmBlocks = Blockly.common.createBlockDefinitionsFromJsonArray([
     plant,
     harvest,
     water,
     next_day,
-    begin_farm
+    begin_farm,
+    if_tile_state,
 ]);

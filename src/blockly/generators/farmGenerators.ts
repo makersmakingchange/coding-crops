@@ -93,3 +93,35 @@ forBlock['begin_farm'] = function (
     const statements = generator.statementToCode(block, 'STATEMENTS');
     return `${statements}`;
 };
+
+forBlock['if_tile_state'] = function (
+    block: Blockly.Block,
+    generator: Blockly.CodeGenerator,
+) {
+    const row = generator.valueToCode(block, 'ROW', Order.NONE) || 1;
+    const col = generator.valueToCode(block, 'COLUMN', Order.NONE) || 1;
+    const state = block.getFieldValue('STATE') || 'EMPTY';
+
+    // These must be statement inputs on the block definition:
+    // - DO (required)
+    // - ELSE (optional)
+    let doBranch = generator.statementToCode(block, 'DO') || '';
+    doBranch = generator.prefixLines(doBranch, generator.INDENT);
+
+    let elseBranch = generator.statementToCode(block, 'ELSE') || '';
+
+    let code =
+        `farmManager.enqueueIf(() => {\n` +
+        `  if (farmManager.checkTileState(${row}, ${col}, "${state}")) {\n` +
+        `${doBranch}` +
+        `  }`;
+
+    if (elseBranch) {
+        elseBranch = generator.prefixLines(elseBranch, generator.INDENT);
+        code += ` else {\n${elseBranch}  }`;
+    }
+
+    code += `\n});\n`;
+
+    return code;
+};

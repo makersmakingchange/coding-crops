@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {CropType, Tile, TileState} from "./Tile";
+import {CropType, GrowthStage, Tile, TileState} from "./Tile";
 import FarmA11y from '../accessibility/FarmA11y';
 import {FarmEvents} from "./FarmEvents";
 import A11yAnnouncer from "../accessibility/A11yAnnouncer";
@@ -79,6 +79,20 @@ export class FarmManager {
         return this.grid.map(row =>
             row.map(tile => ({...tile.getTileState()}))
         );
+    }
+
+    checkTileState(row: number, col: number, state: string): boolean {
+        const r = row - 1;
+        const c = col - 1;
+        const tile: TileState = this.grid[r][c].getTileState();
+        console.log("Tile: ", tile);
+        console.log("Tile growth stage ", tile.growthStage.toString());
+        console.log("state checked: ", state, GrowthStage[state as keyof typeof GrowthStage]);
+        if (state == "WATERED") {
+            console.log("reach watered")
+            return tile.watered;
+        }
+        return (tile.growthStage == GrowthStage[state as keyof typeof GrowthStage]);
     }
 
     getDay(): number { return this.day; }
@@ -177,6 +191,22 @@ export class FarmManager {
         const nextDayFn = (() => this.nextDay()) as (() => void) & { isNextDay?: boolean };
         nextDayFn.isNextDay = true;
         this.enqueue(nextDayFn);
+    }
+
+    insertActions(actions: (() => void)[]) {
+        this.actionQueue.unshift(...actions.reverse());
+    }
+
+    // Enqueue the if condition
+    enqueueIf(
+        condition: () => boolean,
+        actions: (() => void)[]
+    ) {
+        this.enqueue(() => {
+            if (condition()) {
+                this.insertActions(actions);
+            }
+        });
     }
 
     private async processQueue() {
