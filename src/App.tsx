@@ -24,6 +24,7 @@ import blocklyAttr from './assets/built-with-blockly-badge.png';
 import nssLogo from './assets/NSS_Logo_White.svg';
 import mmcLogo from './assets/MMC_Logo_White.svg';
 import './styles/index.css';
+import './styles/customBlockly.css';
 import A11yAnnouncer from "./accessibility/A11yAnnouncer";
 import {FarmEvents} from "./farm/FarmEvents";
 import {useKeyboardShortcuts} from "./hooks/useKeyboardShortcuts";
