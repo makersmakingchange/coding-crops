@@ -382,11 +382,11 @@ button.run-code-button {
 }
 
 button.run-code-button.all {
-    background-color: #d6611a;
+    background-color: #8D4111;
 }
 
 button.run-code-button.day {
-    background-color: #3c9c18;
+    background-color: #328415;
 }
 
 .run-code-button:hover {
