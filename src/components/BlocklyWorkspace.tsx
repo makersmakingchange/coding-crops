@@ -18,11 +18,13 @@ import A11yAnnouncer from "../accessibility/A11yAnnouncer";
 interface BlocklyProps {
     level: number | string,
     runMode: "all" | "day";
+    onRunModeChange?: (newMode: "all" | "day") => void;
 }
 
 const BlocklyWorkspace: React.FC<BlocklyProps> = ({
                                                       level,
-                                                      runMode }) => {
+                                                      runMode,
+                                                      onRunModeChange }) => {
     const blocklyDiv = useRef<HTMLDivElement>(null);
     const workspaceRef = useRef<WorkspaceSvg | null>(null);
     const runModeRef = useRef(runMode);
@@ -62,7 +64,6 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
     }, [level]);
 
     useEffect(() => {
-        runModeRef.current = runMode;
         FarmEvents.dispatch.resetSummaries();
     }, [runMode]);
 
@@ -86,6 +87,9 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
 
     const handleRunOneDay = async () => {
         if (!isRunning) {
+            if (onRunModeChange) {
+                onRunModeChange("day");
+            }
             runMode = "day";
             await handleRunCode();
         }
@@ -93,7 +97,10 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
 
     const handleRunAllDays = async () => {
         if (!isRunning) {
-            runMode = "all";
+            if (onRunModeChange) {
+                onRunModeChange("all");
+            }
+            runMode = "all"
             await handleRunCode();
         }
     }

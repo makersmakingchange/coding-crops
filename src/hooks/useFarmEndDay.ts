@@ -11,17 +11,20 @@ import farmManager from '../farm/FarmManagerSingleton';
 import { FarmEvents } from '../farm/FarmEvents';
 
 export function useFarmEndDay(
-    runModeRef: React.MutableRefObject<'all' | 'day'>,
+    runModeRef: React.RefObject<'all' | 'day'>,
     setSummaries: (s: string[]) => void
 ) {
     useEffect(() => {
         const handler = () => {
             const tiles = farmManager.getTileState();
             FarmA11y.generateEndOfDaySummary(farmManager.getDay(), farmManager.getCropsHarvested(), tiles);
-            const sums = FarmA11y.getQuickSummaries();
-            setSummaries([...sums]);
+            let sums = FarmA11y.getQuickSummaries();
 
-            if (runModeRef.current === 'day') A11yAnnouncer.announce(sums[sums.length - 1]);
+            if (runModeRef.current === 'day') {
+                sums = FarmA11y.getSummaries();
+                A11yAnnouncer.announce(sums[sums.length - 1]);
+            }
+            setSummaries([...sums]);
         };
 
         FarmEvents.on('farm:end-day', handler);

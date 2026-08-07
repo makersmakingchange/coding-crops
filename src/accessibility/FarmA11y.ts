@@ -24,7 +24,7 @@ export default class FarmA11y {
     // Announce a single event
     static announceEvent(text: string) {
         this.summaries.push(text);
-        return text; // for screen reader live region
+        return text;
     }
 
     // Get all summaries (for display)
@@ -32,9 +32,15 @@ export default class FarmA11y {
         return this.quickSummaries;
     }
 
+    // Get detailed summaries
+    static getSummaries(): string[] {
+        return this.summaries;
+    }
+
     // Clear summaries (on reset)
     static reset() {
         this.quickSummaries = [];
+        this.summaries = [];
     }
 
     static generateEndOfDaySummary(day: number, harvestCount: number, tiles: TileState[][]): string {
@@ -60,6 +66,7 @@ export default class FarmA11y {
             (details.length ? ` ${details.join(", ")}.` : "");
 
         this.quickSummaries.push(summary);
+        this.summaries.push(summary);
         return summary;
     }
 

@@ -37,11 +37,12 @@ type AppProps = {
 
 function App({mode = 'production'}: AppProps) {
     const [level, setLevel] = useState(mode == "internal" ? "basic" : 1);
-    const [tileData, setTileData] = useState(farmManager.getTileState());
-    const [summaries, setSummaries] = useState(FarmA11y.getQuickSummaries());
 
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
     const runModeRef = useRef(runMode);
+
+    const [tileData, setTileData] = useState(farmManager.getTileState());
+    const [summaries, setSummaries] = useState(runMode == 'all' ? FarmA11y.getQuickSummaries() : FarmA11y.getSummaries());
 
     const [isCommandPaletteOpen, setCommandPaletteOpen] = useState(false);
     const [pendingCommand, setPendingCommand] = useState<Command | null>(null);
@@ -78,7 +79,11 @@ function App({mode = 'production'}: AppProps) {
         const handler = () => {
             FarmA11y.reset();
             setWarnings([]);
-            setSummaries([...FarmA11y.getQuickSummaries()]);
+            if (runMode == "day") {
+                setSummaries([...FarmA11y.getSummaries()]);
+            } else {
+                setSummaries([...FarmA11y.getQuickSummaries()]);
+            }
         };
         FarmEvents.on("farm:reset-summaries", handler);
         return () => FarmEvents.off("farm:reset-summaries", handler);
@@ -90,6 +95,9 @@ function App({mode = 'production'}: AppProps) {
             if (type === "warning") {
                 const day = farmManager.getDay();
                 setWarnings(prev => [...prev, { day, message }]);
+            }
+            else if (type === "info") {
+                FarmA11y.announceEvent(message);
             }
         };
 
@@ -184,6 +192,9 @@ function App({mode = 'production'}: AppProps) {
         resetGame();
     };
 
+    const handleRunModeChange = (newMode: "all" | "day") => {
+        setRunMode(newMode);
+    };
 
     const handleCommandSelect = (command: Command) => {
         setPendingCommand(command);
@@ -267,6 +278,7 @@ function App({mode = 'production'}: AppProps) {
                         <BlocklyWorkspace
                             level={level}
                             runMode={runMode}
+                            onRunModeChange={handleRunModeChange}
                         />
                     </main>
 
