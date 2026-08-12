@@ -27,5 +27,5 @@ export function useToggleModal(
                 previouslyFocused.focus();
             }
         };
-    }, [isOpen]);
+    }, [isOpen, dialogRef]);
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from "react";
 import BlocklyWorkspace from './components/BlocklyWorkspace';
 import FarmGrid from './components/FarmGrid';
 import LevelSelector from './components/LevelSelector';
@@ -16,6 +16,7 @@ import VersionModal from "./components/VersionModal";
 import CommandModal from "./components/CommandModal";
 import type {Command} from "./components/CommandModal";
 import InfoModal from "./components/InfoModal";
+import ShortcutsModal from "./components/ShortcutsModal";
 import farmManager from './farm/FarmManagerSingleton';
 import FarmA11y from './accessibility/FarmA11y';
 import { Warning } from './types';
@@ -29,7 +30,12 @@ import A11yAnnouncer from "./accessibility/A11yAnnouncer";
 import {FarmEvents} from "./farm/FarmEvents";
 import {useKeyboardShortcuts} from "./hooks/useKeyboardShortcuts";
 import {useFarmEndDay} from "./hooks/useFarmEndDay";
-import {focusBlocklyToolbox, focusBlocklyWorkspace, toggleShortcutDialog} from "./blockly/blocklySetup";
+import {
+    focusBlocklyToolbox,
+    focusBlocklyWorkspace,
+    isBlocklyWorkspaceFocused,
+    toggleShortcutDialog
+} from "./blockly/blocklySetup";
 
 type AppProps = {
     mode?: 'internal' | 'production' | 'testing';
@@ -49,6 +55,7 @@ function App({mode = 'production'}: AppProps) {
     const [isVersionOpen, setVersionOpen] = useState(false);
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
     const [isInfoOpen, setIsInfoOpen] = useState(true);
+    const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
 
     const [warnings, setWarnings] = useState<Warning[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -147,7 +154,7 @@ function App({mode = 'production'}: AppProps) {
     useKeyboardShortcuts({
         t: () => focusBlocklyToolbox(),
         w: () => focusBlocklyWorkspace(),
-        '/': () => toggleShortcutDialog(),
+        '/': () => setIsShortcutsOpen(open => !open),
         '?': () => setIsInfoOpen(!isInfoOpen),
     })
 
@@ -219,6 +226,10 @@ function App({mode = 'production'}: AppProps) {
             <InfoModal
                 isOpen={isInfoOpen}
                 onClose={() => setIsInfoOpen(false)}
+            />
+            <ShortcutsModal
+            isOpen={isShortcutsOpen}
+            onClose={() => setIsShortcutsOpen(false)}
             />
             <ErrorDialog
                 message={errorMessage}
