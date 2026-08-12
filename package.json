@@ -1,6 +1,6 @@
 {
   "name": "farmSim",
-  "version": "3.1",
+  "version": "3.1.2",
   "description": "Learn to code with Blockly in a farm",
   "main": "index.js",
   "scripts": {
@@ -48,9 +48,9 @@
     "@blockly/field-colour": "^6.0.4",
     "@blockly/plugin-cross-tab-copy-paste": "^8.0.1",
     "@blockly/theme-dark": "^8.0.1",
-    "@blockly/toolbox-search": "^3.1.9",
+    "@blockly/toolbox-search": "^13.2.0",
     "@microbit/keyosd": "^0.1.2",
-    "blockly": "^13.2.0",
+    "blockly": "^13.2.2-beta.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.6"

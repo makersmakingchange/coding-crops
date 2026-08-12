@@ -8,6 +8,7 @@ import {ToolboxLevel1} from './ToolboxLevel1';
 import {ToolboxLevel2} from './ToolboxLevel2';
 import {ToolboxLevel3} from './ToolboxLevel3';
 import {ToolboxDefinition} from "blockly/core/utils/toolbox";
+import '@blockly/toolbox-search'
 
 export const toolboxMap: Record<number, ToolboxDefinition> = {
     1: ToolboxLevel1,

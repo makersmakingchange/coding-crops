@@ -15,6 +15,11 @@ export const ToolboxLevel3 = {
     kind: 'categoryToolbox',
     contents: [
         {
+            kind: 'search',
+            name: 'search',
+            contents: []
+        },
+        {
             kind: 'category',
             name: 'Logic',
             categorystyle: 'logic_category',

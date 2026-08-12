@@ -21,12 +21,6 @@ import '../styles/index.css';
 import {WorkspaceSvg} from "blockly";
 import {registerFarmFieldNumber} from "./fields/FarmFieldNumber";
 
-export class CustomToolbox extends Blockly.Toolbox {
-    protected override onKeyDown_(e: KeyboardEvent) {}
-}
-
-
-let keyboardStylesRegistered = false;
 let copyPastePluginInitialized = false;
 let workspaceInitialized = false;
 let workspaceId = 'coding-crops-workspace';

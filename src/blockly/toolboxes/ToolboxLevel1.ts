@@ -12,6 +12,11 @@ export const ToolboxLevel1 = {
     kind: 'categoryToolbox',
     contents: [
         {
+            kind: 'search',
+            name: 'search',
+            contents: []
+        },
+        {
             kind: 'category',
             name: 'Farm',
             colour: '#5CA699',
