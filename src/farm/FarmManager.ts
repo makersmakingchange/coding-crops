@@ -10,9 +10,17 @@ import {FarmEvents} from "./FarmEvents";
 import A11yAnnouncer from "../accessibility/A11yAnnouncer";
 import AudioManager, {SoundEffect} from "../audio/AudioManager";
 
+interface CropSummary {
+    seedling: number;
+    growing: number;
+    mature: number;
+}
+
 export class FarmManager {
     private day: number;
     private harvestCount: number = 0;
+    private harvestedByCrop: Map<CropType, number> = new Map();
+
     private gridSize: number;
     private grid: Tile[][];
     private listeners: (() => void)[] = [];
@@ -34,6 +42,7 @@ export class FarmManager {
     reset(): void {
         this.day = 1;
         this.harvestCount = 0;
+        this.harvestedByCrop.clear();
         this.grid = this.initializeGrid();
         this.generatedCode = null;
         this.processingQueue = false;
@@ -84,6 +93,14 @@ export class FarmManager {
     checkTileState(row: number, col: number, state: string): boolean {
         const r = row - 1;
         const c = col - 1;
+
+        if (!this.isValidCoordinate(r, c)) {
+            this.log(`Invalid coordinates. ${row},${col}`, "warning");
+            return false;
+        }
+
+        console.log("r: ", r, "c: ", c);
+
         const tile: TileState = this.grid[r][c].getTileState();
         console.log("Tile: ", tile);
         console.log("Tile growth stage ", tile.growthStage.toString());
@@ -97,13 +114,20 @@ export class FarmManager {
 
     getDay(): number { return this.day; }
     getCropsHarvested(): number { return this.harvestCount; }
+    getHarvestedByCrop(): Record<CropType, number> {
+        return {
+            [CropType.Sunflower]: this.harvestedByCrop.get(CropType.Sunflower) ?? 0,
+            [CropType.Corn]: this.harvestedByCrop.get(CropType.Corn) ?? 0,
+            [CropType.Pumpkin]: this.harvestedByCrop.get(CropType.Pumpkin) ?? 0,
+        };
+    }
 
     plant(row: number, col: number, type: string): boolean {
         const r = row - 1;
         const c = col - 1;
 
         if (!this.isValidCoordinate(r, c)) {
-            this.log(`Invalid coordinates. ${row},${col}`, "warning");
+            this.log(`Unable to plant on invalid tile ${row},${col}`, "warning");
             return false;
         }
 
@@ -125,18 +149,27 @@ export class FarmManager {
         const c = col - 1;
 
         if (!this.isValidCoordinate(r, c)) {
-            this.log(`Invalid coordinates. ${row},${col}`, "warning");
+            this.log(`Unable to harvest invalid tile ${row},${col}`, "warning");
             return false;
         }
 
         const tile = this.grid[r][c];
+        const cropType = tile.getTileState().type;
+
         if (!tile.harvest()) {
             this.log(`Cannot harvest. Tile at ${row},${col} is empty or not mature.`, "warning");
             return false;
         }
 
         this.harvestCount++;
-        this.log(`Harvested crop at (${row},${col})`);
+
+        if (cropType !== null) {
+            const currentCount = this.harvestedByCrop.get(cropType) || 0;
+            this.harvestedByCrop.set(cropType, currentCount + 1);
+        }
+
+        this.log(`Harvested a ${CropType[cropType!].toLowerCase()} at (${row},${col})`);
+
         AudioManager.play(SoundEffect.Harvest);
         this.notify();
         return true;
@@ -148,7 +181,7 @@ export class FarmManager {
         const c = col - 1;
 
         if (!this.isValidCoordinate(r, c)) {
-            this.log(`Invalid coordinates. ${row},${col}`, "warning");
+            this.log(`Unable to water invalid tile ${row},${col}`, "warning");
             return false;
         }
 
@@ -223,7 +256,7 @@ export class FarmManager {
             await new Promise(r => setTimeout(r, 300));
         }
         FarmEvents.dispatch.endDay();
-        A11yAnnouncer.announce(`Farm updated. Day ${this.day} complete. ${this.harvestCount} crops harvested.`, 0);
+        A11yAnnouncer.announce(`Farm updated. Day ${this.day} complete. ${FarmA11y.getHarvestSummary(this.getHarvestedByCrop())}`, 0);
 
         this.processingQueue = false;
     }

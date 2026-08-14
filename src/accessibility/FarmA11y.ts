@@ -43,33 +43,93 @@ export default class FarmA11y {
         this.summaries = [];
     }
 
-    static generateEndOfDaySummary(day: number, harvestCount: number, tiles: TileState[][]): string {
+    private static getCropName(type: CropType, count: number): string {
+        switch (type) {
+            case CropType.Corn:
+                return count === 1 ? "Corn" : "Corn";
+
+            default:
+                return `${CropType[type]}${count !== 1 ? "s" : ""}`;
+        }
+    }
+
+    private static getStageSummary(
+        tiles: TileState[],
+        stage: GrowthStage,
+        stageName: string
+    ): string {
+        const crops = new Map<CropType, number>();
+
+        for (const tile of tiles) {
+            if (tile.type === null || tile.growthStage !== stage) {
+                continue;
+            }
+
+            crops.set(
+                tile.type,
+                (crops.get(tile.type) ?? 0) + 1
+            );
+        }
+
+        if (crops.size === 0) {
+            return "";
+        }
+
+        const description = [...crops.entries()]
+            .map(([type, count]) =>
+                `${count} ${this.getCropName(type, count)}`
+            )
+            .join(", ");
+
+        return `${stageName}: ${description}`;
+    }
+
+    static getHarvestSummary(
+        harvestedByCrop: Record<CropType, number>
+    ): string {
+        const harvested = Object.entries(harvestedByCrop)
+            .map(([type, count]) => ({
+                type: Number(type) as CropType,
+                count
+            }))
+            .filter(({ count }) => count > 0)
+            .map(({ type, count }) =>
+                `${count} ${this.getCropName(type, count)}`
+            );
+
+        if (harvested.length === 0) {
+            return "";
+        }
+
+        return `Harvested: ${harvested.join(", ")}`;
+    }
+
+    static generateEndOfDaySummary(
+        day: number,
+        harvestedByCrop: Record<CropType, number>,
+        tiles: TileState[][]
+    ): string {
         const flat = tiles.flat();
         const planted = flat.filter(t => t.type !== null);
 
-        const counts = {
-            seedlings: planted.filter(t => t.growthStage === GrowthStage.SEEDLING).length,
-            growing: planted.filter(t => t.growthStage === GrowthStage.GROWING).length,
-            mature: planted.filter(t => t.growthStage === GrowthStage.MATURE).length,
-            harvested: harvestCount
-        };
-
         const details = [
-            counts.seedlings > 0 && `${counts.seedlings} seedlings`,
-            counts.growing > 0 && `${counts.growing} growing`,
-            counts.mature > 0 && `${counts.mature} mature`,
-            counts.harvested > 0 && `${counts.harvested} crops harvested`
+            this.getStageSummary(planted, GrowthStage.SEEDLING, "Seedling"),
+            this.getStageSummary(planted, GrowthStage.GROWING, "Growing"),
+            this.getStageSummary(planted, GrowthStage.MATURE, "Mature"),
         ].filter(Boolean);
+
+        const harvested = this.getHarvestSummary(harvestedByCrop);
 
         const summary =
             `Day ${day}, ${planted.length} plants total.` +
-            (details.length ? ` ${details.join(", ")}.` : "");
+            (details.length ? ` ${details.join(". ")}.` : "") +
+            (harvested ? ` ${harvested}.` : "");
 
         this.quickSummaries.push(summary);
         this.summaries.push(summary);
+
         return summary;
     }
-
 
     // Generate a text summary of the farm’s current state
     static generateDaySummary(day: number, harvestCount: number, tiles: TileState[][]): string {
