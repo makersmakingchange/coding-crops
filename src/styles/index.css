@@ -290,7 +290,6 @@ button:hover {
     place-items: center;
     border: 2px solid #888;
     padding: 10px;
-    padding-bottom: 20px;
     border-radius: 8px;
     margin: 0 auto;
     gap: 4px;
@@ -335,6 +334,32 @@ button:hover {
     font-size: 18px;
     width: 100%;
     /*font-weight: bold;*/
+}
+
+.farm-info-harvested {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.harvest-plant-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.3rem;
+
+    background: #1e1e1ee6;
+    border: 2px solid #888;
+    border-radius: 8px;
+}
+
+.harvest-tag-emoji {
+    font-size: 1.5rem;
+}
+
+.harvest-tag-count {
+    font-weight: bold;
 }
 
 .coord-label {

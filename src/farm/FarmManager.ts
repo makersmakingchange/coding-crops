@@ -90,6 +90,45 @@ export class FarmManager {
         );
     }
 
+    private getCropSummary(): Map<CropType, CropSummary> {
+        let summary: Map<CropType, CropSummary> = new Map();
+        for (const row of this.grid) {
+            for (const tile of row) {
+                const state = tile.getTileState();
+
+                if (state.type === null) {
+                    continue;
+                }
+
+                if (!summary.has(state.type)) {
+                    summary.set(state.type, {
+                        seedling: 0,
+                        growing: 0,
+                        mature: 0,
+                    });
+                }
+
+                const crop = summary.get(state.type)!;
+
+                switch (state.growthStage) {
+                    case GrowthStage.SEEDLING:
+                        crop.seedling++;
+                        break;
+
+                    case GrowthStage.GROWING:
+                        crop.growing++;
+                        break;
+
+                    case GrowthStage.MATURE:
+                        crop.mature++;
+                        break;
+                }
+            }
+        }
+
+        return summary;
+    }
+
     checkTileState(row: number, col: number, state: string): boolean {
         const r = row - 1;
         const c = col - 1;
@@ -120,6 +159,17 @@ export class FarmManager {
             [CropType.Corn]: this.harvestedByCrop.get(CropType.Corn) ?? 0,
             [CropType.Pumpkin]: this.harvestedByCrop.get(CropType.Pumpkin) ?? 0,
         };
+    }
+
+    public getCropEmoji(type: CropType): string {
+        switch (type) {
+            case CropType.Sunflower:
+                return "🌻";
+            case CropType.Corn:
+                return "🌽";
+            case CropType.Pumpkin:
+                return "🎃";
+        }
     }
 
     plant(row: number, col: number, type: string): boolean {

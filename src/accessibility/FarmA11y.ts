@@ -5,6 +5,7 @@
  */
 
 import { CropType, GrowthStage, TileState } from "../farm/Tile";
+import farmManager from "../farm/FarmManagerSingleton";
 
 function extractDay(summary: string): number | null {
     const regex = /^Day (\d+)/;  // Regex pattern to match "Day" followed by the number
@@ -85,7 +86,7 @@ export default class FarmA11y {
     }
 
     static getHarvestSummary(
-        harvestedByCrop: Record<CropType, number>
+        harvestedByCrop: Record<CropType, number>,
     ): string {
         const harvested = Object.entries(harvestedByCrop)
             .map(([type, count]) => ({
@@ -94,14 +95,28 @@ export default class FarmA11y {
             }))
             .filter(({ count }) => count > 0)
             .map(({ type, count }) =>
-                `${count} ${this.getCropName(type, count)}`
+                `${farmManager.getCropEmoji(type)} : ${count}`
             );
 
         if (harvested.length === 0) {
             return "";
         }
-
         return `Harvested: ${harvested.join(", ")}`;
+    }
+
+    static getHarvestLabel(
+        harvestedByCrop: Record<CropType, number>,
+    ): string {
+        const harvested = Object.entries(harvestedByCrop)
+            .map(([type, count]) => ({
+                type: Number(type) as CropType,
+                count
+            }))
+            .map(({ type, count }) =>
+                `${count} ${this.getCropName(type, count)}`
+            );
+
+        return `Harvested ${harvested.join(", ")}`;
     }
 
     static generateEndOfDaySummary(

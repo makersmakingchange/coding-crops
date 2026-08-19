@@ -33,9 +33,9 @@ import {useFarmEndDay} from "./hooks/useFarmEndDay";
 import {
     focusBlocklyToolbox,
     focusBlocklyWorkspace,
-    isBlocklyWorkspaceFocused,
     toggleShortcutDialog
 } from "./blockly/blocklySetup";
+import {CropType} from "./farm/Tile";
 
 type AppProps = {
     mode?: 'internal' | 'production' | 'testing';
@@ -296,13 +296,22 @@ function App({mode = 'production'}: AppProps) {
                     <div className="game-panel" id="game-panel">
                         <h2 className="sr-only">Farm Stats</h2>
                         <div className="game-container" id="gameContainer">
-                            <div
-                                className="farm-info"
-                                aria-label={`Day ${farmManager.getDay()}, ${farmManager.getCropsHarvested()} crops harvested`}
-                                tabIndex={0}
-                            >
-                                Day: <span id="dayCount">{farmManager.getDay()}</span> |
-                                Harvested: <span id="harvestCount">{farmManager.getCropsHarvested()}</span>
+                            <div className="farm-info">
+                                <div className="farm-info-day" tabIndex={0}>
+                                    Day: <span id="dayCount">{farmManager.getDay()}</span>
+                                </div>
+                                <div className="farm-info-harvested" tabIndex={0}
+                                     aria-label={FarmA11y.getHarvestLabel(farmManager.getHarvestedByCrop())}>
+                                    Harvested
+                                    {Object.entries(farmManager.getHarvestedByCrop()).map(([type, count]) => (
+                                        <div className="harvest-plant-tag" key={type}>
+                                            <span className="harvest-tag-emoji">
+                                                {farmManager.getCropEmoji(Number(type) as CropType)}
+                                            </span>
+                                            <span className="harvest-tag-count">{count}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                             <FarmGrid
                                 tiles={tileData}
