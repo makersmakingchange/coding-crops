@@ -1,5 +1,5 @@
 .instructions-panel {
-    height: 15%;
+    height: 18%;
     background-color: #333;
     padding: 10px 20px;
     font-family: Arial, sans-serif;
@@ -12,6 +12,8 @@
     --title-font-size: clamp(0.9rem, 1.5vh, 1.4rem);
     --instruction-font-size: clamp(0.9rem, 1.5vh, 1.5rem);
     position: relative;
+
+    overflow-y: auto;
 }
 
 .instructions-container {
@@ -89,7 +91,7 @@ button.icon {
 }
 
 /*Block Reference Styles*/
-.instructions-content span[class^="block-"],
+.instructions-content span[class^="block-"]:not(.block-input),
 .instructions-content span[class^="category-"] {
     font: var(--instruction-font-size) "Helvetica Neue", "Segoe UI", Helvetica, sans-serif;
     display: inline-block;
@@ -99,6 +101,10 @@ button.icon {
     color: white;
     font-weight: 600;
     font-size: 0.95em;
+}
+
+.block-default {
+    background: #666;
 }
 
 .block-harvest {
@@ -121,8 +127,31 @@ button.icon {
     background: #793E02;
 }
 
-.block-default {
-    background: #666;
+.block-logic {
+    background: rgb(91, 128, 165);
+}
+
+.block-loops {
+    background: rgb(91, 165, 91);
+}
+
+.block-math {
+    background: rgb(91, 103, 165);
+}
+
+.block-variables {
+    background: rgb(165, 91, 128);
+}
+
+.instructions-content .block-input {
+    display: inline-block;
+    background: #fff;
+    border-radius: 0.7rem;
+    border: 0.5px solid #44607c;
+    color: #44607c;
+    padding: 0.1rem 0.65rem;
+    margin: 0 3px;
+    font-weight: 600;
 }
 
 /*Category styles*/
@@ -132,8 +161,22 @@ button.icon {
 
 .category-farm {
     border-left: 5px solid #5CA699;
+}
 
-    /*border-left-color: #5CA699;*/
+.category-logic {
+    border-left: 5px solid rgb(91, 128, 165);
+}
+
+.category-loops {
+    border-left: 5px solid rgb(91, 165, 91);
+}
+
+.category-math {
+    border-left: 5px solid rgb(91, 103, 165);
+}
+
+.category-variables {
+    border-left: 5px solid rgb(165, 91, 128);
 }
 
 /*Button styles*/

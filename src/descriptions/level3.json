@@ -3,15 +3,75 @@
   "steps": [
     {
       "title": "Goal",
-      "content": "Plant 1 crop using variables."
+      "content": "Help the farmer plant pumpkins and give them extra space to grow! Plant and water pumpkins in a checkered pattern using 2 loops and 2 variables."
     },
     {
       "title": "Step 1",
-      "content": "Create a variable called 'row number' and set it to 3."
+      "content": "From the {Loops}[category-loops] category in the Toolbox, add a {count with (i) from (1) to (10) by (1)}[block-loops] block inside the {begin}[block-begin] block."
     },
     {
       "title": "Step 2",
-      "content": "Plant a crop at row, row number, and column, row number minus 1."
+      "content": "From the {Farm}[category-farm] category, add a {plant (sunflower) at row (1) column (1)}[block-plant] block and place it inside the {repeat (10) times}[block-loops] block. Inside the plant block, change the crop type from sunflower to pumpkin, so the block reads {plant (pumpkin) at row (1) column (1)}[block-plant]."
+    },
+    {
+      "title": "Step 3",
+      "content": "In the {Variables}[category-variables] category in the Toolbox, press the Create Variable button. Name the variable “row number”."
+    },
+    {
+      "title": "Step 4",
+      "content": "Inside the {count with (i) from (1) to (10) by (1)}[block-loops] block, change the variable “i” to the new variable “row number”. Change the number 10 to 3, so the block reads {count with (row number) from (1) to (3) by (1)}[block-loops]."
+    },
+    {
+      "title": "Step 5",
+      "content": "From the {Variables}[category-variables] category, add the {row number}[block-variables] variable block into the “row” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number) column (1)}[block-plant]."
+    },
+    {
+      "title": "Step 6",
+      "content": "Press the {Run All Days}[button-run-all-days] button. Check that crops have been planted in all 3 rows."
+    },
+    {
+      "title": "Step 7",
+      "content": "From the {Loops}[category-loops]  category in the Toolbox, add a {count with (i) from (1) to (10) by (1)}[block-loops] block inside the {count with (row number) from (1) to (3) by (1)}[block-loops] block that is already there."
+    },
+    {
+      "title": "Step 8",
+      "content": "Move the {plant (pumpkin) at row (row number) column (1)}[block-plant] block to inside the inner {count with (i) from (1) to (10) by (1)}[block-loops] block."
+    },
+    {
+      "title": "Step 9",
+      "content": "From the {Variables}[category-variables] category, add the {row number} variable block into the “row” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number) column (1)}[block-plant]."
+    },
+    {
+      "title": "Step 10",
+      "content": "Inside the inner {count with (i) from (1) to (10) by (1)}[block-loops] block, change the variable “i” to the new variable “column number”. Change the number 10 to 3, so the block reads {count with (column number) from (1) to (3) by (1)}[block-loops]."
+    },
+    {
+      "title": "Step 11",
+      "content": "From the {Variables}[category-variables] category, add the {column number}[block-variables] variable block into the “column” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number) column (column number)}[block-plant]."
+    },
+    {
+      "title": "Step 12",
+      "content": "Press the {Run All Days}[button-run-all-days] button. Check that crops have been planted in all 9 farm plots."
+    },
+    {
+      "title": "Step 13",
+      "content": "From the {Logic}[category-logic] category in the Toolbox, add an {if, do}[block-logic] block inside the {count with (column number) from (1) to (3) by (1)}[block-loops] block, and move the {plant (pumpkin)}[block-plant] block inside of the {if, do}[block-logic] block."
+    },
+    {
+      "title": "Step 14",
+      "content": "From the {Math}[category-math] category, add a {(0) is even}[block-math] block inside the empty field on the if block, so it reads {if (0) is even, do}[block-logic]. \nThen, from the {Math}[category-math] category, add a {(1) + (1)}[block-math] block inside the {(0) is even}[block-math] block."
+    },
+    {
+      "title": "Step 15",
+      "content": "From the {Variables}[category-variables] category, add the {row number}[block-variables] block, into the {(1) + (1)}[block-math] block, replacing the number 1. \nFrom the {Variables}[category-variables] category, add the {column number}[block-variables] block, into the {(row number) + (1)}[block-math] block, replacing the number 1. \nThe block should now read {if (row number) + (column number) is even}[block-logic]."
+    },
+    {
+      "title": "Step 16",
+      "content": "Press the {Run All Days}[button-run-all-days] button. Check that crops have been planted in a checkered pattern."
+    },
+    {
+      "title": "Go Further",
+      "content": "Add more blocks so the planted crops get watered and then grow the plants until they are mature and harvest them!"
     }
   ]
 }

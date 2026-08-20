@@ -1,6 +1,8 @@
 export interface ContentPart {
     text: string;
     blockType?: string;
+    inputs?: string[];
+    className?: string;
 }
 
 export const blockTypes: Record<string, Record<string, string>> = {
@@ -15,7 +17,7 @@ export const blockTypes: Record<string, Record<string, string>> = {
 };
 
 export function parseContent(content: string): ContentPart[] {
-    const regex = /\{(.*?)}/g;
+    const regex = /\{(.*?)\}(?:\[(.*?)\])?/g;
     const parts: ContentPart[] = [];
 
     let lastIndex = 0;
@@ -23,26 +25,35 @@ export function parseContent(content: string): ContentPart[] {
 
     while ((match = regex.exec(content))) {
         if (match.index > lastIndex) {
-            parts.push({ text: content.slice(lastIndex, match.index) });
+            parts.push({
+                text: content.slice(lastIndex, match.index)
+            });
         }
 
-        const matchedType = Object.keys(blockTypes).find(type => {
-            if (match) {
-                return match[1].includes(type);
-            }
-            return false;
-        });
+        const blockText = match[1];
+        const className = match[2];
+
+        const matchedType = Object.keys(blockTypes).find(type =>
+            blockText.includes(type)
+        );
+
+        const subParts = [...blockText.matchAll(/\((.*?)\)/g)]
+            .map(match => match[1]);
 
         parts.push({
-            text: match[1],
-            blockType: matchedType ? matchedType : match[1],
+            text: blockText,
+            blockType: matchedType ?? blockText,
+            inputs: subParts,
+            className
         });
 
         lastIndex = regex.lastIndex;
     }
 
     if (lastIndex < content.length) {
-        parts.push({ text: content.slice(lastIndex) });
+        parts.push({
+            text: content.slice(lastIndex)
+        });
     }
 
     return parts;

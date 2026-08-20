@@ -7,15 +7,15 @@
     },
     {
       "title": "Step 1",
-      "content": "From the {Farm} category, add a {harvest row (1) column (1)} block and place it below all other blocks inside the {begin} block."
+      "content": "From the {Farm}[category-farm] category, add a {harvest row (1) column (1)}[block-harvest] block and place it below all other blocks inside the {begin}[block-begin] block."
     },
     {
       "title": "Step 2",
-      "content": "Inside the {harvest row (1) column (1)} block, change the number for the column from 1 to 2 so that it is the same as in the plant and water blocks."
+      "content": "Inside the {harvest row (1) column (1)}[block-harvest] block, change the number for the column from 1 to 2 so that it is the same as in the plant and water blocks."
     },
     {
       "title": "Step 3",
-      "content": "Press the {Run All Days} button. Has 1 crop been harvested? Great job! "
+      "content": "Press the {Run All Days}[button-run-all-days] button. Has 1 crop been harvested? Great job!"
     }
   ]
 }

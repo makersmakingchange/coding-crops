@@ -74,12 +74,28 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
                                 part.blockType ? (
                                     <span
                                         key={index}
-                                        className={blockTypes[part.blockType]?.className ?? "block-default"}
+                                        className={
+                                            part.className ??
+                                            blockTypes[part.blockType]?.className ??
+                                            "block-default"
+                                        }
                                     >
-                                        {part.text}
-                                    </span>
+                    {part.text.split(/(\(.*?\))/g).map((text, i) =>
+                        text.startsWith("(") && text.endsWith(")") ? (
+                            <span key={i} className="block-input">
+                                {text.slice(1, -1)}
+                            </span>
+                        ) : (
+                            <React.Fragment key={i}>
+                                {text}
+                            </React.Fragment>
+                        )
+                    )}
+                </span>
                                 ) : (
-                                    <React.Fragment key={index}>{part.text}</React.Fragment>
+                                    <React.Fragment key={index}>
+                                        {part.text}
+                                    </React.Fragment>
                                 )
                         )}
                     </p>

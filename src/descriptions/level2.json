@@ -3,11 +3,43 @@
   "steps": [
     {
       "title": "Goal",
-      "content": "Plant and harvest 1 crop using loops."
+      "content": "Help the farmer harvest more crops using less blocks! Use loops to harvest 4 crops using only 6 blocks."
     },
     {
       "title": "Step 1",
       "content": "Add a repeat block, and use it to repeat the 'Water' and 'Next Day' blocks 2 times."
+    },
+    {
+      "title": "Step 2",
+      "content": "From the {Farm}[category-farm] category, add a {water row (1) column (1)}[block-water] block and place it inside the {repeat (10) times}[block-loops] block."
+    },
+    {
+      "title": "Step 3",
+      "content": "From the {Farm}[category-farm] category, add a {next day}[block-next-day] block and place it inside the {repeat (10) times}[block-loops] block, and under the {water row (1) column (1)}[block-water]  block."
+    },
+    {
+      "title": "Step 4",
+      "content": "Since we only need 2 days to pass before harvesting a crop, inside the {repeat (10) times}[block-loops] block, change the 10 to a 2, so the block reads {repeat (2) times}[block-loops]."
+    },
+    {
+      "title": "Step 5",
+      "content": "“From the {Farm}[category-farm] category, add a {harvest row (1) column (1)} [block-harvest] block and place it below all other blocks inside the {begin}[block-begin] block. \nPress the {Run All Days}[button-run-all-days] button. Check that 1 crop has been harvested."
+    },
+    {
+      "title": "Step 6",
+      "content": "Now we are going to add another repeat block, so we harvest 4 crops instead of 1.  \n\nFrom the {Loops}[category-loops] category in the Toolbox, add a {repeat (10) times}[block-loops] block at the top of the stack inside the {begin}[block-begin] block."
+    },
+    {
+      "title": "Step 7",
+      "content": "Move all blocks in the stack to inside the {repeat (10) times}[block-loops] block, keeping them in the same order. \nNext, inside the first {repeat (10) times}[block-loops] block, change the 10 to a 4, so the block reads {repeat (4) times}[block-loops]."
+    },
+    {
+      "title": "Step 8",
+      "content": "Press the {Run All Days}[button-run-all-days] button. Have 4 crop been harvested? Great job!"
+    },
+    {
+      "title": "Step 9",
+      "content": "Go further: Can you change the code so 6 crops are harvested instead? Can you do this by changing only one number? How else can you customize this code?"
     }
   ]
 }

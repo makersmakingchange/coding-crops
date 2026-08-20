@@ -377,7 +377,7 @@ button:hover {
 /* Blockly Panel */
 .blockly-panel {
     width: 100%;
-    height: 83%;
+    height: 80%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
