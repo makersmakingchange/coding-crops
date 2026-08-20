@@ -23,11 +23,11 @@
     },
     {
       "title": "Step 5",
-      "content": "“From the {Farm}[category-farm] category, add a {harvest row (1) column (1)} [block-harvest] block and place it below all other blocks inside the {begin}[block-begin] block. \nPress the {Run All Days}[button-run-all-days] button. Check that 1 crop has been harvested."
+      "content": "From the {Farm}[category-farm] category, add a {harvest row (1) column (1)}[block-harvest] block and place it below all other blocks inside the {begin}[block-begin] block. \nPress the {Run All Days}[button-run-all-days] button. Check that 1 crop has been harvested."
     },
     {
       "title": "Step 6",
-      "content": "Now we are going to add another repeat block, so we harvest 4 crops instead of 1.  \n\nFrom the {Loops}[category-loops] category in the Toolbox, add a {repeat (10) times}[block-loops] block at the top of the stack inside the {begin}[block-begin] block."
+      "content": "Now we are going to add another repeat block, so we harvest 4 crops instead of 1.  \nFrom the {Loops}[category-loops] category in the Toolbox, add a {repeat (10) times}[block-loops] block at the top of the stack inside the {begin}[block-begin] block."
     },
     {
       "title": "Step 7",
@@ -35,7 +35,7 @@
     },
     {
       "title": "Step 8",
-      "content": "Press the {Run All Days}[button-run-all-days] button. Have 4 crop been harvested? Great job!"
+      "content": "Press the {Run All Days}[button-run-all-days] button. Has 4 crops been harvested? Great job!"
     },
     {
       "title": "Step 9",

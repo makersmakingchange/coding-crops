@@ -30,6 +30,9 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
             {keys: [["?"]], description: "Toggle the welcome / info dialog"},
             {keys: [["Ctrl", "/"]], description: "Open the command palette"},
             {keys: [["Ctrl", "B"]], description: "Search the toolbox"},
+            {keys: [["Alt", "P"]], description: "Previous instruction"},
+            {keys: [["Alt", "N"]], description: "Next instruction"},
+            {keys: [["Alt", "R"], ["I"]], description: "Repeat current instruction"},
         ],
     },
     {
@@ -42,6 +45,40 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
             {keys: [["Alt", "G"], ["F"]], description: "Go to the farm grid"},
             {keys: [["Alt", "G"], ["I"]], description: "Go to the instructions panel"},
             {keys: [["Alt", "R"]], description: "Run all days"},
+        ],
+    },
+    {
+        heading: "General Workspace Shortcuts",
+        shortcuts: [
+            {keys: [["Ctrl", "Enter"]], description: "Open menu on block"},
+            {keys: [["Enter"]], description: "Edit or Confirm block"},
+            {keys: [["Esc"]], description: "Exit"},
+            {keys: [["C"]], description: "Clean up workspace"},
+        ],
+    },
+    {
+        heading: "Workspace Shortcuts to Edit",
+        shortcuts: [
+            {keys: [["Delete"]], description: "Edit or Confirm block"},
+            {keys: [["X"]], description: "Disconnect"},
+            {keys: [["M"]], description: "Move block"},
+            {keys: [["Ctrl", "X"]], description: "Cut"},
+            {keys: [["Ctrl", "C"]], description: "Copy"},
+            {keys: [["Ctrl", "V"]], description: "Paste"},
+            {keys: [["D"]], description: "Duplicate"},
+            {keys: [["Ctrl", "Z"]], description: "Undo"},
+            {keys: [["Ctrl", "Y"]], description: "Redo"},
+        ],
+    },
+    {
+        heading: "Code Navigation Shortcuts",
+        shortcuts: [
+            {keys: [["Up"]], description: "Up"},
+            {keys: [["Down"]], description: "Down"},
+            {keys: [["Right"]], description: "Right"},
+            {keys: [["Left"]], description: "Left"},
+            {keys: [["N"]], description: "Next stack"},
+            {keys: [["B"]], description: "Previous stack"},
         ],
     },
 ];

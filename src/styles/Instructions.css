@@ -28,7 +28,7 @@
 }
 
 .instructions-content {
-    width: 80%;
+    width: 85%;
 }
 
 .instructions-nav {
@@ -152,6 +152,16 @@ button.icon {
     padding: 0.1rem 0.65rem;
     margin: 0 3px;
     font-weight: 600;
+}
+
+.instructions-content .crop-block-input {
+    border-radius: 0.1rem;
+    border: 0.5px solid #44607c;
+    padding: 0.2rem 0.3rem;
+}
+
+.instructions-content .block-input .variable-name {
+    background: rgb(165, 91, 128);
 }
 
 /*Category styles*/

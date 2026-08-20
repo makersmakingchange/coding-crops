@@ -39,7 +39,7 @@
     },
     {
       "title": "Step 9",
-      "content": "From the {Variables}[category-variables] category, add the {row number} variable block into the “row” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number) column (1)}[block-plant]."
+      "content": "From the {Variables}[category-variables] category, add the {row number}[block-variables] variable block into the “row” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number) column (1)}[block-plant]."
     },
     {
       "title": "Step 10",
@@ -47,7 +47,7 @@
     },
     {
       "title": "Step 11",
-      "content": "From the {Variables}[category-variables] category, add the {column number}[block-variables] variable block into the “column” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number) column (column number)}[block-plant]."
+      "content": "From the {Variables}[category-variables] category, add the {column number}[block-variables] variable block into the “column” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number)[block-variables] column (column number)[block-variables]}[block-plant]."
     },
     {
       "title": "Step 12",
@@ -70,8 +70,8 @@
       "content": "Press the {Run All Days}[button-run-all-days] button. Check that crops have been planted in a checkered pattern."
     },
     {
-      "title": "Go Further",
-      "content": "Add more blocks so the planted crops get watered and then grow the plants until they are mature and harvest them!"
+      "title": "Step 17",
+      "content": "Go further: Add more blocks so the planted crops get watered and then grow the plants until they are mature and harvest them!"
     }
   ]
 }

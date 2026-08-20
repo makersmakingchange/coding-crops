@@ -14,10 +14,6 @@ const numShadow = (num: number) => ({
 
 const level2Actions: BlockDef[] = [
     plantBlock(1, 1),
-    waterBlock(1, 1),
-    nextDayBlock,
-    waterBlock(1, 1),
-    nextDayBlock,
 ];
 
 const repeatBlock: BlockDef = {
