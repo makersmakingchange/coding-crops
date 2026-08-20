@@ -53,6 +53,10 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
         setStepIndex(prev => Math.min(prev + 1, stepsRef.current?.length - 1));
     };
 
+    function isCropDropdown(text: string): boolean {
+        return (text.includes("sunflower") || text.includes("corn") || text.includes("pumpkin"));
+    }
+
     return (
         <div
             id="instructionsPanel"
@@ -82,7 +86,7 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
                                     >
                     {part.text.split(/(\(.*?\))/g).map((text, i) =>
                         text.startsWith("(") && text.endsWith(")") ? (
-                            <span key={i} className="block-input">
+                            <span key={i} className={isCropDropdown(text.toLowerCase())? "crop-block-input" : "block-input"}>
                                 {text.slice(1, -1)}
                             </span>
                         ) : (
