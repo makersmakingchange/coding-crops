@@ -7,7 +7,7 @@
     },
     {
       "title": "Step 1",
-      "content": "From the {Loops}[category-loops] category in the Toolbox, add a {count with (i) from (1) to (10) by (1)}[block-loops] block inside the {begin}[block-begin] block."
+      "content": "From the {Loops}[category-loops] category in the Toolbox, add a {count with (i)[block-variables] from (1) to (10) by (1)}[block-loops] block inside the {begin}[block-begin] block."
     },
     {
       "title": "Step 2",
@@ -19,11 +19,11 @@
     },
     {
       "title": "Step 4",
-      "content": "Inside the {count with (i) from (1) to (10) by (1)}[block-loops] block, change the variable “i” to the new variable “row number”. Change the number 10 to 3, so the block reads {count with (row number) from (1) to (3) by (1)}[block-loops]."
+      "content": "Inside the {count with (i)[block-variables] from (1) to (10) by (1)}[block-loops] block, change the variable “i” to the new variable “row number”. Change the number 10 to 3, so the block reads {count with (row number)[block-variables] from (1) to (3) by (1)}[block-loops]."
     },
     {
       "title": "Step 5",
-      "content": "From the {Variables}[category-variables] category, add the {row number}[block-variables] variable block into the “row” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number) column (1)}[block-plant]."
+      "content": "From the {Variables}[category-variables] category, add the {row number}[block-variables] variable block into the “row” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number)[block-variables] column (1)}[block-plant]."
     },
     {
       "title": "Step 6",
@@ -31,19 +31,19 @@
     },
     {
       "title": "Step 7",
-      "content": "From the {Loops}[category-loops]  category in the Toolbox, add a {count with (i) from (1) to (10) by (1)}[block-loops] block inside the {count with (row number) from (1) to (3) by (1)}[block-loops] block that is already there."
+      "content": "From the {Loops}[category-loops]  category in the Toolbox, add a {count with (i)[block-variables] from (1) to (10) by (1)}[block-loops] block inside the {count with (row number)[block-variables] from (1) to (3) by (1)}[block-loops] block that is already there."
     },
     {
       "title": "Step 8",
-      "content": "Move the {plant (pumpkin) at row (row number) column (1)}[block-plant] block to inside the inner {count with (i) from (1) to (10) by (1)}[block-loops] block."
+      "content": "Move the {plant (pumpkin) at row (row number)[block-variables] column (1)}[block-plant] block to inside the inner {count with (i)[block-variables] from (1) to (10) by (1)}[block-loops] block."
     },
     {
       "title": "Step 9",
-      "content": "From the {Variables}[category-variables] category, add the {row number}[block-variables] variable block into the “row” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number) column (1)}[block-plant]."
+      "content": "From the {Variables}[category-variables] category, add the {row number}[block-variables] variable block into the “row” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number)[block-variables] column (1)}[block-plant]."
     },
     {
       "title": "Step 10",
-      "content": "Inside the inner {count with (i) from (1) to (10) by (1)}[block-loops] block, change the variable “i” to the new variable “column number”. Change the number 10 to 3, so the block reads {count with (column number) from (1) to (3) by (1)}[block-loops]."
+      "content": "Inside the inner {count with (i)[block-variables] from (1) to (10) by (1)}[block-loops] block, change the variable “i” to the new variable “column number”. Change the number 10 to 3, so the block reads {count with (column number)[block-variables] from (1) to (3) by (1)}[block-loops]."
     },
     {
       "title": "Step 11",
@@ -55,7 +55,7 @@
     },
     {
       "title": "Step 13",
-      "content": "From the {Logic}[category-logic] category in the Toolbox, add an {if, do}[block-logic] block inside the {count with (column number) from (1) to (3) by (1)}[block-loops] block, and move the {plant (pumpkin)}[block-plant] block inside of the {if, do}[block-logic] block."
+      "content": "From the {Logic}[category-logic] category in the Toolbox, add an {if, do}[block-logic] block inside the {count with (column number)[block-variables] from (1) to (3) by (1)}[block-loops] block, and move the {plant (pumpkin)}[block-plant] block inside of the {if, do}[block-logic] block."
     },
     {
       "title": "Step 14",
@@ -63,7 +63,7 @@
     },
     {
       "title": "Step 15",
-      "content": "From the {Variables}[category-variables] category, add the {row number}[block-variables] block, into the {(1) + (1)}[block-math] block, replacing the number 1. \nFrom the {Variables}[category-variables] category, add the {column number}[block-variables] block, into the {(row number) + (1)}[block-math] block, replacing the number 1. \nThe block should now read {if (row number) + (column number) is even}[block-logic]."
+      "content": "From the {Variables}[category-variables] category, add the {row number}[block-variables] block, into the {(1) + (1)}[block-math] block, replacing the number 1. \nFrom the {Variables}[category-variables] category, add the {column number}[block-variables] block, into the {(row number)[block-variables] + (1)}[block-math] block, replacing the number 1. \nThe block should now read {if (row number)[block-variables] + (column number)[block-variables] is even}[block-logic]."
     },
     {
       "title": "Step 16",

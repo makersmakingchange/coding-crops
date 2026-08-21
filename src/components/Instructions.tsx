@@ -11,7 +11,7 @@ import {getLevelConfig} from "../blockly/levelManager";
 import A11yAnnouncer from "../accessibility/A11yAnnouncer";
 import next from '../assets/next-icon.svg';
 import prev from '../assets/prev-icon.svg';
-import {blockTypes, parseContent} from "../descriptions/parser";
+import {parseContent} from "../descriptions/parser";
 
 interface InstructionsProps {
     level: number | string;
@@ -78,23 +78,40 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
                                 part.blockType ? (
                                     <span
                                         key={index}
-                                        className={
-                                            part.className ??
-                                            blockTypes[part.blockType]?.className ??
-                                            "block-default"
-                                        }
+                                        className={part.className ?? "block-default"}
                                     >
-                    {part.text.split(/(\(.*?\))/g).map((text, i) =>
-                        text.startsWith("(") && text.endsWith(")") ? (
-                            <span key={i} className={isCropDropdown(text.toLowerCase())? "crop-block-input" : "block-input"}>
-                                {text.slice(1, -1)}
-                            </span>
-                        ) : (
+                    {part.text.split(/(\(.*?\)(?:\[.*?\])?)/g).map((text, i) => {
+                        const inputMatch = text.match(
+                            /^\((.*?)\)(?:\[(.*?)\])?$/
+                        );
+
+                        if (inputMatch) {
+                            const inputText = inputMatch[1];
+                            const inputClass = inputMatch[2];
+
+                            return (
+                                <span
+                                    key={i}
+                                    className={[
+                                        isCropDropdown(inputText.toLowerCase())
+                                            ? "crop-block-input"
+                                            : "block-input",
+                                        inputClass
+                                    ]
+                                        .filter(Boolean)
+                                        .join(" ")}
+                                >
+                                    {inputText}
+                                </span>
+                            );
+                        }
+
+                        return (
                             <React.Fragment key={i}>
                                 {text}
                             </React.Fragment>
-                        )
-                    )}
+                        );
+                    })}
                 </span>
                                 ) : (
                                     <React.Fragment key={index}>

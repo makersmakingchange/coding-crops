@@ -160,7 +160,8 @@ button.icon {
     padding: 0.2rem 0.3rem;
 }
 
-.instructions-content .block-input .variable-name {
+.instructions-content .block-input.block-variables {
+    color: #fff;
     background: rgb(165, 91, 128);
 }
 
