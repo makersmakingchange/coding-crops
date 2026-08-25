@@ -1,6 +1,6 @@
 {
-  "name": "farmSim",
-  "version": "3.2",
+  "name": "CodingCrops",
+  "version": "3.2.1",
   "description": "Learn to code with Blockly in a farm",
   "main": "index.js",
   "scripts": {

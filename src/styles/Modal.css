@@ -20,13 +20,9 @@
     margin-top: 10px;
 }
 
-.cc-attr a {
+.version-modal a {
     color: #ccc;
 }
-
-/*.cc-attr a:visited {*/
-/*    color: #ef373e;*/
-/*}*/
 
 /*Updates Modal*/
 .updates-modal, .version-modal {

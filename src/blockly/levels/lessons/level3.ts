@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {chainBlocks, BlockDef, processBlocks} from "../levelManager";
-import {plantBlock} from "./levelBuilder";
+import {BlockDef, processBlocks} from "../../levelManager";
 
 // Define your level blocks in order
 const level3Blocks: BlockDef[] = [

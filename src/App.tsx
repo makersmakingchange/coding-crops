@@ -260,7 +260,7 @@ function App({mode = 'production'}: AppProps) {
                             <span className="divider" aria-hidden="true">|</span>
 
                             <h2 id="attr-header" className="sr-only">Attributed sources</h2>
-                            <a href="https://developers.google.com/blockly" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.blockly.com" target="_blank" rel="noopener noreferrer">
                                 <img src={blocklyAttr} alt="Blockly website" className="built-with-blockly-badge"/>
                             </a>
                             <a href="https://www.makersmakingchange.com/" target="_blank" rel="noopener noreferrer">

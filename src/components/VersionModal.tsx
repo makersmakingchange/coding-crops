@@ -39,7 +39,11 @@ export function VersionModal({ isOpen, onClose }: Props) {
 
             <div className="version-modal-content">
                 <div style={{ whiteSpace: "pre-line" }}>
-                    <b>v{__APP_VERSION__}</b>
+                    Blockly is an open-source developer library from the Raspberry Pi Foundation, originally developed at Google. It creates a visual programming interface that uses drag-and-drop blocks.
+                    Read more about our project <a href="https://www.makersmakingchange.com/blockly">here</a>.
+
+                    {"\n"}
+                    {"\n"}<b>v{__APP_VERSION__}</b>
                     {"\n"}• blockly: v{__BLOCKLY_VERSION__}
                     {"\n"}• Commit: {__GIT_HASH__}
                     {"\n"}• Build:{" "}
@@ -80,9 +84,15 @@ export function VersionModal({ isOpen, onClose }: Props) {
             </div>
             <br/>
             <div className="attr-icons">
-                <img src={blocklyAttr} alt="Built with Blockly" className="built-with-blockly-badge" aria-hidden="true"/>
-                <img src={mmcLogo} alt="Makers Making Change logo" className="nss-mmc-logo" aria-hidden="true"/>
-                <img src={nssLogo} alt="Neil Squire Society logo" className="nss-mmc-logo" aria-hidden="true"/>
+                <a href="https://www.blockly.com" target="_blank" rel="noopener noreferrer">
+                    <img src={blocklyAttr} alt="Blockly website" className="built-with-blockly-badge" aria-hidden="true"/>
+                </a>
+                <a href="https://www.makersmakingchange.com/" target="_blank" rel="noopener noreferrer">
+                    <img src={mmcLogo} alt="Makers Making Change website" className="nss-mmc-logo" aria-hidden="true"/>
+                </a>
+                <a href="https://www.neilsquire.ca/" target="_blank" rel="noopener noreferrer">
+                    <img src={nssLogo} alt="Neil Squire Society website" className="nss-mmc-logo" aria-hidden="true"/>
+                </a>
             </div>
 
             <form method="dialog" className="dialog-footer">
