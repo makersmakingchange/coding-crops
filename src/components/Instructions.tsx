@@ -11,7 +11,7 @@ import {getLevelConfig} from "../blockly/levelManager";
 import A11yAnnouncer from "../accessibility/A11yAnnouncer";
 import next from '../assets/next-icon.svg';
 import prev from '../assets/prev-icon.svg';
-import {parseContent} from "../descriptions/parser";
+import {parseContent, returnStepLabel} from "../descriptions/parser";
 
 interface InstructionsProps {
     level: number | string;
@@ -45,6 +45,15 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
         stepsRef.current = descriptions[level]?.steps ?? fallbackSteps;
     }, [level]);
 
+    useEffect(() => {
+        const step = stepsRef.current[stepIndex];
+
+        if (step) {
+            const heading = stepsRef.current[stepIndex].title + " of " + getLevelConfig(level)?.label + " ";
+            A11yAnnouncer.announce(heading + returnStepLabel(step.content));
+        }
+    }, [stepIndex, level]);
+
     const goPrev = () => {
         setStepIndex(prev => Math.max(prev - 1, 0));
     };
@@ -65,7 +74,7 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
             role="region"
             tabIndex={0}
         >
-            <div className="instructions-container" aria-live={"polite"}>
+            <div className="instructions-container">
                 <div className="instructions-header">
                     <h2 id="instructions-heading" className="instructions-heading">
                         {stepsRef.current[stepIndex].title} of {getLevelConfig(level)?.label}

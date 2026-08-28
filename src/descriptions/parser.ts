@@ -64,3 +64,11 @@ export function parseContent(content: string): ContentPart[] {
 
     return parts;
 }
+
+export function returnStepLabel(content: string) {
+    return content
+        .replace(/\[.*?\]/g, '')
+        .replace(/[{}()]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+}

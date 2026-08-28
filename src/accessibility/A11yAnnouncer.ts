@@ -6,6 +6,7 @@
 
 export default class A11yAnnouncer {
     private static liveRegion: HTMLElement | null = null;
+    private static timeout: ReturnType<typeof setTimeout> | null = null;
 
     static register(el: HTMLElement | null) {
         this.liveRegion = el;
@@ -13,9 +14,17 @@ export default class A11yAnnouncer {
 
     static announce(message: string, delay = 10) {
         if (!this.liveRegion) return;
+
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
+
         this.liveRegion.textContent = '';
-        setTimeout(() => {
-            if (this.liveRegion) this.liveRegion.textContent = message;
+
+        this.timeout = setTimeout(() => {
+            if (this.liveRegion) {
+                this.liveRegion.textContent = message;
+            }
         }, delay);
     }
 
