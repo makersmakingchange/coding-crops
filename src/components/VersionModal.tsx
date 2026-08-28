@@ -40,7 +40,7 @@ export function VersionModal({ isOpen, onClose }: Props) {
             <div className="version-modal-content">
                 <div style={{ whiteSpace: "pre-line" }}>
                     Blockly is an open-source developer library from the Raspberry Pi Foundation, originally developed at Google. It creates a visual programming interface that uses drag-and-drop blocks.
-                    Read more about our project <a href="https://www.makersmakingchange.com/blockly">here</a>.
+                    Read more about our project <a href="https://www.makersmakingchange.com/blockly" target="_blank" rel="noopener noreferrer">here</a>.
 
                     {"\n"}
                     {"\n"}<b>v{__APP_VERSION__}</b>
