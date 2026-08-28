@@ -12,6 +12,11 @@ import { freePlay } from './levels/lessons/freePlay';
 import {basic} from "./levels/testScenarios/basic";
 import {plantGrid} from "./levels/testScenarios/plantGrid";
 import {loops} from "./levels/testScenarios/loops";
+import {level1Solution} from "./levels/testScenarios/level1Solution";
+import {level2Solution} from "./levels/testScenarios/level2Solution";
+import {level3Solution} from "./levels/testScenarios/level3Solution";
+import {countWithDemo} from './levels/testScenarios/countWithDemo';
+import {nestedCountWith} from "./levels/testScenarios/nestedCountWith";
 
 export type LevelConfig = {
     value: number | string;
@@ -31,6 +36,11 @@ export const SCENARIO_LEVELS: LevelConfig[] = [
     { value: 'basic', label: 'Basic Farm', toolboxLevel: 3, blocks: basic },
     { value: 'plantGrid', label: 'Plant Grid', toolboxLevel: 3, blocks: plantGrid },
     { value: 'loops', label: 'Loops', toolboxLevel: 3, blocks: loops },
+    { value: 'nestedCountWith', label: 'Nested Count With', toolboxLevel: 3, blocks: nestedCountWith },
+    { value: 'countWithDemo', label: 'Count With', toolboxLevel: 3, blocks: countWithDemo },
+    { value: 'level1Solution', label: 'Level 1 Solution', toolboxLevel: 3, blocks: level1Solution },
+    { value: 'level2Solution', label: 'Level 2 Solution', toolboxLevel: 3, blocks: level2Solution },
+    { value: 'level3Solution', label: 'Level 3 Solution', toolboxLevel: 3, blocks: level3Solution },
 ];
 
 const ALL_LEVELS: LevelConfig[] = [...LEVELS, ...SCENARIO_LEVELS];

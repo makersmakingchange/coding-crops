@@ -5,38 +5,21 @@
  */
 
 import {chainBlocks, BlockDef, processBlocks} from "../../levelManager";
+import {tileAction} from "../levelBuilder";
+import {createAriaNumberInstance} from "../../blocks/mathBlocks";
 
 const numShadow = (num: number) => ({
     type: 'math_number',
-    fields: { NUM: num }
+    fields: {NUM: num}
 });
 
 const setVar = (name: string, value: number): BlockDef => ({
     type: 'variables_set',
     fields: {
-        VAR: { name },
+        VAR: {name},
     },
     inputs: {
-        VALUE: { shadow: numShadow(value) },
-    },
-});
-
-const tileAction = (type: string): BlockDef => ({
-    type,
-    inline: true,
-    inputs: {
-        ROW: {
-            block: {
-                type: 'variables_get',
-                fields: { VAR: { name: 'row' } },
-            },
-        },
-        COLUMN: {
-            block: {
-                type: 'variables_get',
-                fields: { VAR: { name: 'column' } },
-            },
-        },
+        VALUE: {shadow: numShadow(value)},
     },
 });
 
@@ -48,11 +31,15 @@ const innerLoop: BlockDef = {
     inputs: {
         DO: {
             block: chainBlocks([
-                tileAction('plant'),
+                tileAction('plant',
+                    'row',
+                    'column',
+                    createAriaNumberInstance(1, 'row'),
+                    createAriaNumberInstance(1, 'column')),
                 {
                     type: 'math_change',
-                    fields: { VAR: { name: 'column' } },
-                    inputs: { DELTA: { shadow: numShadow(1) } },
+                    fields: {VAR: {name: 'column'}},
+                    inputs: {DELTA: {shadow: numShadow(1)}},
                 },
             ]),
         },
@@ -73,8 +60,8 @@ const outerLoop: BlockDef[] = [
                     innerLoop,
                     {
                         type: 'math_change',
-                        fields: { VAR: { name: 'row' } },
-                        inputs: { DELTA: { shadow: numShadow(1) } },
+                        fields: {VAR: {name: 'row'}},
+                        inputs: {DELTA: {shadow: numShadow(1)}},
                     },
                 ]),
             },
