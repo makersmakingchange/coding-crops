@@ -35,7 +35,6 @@ export const LEVELS: LevelConfig[] = [
 export const SCENARIO_LEVELS: LevelConfig[] = [
     { value: 'basic', label: 'Basic Farm', toolboxLevel: 3, blocks: basic },
     { value: 'plantGrid', label: 'Plant Grid', toolboxLevel: 3, blocks: plantGrid },
-    { value: 'loops', label: 'Loops', toolboxLevel: 3, blocks: loops },
     { value: 'nestedCountWith', label: 'Nested Count With', toolboxLevel: 3, blocks: nestedCountWith },
     { value: 'countWithDemo', label: 'Count With', toolboxLevel: 3, blocks: countWithDemo },
     { value: 'level1Solution', label: 'Level 1 Solution', toolboxLevel: 3, blocks: level1Solution },
