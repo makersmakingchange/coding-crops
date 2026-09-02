@@ -11,7 +11,7 @@
     },
     {
       "title": "Step 2",
-      "content": "From the {Farm}[category-farm] category, add a {plant (sunflower) at row (1) column (1)}[block-plant] block and place it inside the {repeat (10) times}[block-loops] block. Inside the plant block, change the crop type from sunflower to pumpkin, so the block reads {plant (pumpkin) at row (1) column (1)}[block-plant]."
+      "content": "From the {Farm}[category-farm] category, add a {plant (sunflower) at row (1) column (1)}[block-plant] block and place it inside the {count with (i) from (1) to (10) by (1)}[block-loops] block. Inside the plant block, change the crop type from sunflower to pumpkin, so the block reads {plant (pumpkin) at row (1) column (1)}[block-plant]."
     },
     {
       "title": "Step 3",
@@ -39,7 +39,7 @@
     },
     {
       "title": "Step 9",
-      "content": "From the {Variables}[category-variables] category, add the {row number}[block-variables] variable block into the “row” field of the plant block, replacing the number 1. The block should now read {plant (pumpkin) at row (row number)[block-variables] column (1)}[block-plant]."
+      "content": "In the {Variables}[category-variables] category in the Toolbox, press the Create Variable button. Name the variable “column number”."
     },
     {
       "title": "Step 10",

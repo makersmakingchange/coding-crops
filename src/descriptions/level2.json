@@ -7,7 +7,7 @@
     },
     {
       "title": "Step 1",
-      "content": "Add a repeat block, and use it to repeat the 'Water' and 'Next Day' blocks 2 times."
+      "content": "From the {Loops}[category-loops] category in the Toolbox, add a {repeat (10) times}[block-loops] block under the {plant row (1) column (1)}[block-plant] block."
     },
     {
       "title": "Step 2",
@@ -35,7 +35,7 @@
     },
     {
       "title": "Step 8",
-      "content": "Press the {Run All Days}[button-run-all-days] button. Has 4 crops been harvested? Great job!"
+      "content": "Press the {Run All Days}[button-run-all-days] button. Have 4 crops been harvested? Great job!"
     },
     {
       "title": "Step 9",
