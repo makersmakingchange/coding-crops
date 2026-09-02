@@ -64,10 +64,6 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
     }, [level]);
 
     useEffect(() => {
-        FarmEvents.dispatch.resetSummaries();
-    }, [runMode]);
-
-    useEffect(() => {
         const handleShortcuts = (e: KeyboardEvent) => {
             // const cmdOrCtrl = e.metaKey || e.ctrlKey;
 
