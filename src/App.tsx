@@ -33,6 +33,7 @@ import {useFarmEndDay} from "./hooks/useFarmEndDay";
 import {
     focusBlocklyToolbox,
     focusBlocklyWorkspace,
+    toggleScreenReaderMode,
     toggleShortcutDialog
 } from "./blockly/blocklySetup";
 import {CropType} from "./farm/Tile";
@@ -130,12 +131,16 @@ function App({mode = 'production'}: AppProps) {
             (document.querySelector('.update-button') as HTMLElement | null)?.focus();
         },
         gr: () => {
-            console.log("Go to run one day button");
-            (document.querySelector('#runDayButton') as HTMLElement | null)?.focus();
+            console.log("Go to Run All Day button");
+            (document.querySelector('#runAllButton') as HTMLElement | null)?.click();
         },
-        r: () => {
+        ra: () => {
             console.log("Run all day");
             (document.querySelector('#runAllButton') as HTMLElement | null)?.click();
+        },
+        ro: () => {
+            console.log("Run one day");
+            (document.querySelector('#runDayButton') as HTMLElement | null)?.click();
         },
         gc: () => {
             console.log("Go to controls bar");
@@ -149,17 +154,22 @@ function App({mode = 'production'}: AppProps) {
             console.log("Go to instructions panel");
             (document.querySelector('.instructions-panel') as HTMLElement | null)?.focus()
         },
+        'shift+a': () => {
+            console.log("Toggle screenreader mode");
+            toggleScreenReaderMode(true);
+        }
     }, true);
 
     useKeyboardShortcuts({
         t: () => focusBlocklyToolbox(),
         w: () => focusBlocklyWorkspace(),
+        u: () => setIsUpdatesOpen(true),
         '/': () => setIsShortcutsOpen(open => !open),
         '?': () => setIsInfoOpen(!isInfoOpen),
     })
 
     useKeyboardShortcuts({
-        'ctrl+/' : () => toggleCommandPalette(),
+        'ctrl+/': () => toggleCommandPalette(),
     }, false, true)
 
     function resetGame(announceFarmReset: boolean = true): void {

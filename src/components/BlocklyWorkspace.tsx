@@ -65,10 +65,6 @@ const BlocklyWorkspace: React.FC<BlocklyProps> = ({
 
     useEffect(() => {
         const handleShortcuts = (e: KeyboardEvent) => {
-            // const cmdOrCtrl = e.metaKey || e.ctrlKey;
-
-            if (e.altKey && (e.key === 'r' || e.key === 'R'))
-                (document.querySelector('#runAllButton') as HTMLElement)?.focus();
         };
 
         window.addEventListener('keydown', handleShortcuts);

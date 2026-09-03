@@ -78,6 +78,7 @@ export function setupBlockly(blocklyContainer: HTMLElement,
         }
 
         ws.addChangeListener(Blockly.Events.disableOrphans);
+        setScreenReaderMode(true);
 
         // load(ws);
     }
@@ -90,6 +91,50 @@ export function toggleShortcutDialog() {
     if (shortcutDialog) {
         shortcutDialog.showModal();
     }
+}
+
+// from Blockly: use Blockly toast to indicate screenreader mode is on or off
+export function showScreenreaderModeHint(
+    workspace: WorkspaceSvg,
+    enabled: boolean,
+) {
+    Blockly.Toast.show(workspace, {
+        message: (enabled
+                ? Blockly.Msg['SCREENREADER_MODE_ENABLED']
+                : Blockly.Msg['SCREENREADER_MODE_DISABLED']
+        ).replace('%1', "Alt + Shift + A"),
+        duration: 7,
+        id: "screenreaderModeHint",
+    });
+}
+
+// from Blockly: toggle screenreader mode
+export function toggleScreenReaderMode(showHint: boolean = false) {
+    const enabled = !Blockly.keyboardNavigationController.getScopeChangeAudioCuesEnabled();
+    const ws = Blockly.common.getWorkspaceById(workspaceId) as WorkspaceSvg;
+
+    setScreenReaderMode(enabled);
+    if (showHint) showScreenreaderModeHint(ws, enabled);
+    return true;
+}
+
+// from Blockly: set screenreader mode on or off
+function setScreenReaderMode(enabled: boolean) {
+    Blockly.keyboardNavigationController.setScopeChangeAudioCuesEnabled(enabled);
+
+    const ws = Blockly.common.getWorkspaceById(workspaceId) as WorkspaceSvg;
+    ws.getNavigator().setNavigationLoops(!enabled);
+    ws.getToolbox()?.getNavigator().setNavigationLoops(!enabled);
+    ws
+        .getFlyout()
+        ?.getWorkspace()
+        .getNavigator()
+        .setNavigationLoops(!enabled);
+}
+
+const toggleScreenreader = Blockly.ShortcutRegistry.registry.getRegistry()[Blockly.ShortcutItems.names.TOGGLE_SCREENREADER];
+if (toggleScreenreader) {
+    Blockly.ShortcutRegistry.registry.unregister(toggleScreenreader.name);
 }
 
 export function updateToolboxMap(ws: WorkspaceSvg, level: number) {

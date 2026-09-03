@@ -8,7 +8,10 @@ import { useEffect } from 'react';
 
 type ShortcutMap = Record<string, () => void>;
 
-export function useKeyboardShortcuts(shortcuts: ShortcutMap, altModifier = false, ctrlModifier = false, timeout = 500) {
+export function useKeyboardShortcuts(shortcuts: ShortcutMap,
+                                     altModifier: boolean = false,
+                                     ctrlModifier: boolean = false,
+                                     shiftModifier: boolean = false, timeout = 500) {
     useEffect(() => {
         let buffer = '';
         let timer: number | undefined;
@@ -23,6 +26,7 @@ export function useKeyboardShortcuts(shortcuts: ShortcutMap, altModifier = false
             if (e.repeat || isTypingTarget(e.target)) return;
             if (altModifier && !e.altKey) return;
             if (ctrlModifier && !cmdOrCtrl) return;
+            if (shiftModifier && !e.shiftKey) return;
 
             // Detect if it's a Ctrl + / or just /
             if (cmdOrCtrl && e.key === '/') {
@@ -30,6 +34,17 @@ export function useKeyboardShortcuts(shortcuts: ShortcutMap, altModifier = false
                 if (shortcuts['ctrl+/']) {
                     shortcuts['ctrl+/']();  // Execute the Ctrl + / shortcut
                 }
+                return;
+            }
+
+            // Shift + A
+            if (e.shiftKey && e.key.toLowerCase() === 'a') {
+                e.preventDefault();
+
+                if (shortcuts['shift+a']) {
+                    shortcuts['shift+a']();
+                }
+
                 return;
             }
 
@@ -50,5 +65,5 @@ export function useKeyboardShortcuts(shortcuts: ShortcutMap, altModifier = false
 
         window.addEventListener('keydown', handler);
         return () => window.removeEventListener('keydown', handler);
-    }, [shortcuts]);
+    }, [shortcuts, altModifier, ctrlModifier, shiftModifier, timeout]);
 }
