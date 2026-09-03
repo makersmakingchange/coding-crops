@@ -33,6 +33,7 @@ import {useFarmEndDay} from "./hooks/useFarmEndDay";
 import {
     focusBlocklyToolbox,
     focusBlocklyWorkspace,
+    getScreenReaderModeText,
     toggleScreenReaderMode,
     toggleShortcutDialog
 } from "./blockly/blocklySetup";
@@ -180,6 +181,8 @@ function App({mode = 'production'}: AppProps) {
     }
 
     const handleResetGame = () => {resetGame(true)};
+    const handleScreenReaderModeButton = () => {toggleScreenReaderMode(true)};
+
 
     const changeLevel = (levelNum: string | number) => {
         setLevel(levelNum);
@@ -284,6 +287,7 @@ function App({mode = 'production'}: AppProps) {
 
                     <div className="controls-bar" tabIndex={0} aria-labelledby={'controls-heading'}>
                         <h2 id="controls-heading" className="sr-only">Farm Controls</h2>
+                        <button onClick={handleScreenReaderModeButton}>Screen Reader Mode {getScreenReaderModeText()}</button>
                         <button onClick={handleResetGame}>Reset Farm</button>
                         <LevelSelector
                             onChange={changeLevel}

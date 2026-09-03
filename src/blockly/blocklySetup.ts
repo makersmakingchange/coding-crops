@@ -132,6 +132,10 @@ function setScreenReaderMode(enabled: boolean) {
         .setNavigationLoops(!enabled);
 }
 
+export function getScreenReaderModeText() {
+    return Blockly.keyboardNavigationController.getScopeChangeAudioCuesEnabled() ? "On" : "Off";
+}
+
 const toggleScreenreader = Blockly.ShortcutRegistry.registry.getRegistry()[Blockly.ShortcutItems.names.TOGGLE_SCREENREADER];
 if (toggleScreenreader) {
     Blockly.ShortcutRegistry.registry.unregister(toggleScreenreader.name);
