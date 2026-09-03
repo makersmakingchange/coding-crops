@@ -22,10 +22,10 @@ type CommandModalProps = {
     onClose: () => void;
     onCommandSelect: (command: Command) => void;
     resetGame: () => void;
-    runMode: "day" | "all";
+    setScreenReaderModeProp: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandSelect, resetGame, runMode }) => {
+const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandSelect, resetGame, setScreenReaderModeProp }) => {
     const [query, setQuery] = useState('');
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -54,8 +54,14 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
         { label: 'Reset Farm', action: () => resetGame() },
         { label: 'Show Updates', action: () => (document.querySelector('.update-button') as HTMLElement)?.click() },
         { label: 'Open Shortcuts Menu', action: () => toggleShortcutDialog() },
-        { label: 'Turn Screen Reader Mode On', action: () => setScreenReaderMode(true, true) },
-        { label: 'Turn Screen Reader Mode Off', action: () => setScreenReaderMode(false, true) },
+        { label: 'Turn Screen Reader Mode On', action: () => {
+                setScreenReaderMode(true, true);
+                setScreenReaderModeProp(true);
+            } },
+        { label: 'Turn Screen Reader Mode Off', action: () => {
+                setScreenReaderMode(false, true);
+                setScreenReaderModeProp(false);
+            } },
     ];
 
     const filteredCommands = commands.filter(cmd => cmd.label.toLowerCase().includes(query.toLowerCase()));

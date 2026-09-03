@@ -252,7 +252,7 @@ function App({mode = 'production'}: AppProps) {
                     onClose={() => setCommandPaletteOpen(false)}
                     onCommandSelect={handleCommandSelect}
                     resetGame={resetGame}
-                    runMode={runModeRef.current}
+                    setScreenReaderModeProp={setScreenReaderMode}
                 />
             )}
 

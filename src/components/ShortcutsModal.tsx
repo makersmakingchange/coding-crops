@@ -25,9 +25,9 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
         heading: "General",
         shortcuts: [
             {keys: [["W"]], description: "Focus the workspace"},
-            {keys: [["U"]], description: "Show Updates"},
             {keys: [["/"]], description: "Toggle this shortcuts menu"},
             {keys: [["?"]], description: "Toggle quick help"},
+            {keys: [["U"]], description: "Show Updates"},
             {keys: [["Ctrl", "/"]], description: "Open the command palette"},
             {keys: [["Alt", "R", "A"]], description: "Run all days"},
             {keys: [["Alt", "R", "O"]], description: "Run one days"},
@@ -110,7 +110,7 @@ const KeyCombo: React.FC<{keys: string[][]}> = ({keys}) => (
                     <React.Fragment key={keyIndex}>
                         {keyIndex > 0 && (
                             <>
-                                <span className="sr-only">plus</span>
+                                <span className="sr-only">then</span>
                                 <span aria-hidden="true" className="key-separator"> + </span>
                             </>
                         )}
@@ -212,6 +212,7 @@ const ShortcutsModal: React.FC<ShortcutsModalProps> = ({isOpen, onClose}) => {
                                         className={index === activeIndex ? "active" : undefined}
                                     >
                                         <KeyCombo keys={shortcut.keys}/>
+                                        <span className="sr-only">, </span>
                                         <span className="shortcut-description">{shortcut.description}</span>
                                     </li>
                                 );
