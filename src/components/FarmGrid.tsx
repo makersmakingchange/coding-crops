@@ -68,7 +68,7 @@ const FarmGrid: React.FC<FarmGridProps> = ({ tiles, ariaLiveRef, dayCount }) => 
         <div
             className="farm-grid"
             role="grid"
-            aria-label={`Farm field, Day ${dayCount}. 3 rows and 3 columns.`}
+            aria-label={`Farm, Day ${dayCount}. 3 rows and 3 columns.`}
             ref={gridRef}
             onFocus={focusOnTopLeftTile}
             style={{

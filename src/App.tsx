@@ -33,9 +33,7 @@ import {useFarmEndDay} from "./hooks/useFarmEndDay";
 import {
     focusBlocklyToolbox,
     focusBlocklyWorkspace,
-    getScreenReaderModeText,
     toggleScreenReaderMode,
-    toggleShortcutDialog
 } from "./blockly/blocklySetup";
 import {CropType} from "./farm/Tile";
 
@@ -48,6 +46,7 @@ function App({mode = 'production'}: AppProps) {
 
     const [runMode, setRunMode] = useState<'all' | 'day'>('all');
     const runModeRef = useRef(runMode);
+    const [screenReaderMode, setScreenReaderMode] = useState(true);
 
     const [tileData, setTileData] = useState(farmManager.getTileState());
     const [summaries, setSummaries] = useState(runMode == 'all' ? FarmA11y.getQuickSummaries() : FarmA11y.getSummaries());
@@ -133,18 +132,10 @@ function App({mode = 'production'}: AppProps) {
         },
         gr: () => {
             console.log("Go to Run All Day button");
-            (document.querySelector('#runAllButton') as HTMLElement | null)?.click();
-        },
-        ra: () => {
-            console.log("Run all day");
-            (document.querySelector('#runAllButton') as HTMLElement | null)?.click();
-        },
-        ro: () => {
-            console.log("Run one day");
-            (document.querySelector('#runDayButton') as HTMLElement | null)?.click();
+            (document.querySelector('#runAllButton') as HTMLElement | null)?.focus();
         },
         gc: () => {
-            console.log("Go to controls bar");
+            console.log("Go to farm controls");
             (document.querySelector('#controls-heading') as HTMLElement | null)?.focus();
         },
         gf: () => {
@@ -155,6 +146,14 @@ function App({mode = 'production'}: AppProps) {
             console.log("Go to instructions panel");
             (document.querySelector('.instructions-panel') as HTMLElement | null)?.focus()
         },
+        ra: () => {
+            console.log("Run all day");
+            (document.querySelector('#runAllButton') as HTMLElement | null)?.click();
+        },
+        ro: () => {
+            console.log("Run one day");
+            (document.querySelector('#runDayButton') as HTMLElement | null)?.click();
+        },
         'shift+a': () => {
             console.log("Toggle screenreader mode");
             toggleScreenReaderMode(true);
@@ -162,7 +161,7 @@ function App({mode = 'production'}: AppProps) {
     }, true);
 
     useKeyboardShortcuts({
-        t: () => focusBlocklyToolbox(),
+        // t: () => focusBlocklyToolbox(),
         w: () => focusBlocklyWorkspace(),
         u: () => setIsUpdatesOpen(true),
         '/': () => setIsShortcutsOpen(open => !open),
@@ -181,8 +180,7 @@ function App({mode = 'production'}: AppProps) {
     }
 
     const handleResetGame = () => {resetGame(true)};
-    const handleScreenReaderModeButton = () => {toggleScreenReaderMode(true)};
-
+    const handleScreenReaderModeButton = () => {setScreenReaderMode(toggleScreenReaderMode(true))};
 
     const changeLevel = (levelNum: string | number) => {
         setLevel(levelNum);
@@ -287,7 +285,7 @@ function App({mode = 'production'}: AppProps) {
 
                     <div className="controls-bar" tabIndex={0} aria-labelledby={'controls-heading'}>
                         <h2 id="controls-heading" className="sr-only">Farm Controls</h2>
-                        <button onClick={handleScreenReaderModeButton}>Screen Reader Mode {getScreenReaderModeText()}</button>
+                        <button onClick={handleScreenReaderModeButton}>Screen Reader Mode {screenReaderMode ? "On" : "Off"}</button>
                         <button onClick={handleResetGame}>Reset Farm</button>
                         <LevelSelector
                             onChange={changeLevel}

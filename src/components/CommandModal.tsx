@@ -7,7 +7,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import '../styles/CommandModal.css';
 import BlocklyWorkspace from "./BlocklyWorkspace";
-import {focusBlocklyWorkspace} from "../blockly/blocklySetup";
+import {focusBlocklyWorkspace, setScreenReaderMode} from "../blockly/blocklySetup";
 import {useToggleModal} from "../hooks/useToggleModal";
 import {toggleShortcutDialog} from "../blockly/blocklySetup";
 import AudioManager, {SoundEffect} from "../audio/AudioManager";
@@ -46,7 +46,7 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
         { label: 'Run One Day', action: () => (document.querySelector('#runDayButton') as HTMLElement)?.click() },
         { label: 'Go to Toolbox', action: () => (document.querySelector('.blocklyToolbox') as HTMLElement)?.focus() },
         { label: 'Go to Workspace', action: () => focusBlocklyWorkspace() },
-        { label: 'Go to Farm Field', action: () => (document.querySelector('.tile') as HTMLElement)?.focus() },
+        { label: 'Go to Farm', action: () => (document.querySelector('.tile') as HTMLElement)?.focus() },
         { label: 'Go to Instructions Panel', action: () => (document.querySelector('#instructionsPanel') as HTMLElement)?.focus() },
         { label: 'Go to Level Button', action: () => (document.querySelector('.level-selector') as HTMLElement)?.focus() },
         { label: 'Go to Run Code Button', action: () => (document.querySelector('.run-code-button') as HTMLElement)?.focus() },
@@ -54,6 +54,8 @@ const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, onCommandS
         { label: 'Reset Farm', action: () => resetGame() },
         { label: 'Show Updates', action: () => (document.querySelector('.update-button') as HTMLElement)?.click() },
         { label: 'Open Shortcuts Menu', action: () => toggleShortcutDialog() },
+        { label: 'Turn Screen Reader Mode On', action: () => setScreenReaderMode(true, true) },
+        { label: 'Turn Screen Reader Mode Off', action: () => setScreenReaderMode(false, true) },
     ];
 
     const filteredCommands = commands.filter(cmd => cmd.label.toLowerCase().includes(query.toLowerCase()));

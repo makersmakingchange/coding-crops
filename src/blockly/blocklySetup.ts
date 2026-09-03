@@ -79,6 +79,7 @@ export function setupBlockly(blocklyContainer: HTMLElement,
 
         ws.addChangeListener(Blockly.Events.disableOrphans);
         setScreenReaderMode(true);
+        Blockly.ShortcutItems.registerNavigationShortcuts();
 
         // load(ws);
     }
@@ -113,13 +114,12 @@ export function toggleScreenReaderMode(showHint: boolean = false) {
     const enabled = !Blockly.keyboardNavigationController.getScopeChangeAudioCuesEnabled();
     const ws = Blockly.common.getWorkspaceById(workspaceId) as WorkspaceSvg;
 
-    setScreenReaderMode(enabled);
-    if (showHint) showScreenreaderModeHint(ws, enabled);
-    return true;
+    setScreenReaderMode(enabled, showHint);
+    return enabled;
 }
 
 // from Blockly: set screenreader mode on or off
-function setScreenReaderMode(enabled: boolean) {
+export function setScreenReaderMode(enabled: boolean, showHint: boolean = false) {
     Blockly.keyboardNavigationController.setScopeChangeAudioCuesEnabled(enabled);
 
     const ws = Blockly.common.getWorkspaceById(workspaceId) as WorkspaceSvg;
@@ -130,10 +130,8 @@ function setScreenReaderMode(enabled: boolean) {
         ?.getWorkspace()
         .getNavigator()
         .setNavigationLoops(!enabled);
-}
 
-export function getScreenReaderModeText() {
-    return Blockly.keyboardNavigationController.getScopeChangeAudioCuesEnabled() ? "On" : "Off";
+    if (showHint) showScreenreaderModeHint(ws, enabled);
 }
 
 const toggleScreenreader = Blockly.ShortcutRegistry.registry.getRegistry()[Blockly.ShortcutItems.names.TOGGLE_SCREENREADER];
