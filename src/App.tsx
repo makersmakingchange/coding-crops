@@ -136,7 +136,7 @@ function App({mode = 'production'}: AppProps) {
         },
         gc: () => {
             console.log("Go to farm controls");
-            (document.querySelector('#controls-heading') as HTMLElement | null)?.focus();
+            (document.querySelector('.controls-bar') as HTMLElement | null)?.focus();
         },
         gf: () => {
             console.log("Go to farm grid");
