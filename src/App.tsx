@@ -49,7 +49,7 @@ function App({mode = 'production'}: AppProps) {
     const [screenReaderMode, setScreenReaderMode] = useState(true);
 
     const [tileData, setTileData] = useState(farmManager.getTileState());
-    const [summaries, setSummaries] = useState(runMode == 'all' ? FarmA11y.getQuickSummaries() : FarmA11y.getSummaries());
+    const [summaries, setSummaries] = useState(runMode == 'all' ? FarmA11y.getQuickSummaries() : FarmA11y.getAllSummaries());
 
     const [isCommandPaletteOpen, setCommandPaletteOpen] = useState(false);
     const [pendingCommand, setPendingCommand] = useState<Command | null>(null);
@@ -88,7 +88,7 @@ function App({mode = 'production'}: AppProps) {
             FarmA11y.reset();
             setWarnings([]);
             if (runMode == "day") {
-                setSummaries([...FarmA11y.getSummaries()]);
+                setSummaries([...FarmA11y.getAllSummaries()]);
             } else {
                 setSummaries([...FarmA11y.getQuickSummaries()]);
             }

@@ -21,7 +21,8 @@ export function useFarmEndDay(
             let sums = FarmA11y.getQuickSummaries();
 
             if (runModeRef.current === 'day') {
-                sums = FarmA11y.getSummaries();
+                FarmA11y.generateDetailedDaySummary(farmManager.getDay(), farmManager.getHarvestedByCrop(), tiles);
+                sums = FarmA11y.getAllSummaries();
                 A11yAnnouncer.announce(sums[sums.length - 1]);
             }
             setSummaries([...sums]);

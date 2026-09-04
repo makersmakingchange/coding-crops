@@ -34,7 +34,7 @@ export default class FarmA11y {
     }
 
     // Get detailed summaries
-    static getSummaries(): string[] {
+    static getAllSummaries(): string[] {
         return this.summaries;
     }
 
@@ -119,7 +119,7 @@ export default class FarmA11y {
         return `Harvested ${harvested.join(", ")}`;
     }
 
-    static generateEndOfDaySummary(
+    static generateDetailedDaySummary(
         day: number,
         harvestedByCrop: Record<CropType, number>,
         tiles: TileState[][]
