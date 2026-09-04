@@ -63,6 +63,40 @@ const UpdatesModal: React.FC<UpdatesModalProps> = ({
         }
     };
 
+    const CROP_EMOJIS: Record<string, string> = {
+        sunflower: "🌻",
+        sunflowers: "🌻",
+        corn: "🌽",
+        pumpkin: "🎃",
+        pumpkins: "🎃"
+    }
+
+    const renderTextWithEmoji = (text: string) => {
+        const plantPattern = new RegExp(
+            `\\b(${Object.keys(CROP_EMOJIS).join("|")})\\b`,
+            "gi"
+        );
+
+        return text.split(plantPattern).map((part, index) => {
+            const emoji = CROP_EMOJIS[part.toLowerCase()];
+
+            if (emoji) {
+                return (
+                    <React.Fragment key={index}>
+                        <span aria-hidden="true">{emoji}</span>
+                        <span className="sr-only">{part}</span>
+                    </React.Fragment>
+                );
+            }
+
+            return (
+                <React.Fragment key={index}>
+                    {part}
+                </React.Fragment>
+            );
+        });
+    };
+
     return (
         <dialog
             role="dialog"
@@ -95,7 +129,9 @@ const UpdatesModal: React.FC<UpdatesModalProps> = ({
                                 summaries.map((s, i) => (
                                     <li key={i}
                                         id={`summary-${i}`}
-                                        tabIndex={i === summariesFocus.activeIndex ? 0 : -1}>{s}</li>
+                                        tabIndex={i === summariesFocus.activeIndex ? 0 : -1}>
+                                        {renderTextWithEmoji(s)}
+                                    </li>
                                 ))
                             )}
                         </ul>
@@ -121,7 +157,7 @@ const UpdatesModal: React.FC<UpdatesModalProps> = ({
                                         <li key={i}
                                             id={`warning-${i}`}
                                             tabIndex={i === warningsFocus.activeIndex ? 0 : -1}>
-                                            Day {w.day}: {w.message}
+                                            Day {w.day}: {renderTextWithEmoji(w.message)}
                                         </li>
                                     ))}
                             </ul>

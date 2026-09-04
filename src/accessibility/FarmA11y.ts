@@ -95,13 +95,16 @@ export default class FarmA11y {
             }))
             .filter(({ count }) => count > 0)
             .map(({ type, count }) =>
-                `${farmManager.getCropEmoji(type)} : ${count}`
+                `${count} ${this.getCropName(type, count)}`
             );
 
         if (harvested.length === 0) {
             return "";
         }
-        return `Harvested: ${harvested.join(", ")}`;
+
+        const harvestCount = farmManager.getCropsHarvested();
+
+        return `${harvestCount} harvested, ${harvested.join(", ")}`;
     }
 
     static getHarvestLabel(
@@ -140,24 +143,35 @@ export default class FarmA11y {
             (details.length ? ` ${details.join(". ")}.` : "") +
             (harvested ? ` ${harvested}.` : "");
 
-        this.quickSummaries.push(summary);
         this.summaries.push(summary);
-
         return summary;
     }
 
     // Generate a text summary of the farm’s current state
-    static generateDaySummary(day: number, harvestCount: number, tiles: TileState[][]): string {
+    static generateDaySummary(day: number, harvestedByCrop: Record<CropType, number>, tiles: TileState[][]): string {
         const flat = tiles.flat();
-
         const planted = flat.filter(t => t.type !== null);
-        const growing = planted.filter(t => t.growthStage === GrowthStage.GROWING).length;
-        const mature = planted.filter(t => t.growthStage === GrowthStage.MATURE).length;
-        const seedling = planted.filter(t => t.growthStage === GrowthStage.SEEDLING).length;
 
-        const summary = `Day ${day}, ${planted.length} plants total. ${seedling} seedlings, ${growing} growing, ${mature} mature. ${harvestCount} crops harvested.`;
+        const counts = {
+            seedlings: planted.filter(t => t.growthStage === GrowthStage.SEEDLING).length,
+            growing: planted.filter(t => t.growthStage === GrowthStage.GROWING).length,
+            mature: planted.filter(t => t.growthStage === GrowthStage.MATURE).length,
+        };
 
-        this.summaries.push(summary);
+        const details = [
+            counts.seedlings > 0 && `${counts.seedlings} seedlings`,
+            counts.growing > 0 && `${counts.growing} growing`,
+            counts.mature > 0 && `${counts.mature} mature`,
+        ].filter(Boolean);
+
+        const harvested = this.getHarvestSummary(harvestedByCrop);
+
+        const summary =
+            `Day ${day}, ${planted.length} plants total.` +
+            (details.length ? ` ${details.join(", ")}.` : "") +
+            (harvested ? ` ${harvested}.` : "");
+
+        this.quickSummaries.push(summary);
         return summary;
     }
 

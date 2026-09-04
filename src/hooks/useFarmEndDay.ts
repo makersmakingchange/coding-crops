@@ -17,7 +17,7 @@ export function useFarmEndDay(
     useEffect(() => {
         const handler = () => {
             const tiles = farmManager.getTileState();
-            FarmA11y.generateEndOfDaySummary(farmManager.getDay(), farmManager.getHarvestedByCrop(), tiles);
+            FarmA11y.generateDaySummary(farmManager.getDay(), farmManager.getHarvestedByCrop(), tiles);
             let sums = FarmA11y.getQuickSummaries();
 
             if (runModeRef.current === 'day') {
