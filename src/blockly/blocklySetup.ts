@@ -151,6 +151,7 @@ export function focusBlocklyWorkspace() {
     focusManager.focusNode(ws.getTopBlocks()[0]);
 }
 
+
 export function focusBlocklyToolbox() {
     // const ws = Blockly.common.getWorkspaceById(workspaceId) as WorkspaceSvg;
     // const toolbox = ws.getToolbox();
