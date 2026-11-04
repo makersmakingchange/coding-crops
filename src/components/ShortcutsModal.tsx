@@ -12,6 +12,7 @@ import "../styles/ShortcutsModal.css";
 
 interface Shortcut {
     keys: string[][];
+    readableName?: string[][];
     description: string;
 }
 
@@ -26,11 +27,11 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
         shortcuts: [
             {keys: [["W"]], description: "Focus the workspace"},
             {keys: [["/"]], description: "Toggle this shortcuts menu"},
-            {keys: [["?"]], description: "Toggle quick help"},
+            {keys: [["?"]], readableName: [["Question"]], description: "Toggle quick help"},
             {keys: [["U"]], description: "Show Updates"},
             {keys: [["Ctrl", "/"]], description: "Open the command palette"},
             {keys: [["Alt", "R", "A"]], description: "Run all days"},
-            {keys: [["Alt", "R", "O"]], description: "Run one days"},
+            {keys: [["Alt", "R", "O"]], description: "Run one day"},
             {keys: [["Alt", "Shift", "A"]], description: "Toggle screenreader mode"},
         ],
     },
@@ -51,7 +52,7 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
             {keys: [["T"]], description: "Focus the toolbox"},
             {keys: [["Ctrl", "Enter"]], description: "Open menu on block"},
             {keys: [["Enter"]], description: "Edit or Confirm block"},
-            {keys: [["Esc"]], description: "Exit"},
+            {keys: [["Esc"]], readableName: [["Escape"]], description: "Exit"},
             {keys: [["C"]], description: "Clean up workspace"},
             {keys: [["I"]], description: "Block description"},
             {keys: [["Shift", "I"]], description: "Parent block description"},
@@ -93,7 +94,7 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
     },
 ];
 
-const KeyCombo: React.FC<{keys: string[][]}> = ({keys}) => (
+const KeyCombo: React.FC<{keys: string[][]; readableName?: string[][]}> = ({keys, readableName}) => (
     <span className="shortcut-keys">
         {keys.map((chord, chordIndex) => (
             <React.Fragment key={chordIndex}>
@@ -103,17 +104,28 @@ const KeyCombo: React.FC<{keys: string[][]}> = ({keys}) => (
                         <span aria-hidden="true" className="key-separator">, </span>
                     </>
                 )}
-                {chord.map((key, keyIndex) => (
-                    <React.Fragment key={keyIndex}>
+                {chord.map((key, keyIndex) => {
+                    const readable = readableName?.[chordIndex]?.[keyIndex];
+                    console.log("readable", readable);
+                    console.log("chord ", chordIndex);
+                    console.log("key index: ", keyIndex);
+
+                    return <React.Fragment key={keyIndex}>
                         {keyIndex > 0 && (
                             <>
                                 <span className="sr-only">then</span>
                                 <span aria-hidden="true" className="key-separator"> + </span>
                             </>
                         )}
-                        <kbd>{key}</kbd>
+
+                        <kbd>{readable && readable !== key ?
+                            (<>
+                            <span className="sr-only">{readable}</span>
+                            <span aria-hidden="true">{key}</span>
+                            </>) : (key)
+                        }</kbd>
                     </React.Fragment>
-                ))}
+                })}
             </React.Fragment>
         ))}
     </span>
@@ -208,7 +220,7 @@ const ShortcutsModal: React.FC<ShortcutsModalProps> = ({isOpen, onClose}) => {
                                         onFocus={() => setActiveIndex(index)}
                                         className={index === activeIndex ? "active" : undefined}
                                     >
-                                        <KeyCombo keys={shortcut.keys}/>
+                                        <KeyCombo keys={shortcut.keys} readableName={shortcut.readableName}/>
                                         <span className="sr-only">, </span>
                                         <span className="shortcut-description">{shortcut.description}</span>
                                     </li>
