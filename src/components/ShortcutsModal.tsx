@@ -5,7 +5,6 @@
  */
 
 import React, {useEffect, useRef, useState} from "react";
-import {useRovingFocus} from "../hooks/useRovingFocus";
 import {useToggleModal} from "../hooks/useToggleModal";
 import AudioManager, {SoundEffect} from "../audio/AudioManager";
 import "../styles/ShortcutsModal.css";
@@ -94,6 +93,17 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
     },
 ];
 
+type Row =
+    | {type: "heading"; heading: string}
+    | {type: "shortcut"; shortcut: Shortcut};
+
+const ROWS: Row[] = SHORTCUT_GROUPS.flatMap(group => [
+    {type: "heading", heading: group.heading} as Row,
+    ...group.shortcuts.map(shortcut => ({type: "shortcut", shortcut}) as Row),
+]);
+
+const HEADING_INDICES = ROWS.flatMap((row, i) => (row.type === "heading" ? [i] : []));
+
 const KeyCombo: React.FC<{keys: string[][]; readableName?: string[][]}> = ({keys, readableName}) => (
     <span className="shortcut-keys">
         {keys.map((chord, chordIndex) => (
@@ -106,25 +116,28 @@ const KeyCombo: React.FC<{keys: string[][]; readableName?: string[][]}> = ({keys
                 )}
                 {chord.map((key, keyIndex) => {
                     const readable = readableName?.[chordIndex]?.[keyIndex];
-                    console.log("readable", readable);
-                    console.log("chord ", chordIndex);
-                    console.log("key index: ", keyIndex);
 
-                    return <React.Fragment key={keyIndex}>
-                        {keyIndex > 0 && (
-                            <>
-                                <span className="sr-only">then</span>
-                                <span aria-hidden="true" className="key-separator"> + </span>
-                            </>
-                        )}
+                    return (
+                        <React.Fragment key={keyIndex}>
+                            {keyIndex > 0 && (
+                                <>
+                                    <span className="sr-only">then</span>
+                                    <span aria-hidden="true" className="key-separator"> + </span>
+                                </>
+                            )}
 
-                        <kbd>{readable && readable !== key ?
-                            (<>
-                            <span className="sr-only">{readable}</span>
-                            <span aria-hidden="true">{key}</span>
-                            </>) : (key)
-                        }</kbd>
-                    </React.Fragment>
+                            <kbd>
+                                {readable && readable !== key ? (
+                                    <>
+                                        <span className="sr-only">{readable}</span>
+                                        <span aria-hidden="true">{key}</span>
+                                    </>
+                                ) : (
+                                    key
+                                )}
+                            </kbd>
+                        </React.Fragment>
+                    );
                 })}
             </React.Fragment>
         ))}
@@ -139,14 +152,11 @@ interface ShortcutsModalProps {
 const ShortcutsModal: React.FC<ShortcutsModalProps> = ({isOpen, onClose}) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
-    const shortcutsFocus = useRovingFocus(SHORTCUT_GROUPS.flatMap(group => group.shortcuts).length, "shortcut");
     const [activeIndex, setActiveIndex] = useState(0);
 
     useToggleModal(dialogRef, isOpen);
 
-    // Flat list of rows (group headings excluded) for roving focus.
-    const flatShortcuts = SHORTCUT_GROUPS.flatMap(group => group.shortcuts);
-    const rowCount = flatShortcuts.length;
+    const rowCount = ROWS.length;
 
     useEffect(() => {
         if (!isOpen) return;
@@ -163,6 +173,8 @@ const ShortcutsModal: React.FC<ShortcutsModalProps> = ({isOpen, onClose}) => {
     };
 
     const handleListKeyDown = (e: React.KeyboardEvent) => {
+        if (e.ctrlKey || e.altKey || e.metaKey) return;
+
         switch (e.key) {
             case "ArrowDown":
                 e.preventDefault();
@@ -180,10 +192,24 @@ const ShortcutsModal: React.FC<ShortcutsModalProps> = ({isOpen, onClose}) => {
                 e.preventDefault();
                 setActiveIndex(rowCount - 1);
                 break;
+            case "h":
+            case "H": {
+                e.preventDefault();
+                const backwards = e.shiftKey;
+                setActiveIndex(i => {
+                    if (backwards) {
+                        const prev = [...HEADING_INDICES].reverse().find(h => h < i);
+                        return prev ?? HEADING_INDICES[HEADING_INDICES.length - 1];
+                    }
+                    const next = HEADING_INDICES.find(h => h > i);
+                    return next ?? HEADING_INDICES[0];
+                });
+                break;
+            }
         }
     };
 
-    // Running index across groups so roving focus works over the whole list.
+    // Running index across headings and shortcuts so roving focus covers the whole list.
     let rowIndex = -1;
 
     return (
@@ -196,8 +222,9 @@ const ShortcutsModal: React.FC<ShortcutsModalProps> = ({isOpen, onClose}) => {
         >
             <h2 id="shortcuts-title">Keyboard Shortcuts</h2>
             <p id="shortcuts-help" className="shortcuts-help">
-                Use <kbd>↑</kbd> and <kbd>↓</kbd> to move through shortcuts,{" "}
-                <kbd>Home</kbd> / <kbd>End</kbd> to jump, and{" "}
+                Use <kbd>↑</kbd> and <kbd>↓</kbd> to move through shortcuts and headings,{" "}
+                <kbd>H</kbd> to jump to the next heading (<kbd>Shift</kbd> + <kbd>H</kbd> for the previous),{" "}
+                <kbd>Home</kbd> / <kbd>End</kbd> to jump to the start or end, and{" "}
                 <kbd>
                     <span aria-hidden="true">Esc</span>
                     <span className="sr-only">Escape</span>
@@ -205,30 +232,42 @@ const ShortcutsModal: React.FC<ShortcutsModalProps> = ({isOpen, onClose}) => {
             </p>
 
             <div className="shortcuts-body" ref={listRef} onKeyDown={handleListKeyDown} role="application">
-                {SHORTCUT_GROUPS.map(group => (
-                    <section key={group.heading} aria-labelledby={`shortcut-group-${group.heading}`}>
-                        <h3 id={`shortcut-group-${group.heading}`}>{group.heading}</h3>
-                        <ul className="shortcuts-list">
-                            {group.shortcuts.map(shortcut => {
-                                rowIndex++;
-                                const index = rowIndex;
-                                return (
-                                    <li
-                                        key={shortcut.description}
-                                        data-shortcut-row
-                                        tabIndex={index === activeIndex ? 0 : -1}
-                                        onFocus={() => setActiveIndex(index)}
-                                        className={index === activeIndex ? "active" : undefined}
-                                    >
-                                        <KeyCombo keys={shortcut.keys} readableName={shortcut.readableName}/>
-                                        <span className="sr-only">, </span>
-                                        <span className="shortcut-description">{shortcut.description}</span>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </section>
-                ))}
+                {SHORTCUT_GROUPS.map(group => {
+                    rowIndex++;
+                    const headingIndex = rowIndex;
+                    return (
+                        <section key={group.heading} aria-labelledby={`shortcut-group-${group.heading}`}>
+                            <h3
+                                id={`shortcut-group-${group.heading}`}
+                                data-shortcut-row
+                                tabIndex={headingIndex === activeIndex ? 0 : -1}
+                                onFocus={() => setActiveIndex(headingIndex)}
+                                className={headingIndex === activeIndex ? "active" : undefined}
+                            >
+                                {group.heading}
+                            </h3>
+                            <ul className="shortcuts-list">
+                                {group.shortcuts.map(shortcut => {
+                                    rowIndex++;
+                                    const index = rowIndex;
+                                    return (
+                                        <li
+                                            key={shortcut.description}
+                                            data-shortcut-row
+                                            tabIndex={index === activeIndex ? 0 : -1}
+                                            onFocus={() => setActiveIndex(index)}
+                                            className={index === activeIndex ? "active" : undefined}
+                                        >
+                                            <KeyCombo keys={shortcut.keys} readableName={shortcut.readableName}/>
+                                            <span className="sr-only">, </span>
+                                            <span className="shortcut-description">{shortcut.description}</span>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </section>
+                    );
+                })}
             </div>
 
             <form method="dialog" className="dialog-footer">
