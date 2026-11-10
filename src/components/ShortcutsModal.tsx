@@ -63,6 +63,7 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
             {keys: [["Delete"]], description: "Edit or Confirm block"},
             {keys: [["X"]], description: "Disconnect block"},
             {keys: [["M"]], description: "Move block"},
+            {keys: [["Shift", "M"]], description: "Move block and all blocks below"},
             {keys: [["Ctrl", "X"]], description: "Cut block"},
             {keys: [["Ctrl", "C"]], description: "Copy block"},
             {keys: [["Ctrl", "V"]], description: "Paste block"},
@@ -89,6 +90,7 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
             {keys: [["Ctrl", "Arrow"]], description: "Scroll the workspace or flyout"},
             {keys: [["H"]], description: "Move to next flyout heading"},
             {keys: [["Shift", "H"]], description: "Move to previous flyout heading"},
+            {keys: [["Ctrl", "F"]], description: "Search workspace"},
         ],
     },
 ];

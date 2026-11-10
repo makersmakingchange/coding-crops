@@ -47,6 +47,7 @@
   "dependencies": {
     "@blockly/field-colour": "^6.0.4",
     "@blockly/plugin-cross-tab-copy-paste": "^8.0.1",
+    "@blockly/plugin-workspace-search": "^13.4.0",
     "@blockly/theme-dark": "^8.0.1",
     "@blockly/toolbox-search": "^13.2.0",
     "@microbit/keyosd": "^0.1.2",

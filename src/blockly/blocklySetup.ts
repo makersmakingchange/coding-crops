@@ -7,6 +7,7 @@
 import * as Blockly from 'blockly/core';
 import DarkTheme from '@blockly/theme-dark';
 import {installAllBlocks as installColourBlocks} from '@blockly/field-colour';
+import {WorkspaceSearch} from '@blockly/plugin-workspace-search';
 import {CrossTabCopyPaste} from "@blockly/plugin-cross-tab-copy-paste";
 import {javascriptGenerator} from 'blockly/javascript';
 
@@ -63,6 +64,8 @@ export function setupBlockly(blocklyContainer: HTMLElement,
         });
         workspaceInitialized = true;
         workspaceId = ws.id;
+        const workspaceSearch = new WorkspaceSearch(ws);
+        workspaceSearch.init();
 
         if (onWorkspaceChange) {
             ws.addChangeListener((event) => {
