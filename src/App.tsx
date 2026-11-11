@@ -121,6 +121,31 @@ function App({mode = 'production'}: AppProps) {
 
     useFarmEndDay(runModeRef, setSummaries);
 
+    const stepInstructions = (direction: 'next' | 'prev') => {
+        if (document.querySelector('dialog[open]')) return;
+
+        const button = document.querySelector<HTMLButtonElement>(
+            direction === 'next' ? '#instructionsNextButton' : '#instructionsPrevButton'
+        );
+        if (!button) return;
+
+        focusBlocklyWorkspace();
+
+        if (button.disabled) {
+            A11yAnnouncer.announce(direction === 'next' ? 'Last step.' : 'First step.');
+            return;
+        }
+
+        button.click();
+    };
+
+    const repeatInstruction = () => {
+        if (document.querySelector('dialog[open]')) return;
+        focusBlocklyWorkspace();
+        window.dispatchEvent(new Event('instructions:repeat'));
+    };
+
+
     useKeyboardShortcuts({
         gt: () => {
             console.log("Go to Toolbox");
@@ -166,6 +191,9 @@ function App({mode = 'production'}: AppProps) {
         u: () => setIsUpdatesOpen(true),
         '/': () => setIsShortcutsOpen(open => !open),
         '?': () => setIsInfoOpen(!isInfoOpen),
+        ']': () => stepInstructions('next'),
+        '[': () => stepInstructions('prev'),
+        '\\': () => repeatInstruction(),
     })
 
     useKeyboardShortcuts({

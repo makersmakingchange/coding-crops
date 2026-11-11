@@ -27,6 +27,7 @@ export function useKeyboardShortcuts(shortcuts: ShortcutMap,
             if (altModifier && !e.altKey) return;
             if (ctrlModifier && !cmdOrCtrl) return;
             if (shiftModifier && !e.shiftKey) return;
+            if (!altModifier && e.altKey) return;
 
             // Detect if it's a Ctrl + / or just /
             if (cmdOrCtrl && e.key === '/') {

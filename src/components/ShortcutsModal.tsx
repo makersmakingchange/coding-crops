@@ -32,6 +32,9 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
             {keys: [["Alt", "R", "A"]], description: "Run all days"},
             {keys: [["Alt", "R", "O"]], description: "Run one day"},
             {keys: [["Alt", "Shift", "A"]], description: "Toggle screenreader mode"},
+            {keys: [["]"]], readableName: [["Right bracket"]], description: "Next instruction"},
+            {keys: [["["]], readableName: [["Left bracket"]], description: "Previous instruction"},
+            {keys: [["\\"]], readableName: [["Backslash"]], description: "Repeat current instruction step"},
         ],
     },
     {

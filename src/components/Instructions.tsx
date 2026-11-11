@@ -54,6 +54,22 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
         }
     }, [stepIndex, level]);
 
+    const announceStep = () => {
+        const step = stepsRef.current[stepIndex];
+        if (!step) return;
+        const heading = step.title + " of " + getLevelConfig(level)?.label + " ";
+        A11yAnnouncer.announce(heading + returnStepLabel(step.content));
+    };
+
+    useEffect(() => {
+        announceStep();
+    }, [stepIndex, level]);
+
+    useEffect(() => {
+        window.addEventListener('instructions:repeat', announceStep);
+        return () => window.removeEventListener('instructions:repeat', announceStep);
+    }, [stepIndex, level]);
+
     const goPrev = () => {
         setStepIndex(prev => Math.max(prev - 1, 0));
     };
@@ -133,6 +149,7 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
 
                 <div className="instructions-nav">
                     <button
+                        id="instructionsPrevButton"
                         onClick={goPrev}
                         className="icon"
                         disabled={stepIndex === 0}
@@ -152,6 +169,7 @@ const Instructions: React.FC<InstructionsProps> = ({ level }) => {
                     </div>
 
                     <button
+                        id="instructionsNextButton"
                         onClick={goNext}
                         className="icon"
                         disabled={stepIndex === stepsRef.current.length - 1}
