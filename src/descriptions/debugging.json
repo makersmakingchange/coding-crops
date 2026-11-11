@@ -1,0 +1,9 @@
+{
+  "level": "debugging",
+  "steps": [
+    {
+      "title": "Goal",
+      "content": "Help the farmer find and fix problems with the blocks so the code works as intended!"
+    }
+  ]
+}

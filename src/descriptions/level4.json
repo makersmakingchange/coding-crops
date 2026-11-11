@@ -1,0 +1,9 @@
+{
+  "level": "level4",
+  "steps": [
+    {
+      "title": "Goal",
+      "content": "What does this code do? The {Run One Day}[button-run-one-day] button should help!"
+    }
+  ]
+}

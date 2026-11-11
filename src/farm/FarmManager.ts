@@ -184,11 +184,11 @@ export class FarmManager {
         const tile = this.grid[r][c];
 
         if (!tile.plant(CropType[type as keyof typeof CropType])) {
-            this.log(`Cannot plant. Tile ${row},${col} already has a plant`, "warning");
+            this.log(`Cannot plant. Tile ${row},${col} already has a plant!`, "warning");
             return false;
         }
 
-        this.log(`Planted a ${(type as keyof typeof CropType).toLowerCase()} at (${row},${col})`);
+        this.log(`Planted a ${(type as keyof typeof CropType).toLowerCase()} at row ${row}, column ${col}.`);
         AudioManager.play(SoundEffect.Plant);
         this.notify();
         return true;
@@ -199,7 +199,7 @@ export class FarmManager {
         const c = col - 1;
 
         if (!this.isValidCoordinate(r, c)) {
-            this.log(`Unable to harvest invalid tile ${row},${col}`, "warning");
+            this.log(`Unable to harvest invalid tile at ${row}, ${col}.`, "warning");
             return false;
         }
 
@@ -218,7 +218,7 @@ export class FarmManager {
             this.harvestedByCrop.set(cropType, currentCount + 1);
         }
 
-        this.log(`Harvested a ${CropType[cropType!].toLowerCase()} at (${row},${col})`);
+        this.log(`Harvested a ${CropType[cropType!].toLowerCase()} at ${row},${col}`);
 
         AudioManager.play(SoundEffect.Harvest);
         this.notify();
@@ -231,7 +231,7 @@ export class FarmManager {
         const c = col - 1;
 
         if (!this.isValidCoordinate(r, c)) {
-            this.log(`Unable to water invalid tile ${row},${col}`, "warning");
+            this.log(`Unable to water invalid tile ${row},${col}.`, "warning");
             return false;
         }
 
@@ -241,7 +241,7 @@ export class FarmManager {
             return false;
         }
 
-        this.log(`Watered tile (${row},${col})`);
+        this.log(`Watered tile at row ${row}, column ${col}.`);
         AudioManager.play(SoundEffect.Water);
         this.notify();
         return true;
@@ -250,7 +250,7 @@ export class FarmManager {
 
     nextDay() {
         this.day++;
-        this.log(`Day ${this.day} begins`);
+        this.log(`Day ${this.day} begins.`);
 
         for (const row of this.grid) {
             for (const tile of row) {

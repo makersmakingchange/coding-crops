@@ -8,7 +8,9 @@ import * as Blockly from 'blockly';
 import { level1 } from './levels/lessons/level1';
 import { level2 } from './levels/lessons/level2';
 import { level3 } from './levels/lessons/level3';
+import { level4 } from './levels/lessons/level4';
 import { freePlay } from './levels/lessons/freePlay';
+import { debugging } from './levels/lessons/debugging';
 import {basic} from "./levels/testScenarios/basic";
 import {plantGrid} from "./levels/testScenarios/plantGrid";
 import {loops} from "./levels/testScenarios/loops";
@@ -29,6 +31,8 @@ export const LEVELS: LevelConfig[] = [
     { value: 1, label: 'Level 1', toolboxLevel: 1, blocks: level1 },
     { value: 2, label: 'Level 2', toolboxLevel: 2, blocks: level2 },
     { value: 3, label: 'Level 3', toolboxLevel: 3, blocks: level3 },
+    { value: 4, label: 'Level 4', toolboxLevel: 3, blocks: level4 },
+    { value: 'debugging', label: 'Debugging', toolboxLevel: 3, blocks: debugging },
     { value: 'freePlay', label: 'Free Play', toolboxLevel: 3, blocks: freePlay },
 ];
 
