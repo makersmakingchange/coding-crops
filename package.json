@@ -49,9 +49,9 @@
     "@blockly/plugin-cross-tab-copy-paste": "^8.0.1",
     "@blockly/plugin-workspace-search": "^13.4.0",
     "@blockly/theme-dark": "^8.0.1",
-    "@blockly/toolbox-search": "^13.2.0",
+    "@blockly/toolbox-search": "13.4.0",
     "@microbit/keyosd": "^0.1.2",
-    "blockly": "^13.2.2-beta.2",
+    "blockly": "^13.4.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.6"
