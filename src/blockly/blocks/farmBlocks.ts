@@ -122,6 +122,7 @@ const if_tile_state = {
             name: 'STATE',
             options: [
                 ['empty', 'EMPTY'],
+                ['not empty', 'NOT EMPTY'],
                 ['watered', 'WATERED'],
                 ['a seedling', 'SEEDLING'],
                 ['a young plant', 'GROWING'],

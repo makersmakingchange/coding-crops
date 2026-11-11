@@ -147,6 +147,8 @@ export class FarmManager {
         if (state == "WATERED") {
             console.log("reach watered")
             return tile.watered;
+        } else if (state == "NOT EMPTY") {
+            return tile.growthStage != GrowthStage.EMPTY;
         }
         return (tile.growthStage == GrowthStage[state as keyof typeof GrowthStage]);
     }
