@@ -129,8 +129,6 @@ function App({mode = 'production'}: AppProps) {
         );
         if (!button) return;
 
-        focusBlocklyWorkspace();
-
         if (button.disabled) {
             A11yAnnouncer.announce(direction === 'next' ? 'Last step.' : 'First step.');
             return;
@@ -141,7 +139,6 @@ function App({mode = 'production'}: AppProps) {
 
     const repeatInstruction = () => {
         if (document.querySelector('dialog[open]')) return;
-        focusBlocklyWorkspace();
         window.dispatchEvent(new Event('instructions:repeat'));
     };
 
